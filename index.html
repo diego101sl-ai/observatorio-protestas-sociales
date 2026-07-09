@@ -22,6 +22,10 @@
   </header>
 
   <section class="filters" aria-label="Filtros">
+    <div class="filter-group" id="source-group" role="group" aria-label="Fuente de datos" hidden>
+      <button class="chip is-active" data-source="gdelt" type="button" aria-pressed="true" title="Eventos detectados automáticamente en la prensa mundial">GDELT</button>
+      <button class="chip" data-source="acled" type="button" title="Eventos verificados a mano por ACLED (publicación semanal)">ACLED ✓</button>
+    </div>
     <div class="filter-group" role="group" aria-label="Periodo">
       <button class="chip" data-days="1" type="button">24 h</button>
       <button class="chip is-active" data-days="3" type="button" aria-pressed="true">3 días</button>
@@ -56,6 +60,13 @@
       <span class="stat-label">Foco más activo</span>
       <span class="stat-value stat-value--text" id="stat-top">—</span>
       <span class="stat-note" id="stat-top-note">&nbsp;</span>
+    </div>
+  </section>
+
+  <section class="chart-section" aria-label="Evolución diaria">
+    <div class="panel chart-panel">
+      <h2>Evolución diaria <span class="chart-sub">las barras azules marcan el periodo seleccionado</span></h2>
+      <div id="chart"></div>
     </div>
   </section>
 

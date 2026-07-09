@@ -36,6 +36,25 @@ export async function loadProtestData() {
 }
 
 /**
+ * Datos de ACLED (eventos verificados a mano), si el robot los ha generado.
+ * Devuelve null si data/acled.json no existe todavía (ACLED sin configurar).
+ * @returns {Promise<null | {generated: string, days: string[], locations: Array}>}
+ */
+export async function loadAcledData() {
+  try {
+    const data = await fetchLocalJson("data/acled.json");
+    if (!Array.isArray(data.locations) || !data.locations.length) return null;
+    return {
+      generated: data.generated || "",
+      days: Array.isArray(data.days) ? data.days : [],
+      locations: data.locations,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Artículos de prensa recientes sobre protestas.
  * @returns {Promise<Array<{title: string, url: string, domain: string,
  *   country: string, language: string, seenDate: Date|null}>>}

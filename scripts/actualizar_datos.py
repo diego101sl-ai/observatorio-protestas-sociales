@@ -149,3 +149,70 @@ if articulos:
     print(f"articles.json: {len(articulos)} artículos")
 else:
     print("Sin artículos nuevos; se conserva el archivo anterior si existe")
+
+# ---- ACLED (opcional): datos verificados a mano ----
+# Requiere los secretos ACLED_USERNAME y ACLED_PASSWORD en el repositorio
+# (Settings -> Secrets and variables -> Actions). ACLED publica semanalmente,
+# por eso se pide una ventana de 30 días. API: https://acleddata.com/api-documentation/
+import urllib.parse
+
+VENTANA_ACLED = 30
+usuario_acled = os.environ.get("ACLED_USERNAME", "").strip()
+clave_acled = os.environ.get("ACLED_PASSWORD", "").strip()
+
+if not usuario_acled or not clave_acled:
+    print("ACLED no configurado (faltan los secretos ACLED_USERNAME/ACLED_PASSWORD); se omite")
+else:
+    try:
+        cuerpo = urllib.parse.urlencode({
+            "username": usuario_acled, "password": clave_acled,
+            "grant_type": "password", "client_id": "acled", "scope": "authenticated",
+        }).encode()
+        peticion = urllib.request.Request(
+            "https://acleddata.com/oauth/token", data=cuerpo,
+            headers={**UA, "Content-Type": "application/x-www-form-urlencoded"})
+        with urllib.request.urlopen(peticion, timeout=60) as r:
+            token = json.loads(r.read().decode())["access_token"]
+
+        desde = (ahora - timedelta(days=VENTANA_ACLED - 1)).strftime("%Y-%m-%d")
+        params = urllib.parse.urlencode({
+            "event_type": "Protests",
+            "event_date": desde, "event_date_where": ">=",
+            "limit": "10000",
+            "fields": "event_date|latitude|longitude|location|country|source_url",
+        })
+        peticion = urllib.request.Request(
+            f"https://acleddata.com/api/acled/read?{params}",
+            headers={**UA, "Authorization": f"Bearer {token}"})
+        with urllib.request.urlopen(peticion, timeout=180) as r:
+            eventos_acled = json.loads(r.read().decode()).get("data") or []
+
+        dias_acled = [(ahora - timedelta(days=i)).strftime("%Y%m%d")
+                      for i in range(VENTANA_ACLED - 1, -1, -1)]
+        focos_acled = {}
+        for e in eventos_acled:
+            try:
+                lat, lon = float(e["latitude"]), float(e["longitude"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            ymd = (e.get("event_date") or "").replace("-", "")
+            if len(ymd) != 8:
+                continue
+            nombre = ", ".join(x for x in (e.get("location"), e.get("country")) if x) or "Lugar sin nombre"
+            clave_f = f"{nombre}|{round(lat, 2)}|{round(lon, 2)}"
+            foco = focos_acled.setdefault(clave_f, {"name": nombre, "cc": e.get("country", ""),
+                                                    "lat": round(lat, 3), "lon": round(lon, 3),
+                                                    "url": "", "days": {}})
+            v = foco["days"].setdefault(ymd, [0, 0])
+            v[0] += 1
+            if e.get("source_url"):
+                foco["url"] = str(e["source_url"]).split(";")[0].strip()
+
+        lista_acled = sorted(focos_acled.values(),
+                             key=lambda l: -sum(v[0] for v in l["days"].values()))[:MAX_FOCOS]
+        with open("data/acled.json", "w") as f:
+            json.dump({"generated": salida["generated"], "window_days": VENTANA_ACLED,
+                       "days": dias_acled, "locations": lista_acled}, f, ensure_ascii=False)
+        print(f"acled.json: {len(lista_acled)} focos de {len(eventos_acled)} eventos verificados")
+    except Exception as err:
+        print("ACLED falló (se conserva el archivo anterior si existe):", err)

@@ -1,12 +1,22 @@
-import { loadProtestData, loadArticles } from "./sources/gdelt.js";
+import { loadProtestData, loadArticles, loadAcledData } from "./sources/gdelt.js";
 
 const REFRESH_EVERY_MS = 15 * 60 * 1000;
 
+// Periodos disponibles por fuente: GDELT llega cada 15 min (ventana de 7 días);
+// ACLED publica semanalmente (ventana de 30 días)
+const PERIODS = {
+  gdelt: [[1, "24 h"], [3, "3 días"], [7, "7 días"]],
+  acled: [[7, "7 días"], [14, "14 días"], [30, "30 días"]],
+};
+
 const state = {
-  days: 3, // ventana: 1, 3 o 7 días
+  source: "gdelt",
+  days: 3, // ventana seleccionada, en días
   keyword: "",
   language: "",
-  data: { generated: "", days: [], locations: [] }, // crudo de data/protests.json
+  gdeltData: { generated: "", days: [], locations: [] },
+  acledData: null,
+  data: { generated: "", days: [], locations: [] }, // la fuente activa
   allArticles: [],
   // derivados de los filtros:
   locations: [],
@@ -136,6 +146,7 @@ function renderAll() {
   applyFilters();
   renderMarkers();
   renderLegend();
+  renderChart();
   renderStats();
   renderTopLocations();
   renderArticles();
@@ -172,6 +183,67 @@ function renderMarkers() {
     marker.addTo(markerLayer);
     markersByName.set(loc.name, marker);
   }
+}
+
+// ---------- Gráfico de evolución diaria (SVG, una sola serie) ----------
+function fmtDia(ymd) {
+  const d = new Date(Date.UTC(+ymd.slice(0, 4), +ymd.slice(4, 6) - 1, +ymd.slice(6, 8)));
+  return d.toLocaleDateString("es", { day: "numeric", month: "short", timeZone: "UTC" });
+}
+
+function renderChart() {
+  const el = document.getElementById("chart");
+  const days = state.data.days;
+  if (!days.length) {
+    el.innerHTML = '<p class="chart-empty">Sin datos todavía.</p>';
+    return;
+  }
+  const inWindow = new Set(windowDays());
+  const kw = state.keyword.trim().toLowerCase();
+  const totals = days.map((d) => {
+    let t = 0;
+    for (const loc of state.data.locations) {
+      if (kw && !loc.name.toLowerCase().includes(kw)) continue;
+      const v = loc.days?.[d];
+      if (v) t += v[0] || 0;
+    }
+    return t;
+  });
+
+  const W = 720, H = 170, padL = 40, padR = 8, padT = 16, padB = 22;
+  const iw = W - padL - padR;
+  const ih = H - padT - padB;
+  const max = Math.max(1, ...totals);
+  const step = iw / days.length;
+  const bw = Math.min(48, step * 0.8); // hueco de ≥2px entre barras
+  const y = (v) => padT + ih - (v / max) * ih;
+  const maxIdx = totals.indexOf(Math.max(...totals));
+  const everyN = Math.ceil(days.length / 8); // como máximo ~8 etiquetas en el eje X
+
+  let cuerpo = "";
+  days.forEach((d, i) => {
+    const x = padL + i * step + (step - bw) / 2;
+    const alto = Math.max(2, (totals[i] / max) * ih);
+    const fill = inWindow.has(d) ? "var(--accent)" : "var(--hairline)";
+    cuerpo +=
+      `<g class="bar"><title>${fmtDia(d)}: ${totals[i].toLocaleString("es")} eventos</title>` +
+      `<rect x="${x.toFixed(1)}" y="${(padT + ih - alto).toFixed(1)}" width="${bw.toFixed(1)}" height="${alto.toFixed(1)}" rx="2" fill="${fill}"></rect></g>`;
+    // etiqueta el último día siempre, y el resto cada N — sin chocar con la última
+    const esUltimo = i === days.length - 1;
+    if (esUltimo || (i % everyN === 0 && days.length - 1 - i > everyN / 2)) {
+      cuerpo += `<text class="axis-label" x="${(x + bw / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${fmtDia(d)}</text>`;
+    }
+  });
+  // etiqueta directa solo en el día máximo (no en todas las barras)
+  cuerpo += `<text class="value-label" x="${(padL + maxIdx * step + step / 2).toFixed(1)}" y="${(y(totals[maxIdx]) - 5).toFixed(1)}" text-anchor="middle">${totals[maxIdx].toLocaleString("es")}</text>`;
+
+  const ejes =
+    `<line class="gridline" x1="${padL}" y1="${y(max).toFixed(1)}" x2="${W - padR}" y2="${y(max).toFixed(1)}"></line>` +
+    `<text class="axis-label" x="${padL - 6}" y="${(y(max) + 4).toFixed(1)}" text-anchor="end">${max.toLocaleString("es")}</text>` +
+    `<line class="baseline" x1="${padL}" y1="${padT + ih}" x2="${W - padR}" y2="${padT + ih}"></line>` +
+    `<text class="axis-label" x="${padL - 6}" y="${padT + ih + 4}" text-anchor="end">0</text>`;
+
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Eventos de protesta por día">${ejes}${cuerpo}</svg>`;
 }
 
 function rangeLabel(from, to) {
@@ -301,15 +373,55 @@ function setUpdatedNote() {
     : `Datos actualizados: ${d.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}. `;
 }
 
+// ---------- Fuente de datos activa ----------
+function setSource(source) {
+  state.source = source;
+  state.data = source === "acled" && state.acledData ? state.acledData : state.gdeltData;
+
+  // Reetiquetar los chips de periodo según la fuente y activar el del medio
+  const defs = PERIODS[source] || PERIODS.gdelt;
+  const chips = [...document.querySelectorAll(".chip[data-days]")];
+  chips.forEach((chip, i) => {
+    const def = defs[Math.min(i, defs.length - 1)];
+    chip.dataset.days = def[0];
+    chip.textContent = def[1];
+    chip.classList.toggle("is-active", i === 1);
+    if (i === 1) chip.setAttribute("aria-pressed", "true");
+    else chip.removeAttribute("aria-pressed");
+  });
+  state.days = defs[1][0];
+
+  document.querySelectorAll(".chip[data-source]").forEach((chip) => {
+    const active = chip.dataset.source === source;
+    chip.classList.toggle("is-active", active);
+    if (active) chip.setAttribute("aria-pressed", "true");
+    else chip.removeAttribute("aria-pressed");
+  });
+
+  setUpdatedNote();
+  renderAll();
+}
+
 // ---------- Carga de datos (archivos locales del repositorio) ----------
 async function load() {
   const btn = document.getElementById("refresh");
   btn.disabled = true;
   setStatus("Cargando datos…");
   try {
-    const [data, articles] = await Promise.all([loadProtestData(), loadArticles()]);
-    state.data = data;
+    const [data, articles, acled] = await Promise.all([
+      loadProtestData(),
+      loadArticles(),
+      loadAcledData(),
+    ]);
+    state.gdeltData = data;
+    state.acledData = acled;
     state.allArticles = articles;
+
+    // El selector de fuente solo aparece cuando el robot ya generó datos de ACLED
+    document.getElementById("source-group").hidden = !acled;
+    if (state.source === "acled" && !acled) state.source = "gdelt";
+    state.data = state.source === "acled" && acled ? acled : data;
+
     renderAll();
     setUpdatedNote();
     if (!data.locations.length) {
@@ -332,6 +444,10 @@ async function load() {
 }
 
 // ---------- Controles ----------
+document.querySelectorAll(".chip[data-source]").forEach((chip) => {
+  chip.addEventListener("click", () => setSource(chip.dataset.source));
+});
+
 document.querySelectorAll(".chip[data-days]").forEach((chip) => {
   chip.addEventListener("click", () => {
     document.querySelectorAll(".chip[data-days]").forEach((c) => {

@@ -182,6 +182,24 @@ a { color: var(--accent); }
 .stat-value--text { font-size: 1.25rem; }
 .stat-note { font-size: 0.78rem; color: var(--text-secondary); }
 
+/* ============ Gráfico de evolución ============ */
+.chart-section { padding: 0.75rem 1.25rem 0; }
+.chart-panel h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.chart-sub { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+#chart svg { display: block; width: 100%; height: auto; }
+#chart .bar rect { transition: opacity 0.1s; }
+#chart .bar:hover rect { opacity: 0.75; }
+#chart .axis-label { font-size: 10px; fill: var(--text-muted); font-family: inherit; }
+#chart .value-label { font-size: 11px; font-weight: 600; fill: var(--text-secondary); font-family: inherit; }
+#chart .baseline { stroke: var(--hairline); stroke-width: 1; }
+#chart .gridline { stroke: var(--hairline); stroke-width: 1; stroke-dasharray: 3 3; }
+.chart-empty { color: var(--text-muted); font-size: 0.85rem; margin: 0.5rem 0; }
+
 /* ============ Layout principal ============ */
 .layout {
   display: grid;

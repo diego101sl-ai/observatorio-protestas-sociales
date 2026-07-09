@@ -47,15 +47,17 @@ Y abre <http://localhost:8000>.
 
 ⚠️ **Importante**: GDELT detecta eventos *automáticamente en las noticias*; es excelente para tendencias y focos, pero no es un recuento verificado a mano ni sustituye a una base de datos curada.
 
-### ACLED (preparada, pendiente de activar)
+### ACLED (opcional)
 
-[ACLED](https://acleddata.com/) es la base de datos académica de referencia: eventos de protesta **verificados y codificados a mano**. El módulo `js/sources/acled.js` ya está listo; para activarlo:
+[ACLED](https://acleddata.com/) es la base de datos académica de referencia: eventos de protesta **verificados y codificados a mano** (publicación semanal). El robot la consulta con el [nuevo sistema OAuth de ACLED](https://acleddata.com/api-documentation/getting-started) y guarda `data/acled.json`; la web muestra entonces un selector GDELT/ACLED. Para activarla:
 
-1. Regístrate gratis en <https://acleddata.com/register/> y genera tu clave en <https://developer.acleddata.com/>.
-2. Copia `js/config.example.js` a `js/config.js` y rellena `ACLED_KEY` y `ACLED_EMAIL` (el archivo está en `.gitignore`, tu clave no se subirá).
-3. En `js/app.js`, importa `fetchAcledEvents` y combínala con los datos de GDELT.
+1. Crea una cuenta gratuita en <https://acleddata.com/> (uso no comercial).
+2. En GitHub: **Settings → Secrets and variables → Actions → New repository secret**, y crea dos secretos:
+   - `ACLED_USERNAME` → el correo de tu cuenta de ACLED
+   - `ACLED_PASSWORD` → tu contraseña de ACLED
+3. Ejecuta el workflow a mano (Actions → Run workflow) o espera a la siguiente hora.
 
-> Para una web pública conviene no exponer la clave en el navegador: usa un proxy pequeño (Cloudflare Worker o Netlify Function) que la guarde en el servidor.
+Las credenciales viven cifradas en GitHub y nunca aparecen en el código ni en la web. Si los secretos no existen, el robot simplemente omite ACLED.
 
 ## Estructura del proyecto
 
@@ -66,20 +68,19 @@ observatorio-protestas-sociales/
 ├── data/
 │   ├── protests.json       # focos por lugar y día (lo genera el robot)
 │   ├── articles.json       # artículos recientes (lo genera el robot)
+│   ├── acled.json          # eventos verificados de ACLED (opcional)
 │   └── dias/               # caché de días completos del robot
 ├── js/
-│   ├── app.js              # lógica principal: mapa, filtros, paneles
-│   ├── config.example.js   # plantilla de credenciales (ACLED)
+│   ├── app.js              # lógica: mapa, gráfico, filtros, paneles
 │   └── sources/
-│       ├── gdelt.js        # lectura de los datos generados
-│       └── acled.js        # fuente preparada: ACLED
+│       └── gdelt.js        # lectura de los datos generados
+├── scripts/
+│   └── actualizar_datos.py # el robot: GDELT + ACLED -> data/
 └── .github/workflows/
-    └── actualizar-datos.yml # robot de datos (cada hora)
+    └── actualizar-datos.yml # ejecuta el robot cada hora
 ```
 
 ## Ideas para seguir creciendo
 
-- Combinar GDELT + ACLED en el mapa con un selector de fuente.
-- Gráfico de evolución temporal (protestas por día) — los datos por día ya están en `data/protests.json`.
 - Alertas: aviso cuando un país supere un umbral de eventos.
 - Ampliar la ventana de histórico más allá de 7 días (la caché diaria del robot ya lo permite).

@@ -1,11 +1,14 @@
-import { fetchProtestLocations, fetchProtestArticles } from "./sources/gdelt.js";
+import { loadProtestData, loadArticles } from "./sources/gdelt.js";
 
 const REFRESH_EVERY_MS = 15 * 60 * 1000;
 
 const state = {
-  timespan: 4320, // minutos (3 días)
+  days: 3, // ventana: 1, 3 o 7 días
   keyword: "",
   language: "",
+  data: { generated: "", days: [], locations: [] }, // crudo de data/protests.json
+  allArticles: [],
+  // derivados de los filtros:
   locations: [],
   articles: [],
 };
@@ -92,6 +95,54 @@ function radiusFor(count, maxCount) {
   return Math.max(4, Math.min(18, r));
 }
 
+// ---------- Filtros (todo en el navegador, sin peticiones) ----------
+function windowDays() {
+  // Últimos N días del conjunto de datos, p.ej. ["20260707","20260708","20260709"]
+  return state.data.days.slice(-state.days);
+}
+
+function applyFilters() {
+  const days = windowDays();
+  const kw = state.keyword.trim().toLowerCase();
+
+  state.locations = state.data.locations
+    .map((loc) => {
+      let count = 0;
+      let articles = 0;
+      for (const d of days) {
+        const v = loc.days?.[d];
+        if (v) {
+          count += v[0] || 0;
+          articles += v[1] || 0;
+        }
+      }
+      return { ...loc, count, articles };
+    })
+    .filter((loc) => loc.count > 0)
+    .filter((loc) => !kw || loc.name.toLowerCase().includes(kw))
+    .sort((a, b) => b.count - a.count);
+
+  const cutoff = Date.now() - state.days * 86400000;
+  state.articles = state.allArticles
+    .filter((a) => !a.seenDate || a.seenDate.getTime() >= cutoff)
+    .filter((a) => !state.language || a.language === state.language)
+    .filter((a) => !kw || a.title.toLowerCase().includes(kw))
+    .slice(0, 60);
+
+  breaks = computeBreaks(state.locations.map((l) => l.count));
+}
+
+function renderAll() {
+  applyFilters();
+  renderMarkers();
+  renderLegend();
+  renderStats();
+  renderTopLocations();
+  renderArticles();
+  renderTable();
+}
+
+// ---------- Render ----------
 function renderMarkers() {
   markerLayer.clearLayers();
   markersByName.clear();
@@ -107,12 +158,15 @@ function renderMarkers() {
       color: surface, // anillo de 2px del color de la superficie: separa marcas solapadas
       weight: 2,
     });
+    const newsLink = loc.url
+      ? `<a href="${escapeHtml(loc.url)}" target="_blank" rel="noopener">Noticia relacionada →</a>`
+      : `<a href="https://www.google.com/search?q=${encodeURIComponent(
+          "protestas " + loc.name
+        )}&tbm=nws" target="_blank" rel="noopener">Buscar noticias →</a>`;
     marker.bindPopup(
       `<div class="popup-title">${escapeHtml(loc.name)}</div>
-       <div class="popup-meta">${loc.count.toLocaleString("es")} menciones en el periodo</div>
-       <div class="popup-meta"><a href="https://www.google.com/search?q=${encodeURIComponent(
-         "protestas " + loc.name
-       )}&tbm=nws" target="_blank" rel="noopener">Buscar noticias →</a></div>`
+       <div class="popup-meta">${loc.count.toLocaleString("es")} eventos de protesta en el periodo</div>
+       <div class="popup-meta">${newsLink}</div>`
     );
     marker.bindTooltip(`${loc.name} · ${loc.count.toLocaleString("es")}`);
     marker.addTo(markerLayer);
@@ -135,7 +189,7 @@ function renderLegend() {
     `> ${breaks[3].toLocaleString("es")}`,
   ];
   document.getElementById("legend").innerHTML =
-    `<strong>Menciones</strong>` +
+    `<strong>Eventos</strong>` +
     labels
       .map(
         (label, i) =>
@@ -144,7 +198,6 @@ function renderLegend() {
       .join("");
 }
 
-// ---------- Paneles ----------
 function renderStats() {
   const total = state.locations.reduce((sum, l) => sum + l.count, 0);
   const top = state.locations[0];
@@ -153,7 +206,7 @@ function renderStats() {
   document.getElementById("stat-mentions").textContent = total.toLocaleString("es");
   document.getElementById("stat-top").textContent = top ? top.name : "—";
   document.getElementById("stat-top-note").textContent = top
-    ? `${top.count.toLocaleString("es")} menciones`
+    ? `${top.count.toLocaleString("es")} eventos`
     : "sin datos en el periodo";
 }
 
@@ -235,35 +288,42 @@ function setStatus(message, isError = false) {
   el.classList.toggle("is-error", isError);
 }
 
-// ---------- Carga de datos ----------
+function setUpdatedNote() {
+  const el = document.getElementById("updated");
+  if (!el) return;
+  if (!state.data.generated) {
+    el.textContent = "";
+    return;
+  }
+  const d = new Date(state.data.generated);
+  el.textContent = Number.isNaN(d.getTime())
+    ? ""
+    : `Datos actualizados: ${d.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}. `;
+}
+
+// ---------- Carga de datos (archivos locales del repositorio) ----------
 async function load() {
   const btn = document.getElementById("refresh");
   btn.disabled = true;
-  setStatus("Cargando datos de GDELT…");
+  setStatus("Cargando datos…");
   try {
-    const opts = {
-      timespan: state.timespan,
-      keyword: state.keyword,
-      language: state.language,
-    };
-    const [locations, articles] = await Promise.all([
-      fetchProtestLocations(opts),
-      fetchProtestArticles(opts),
-    ]);
-    state.locations = locations;
-    state.articles = articles;
-    breaks = computeBreaks(locations.map((l) => l.count));
-    renderMarkers();
-    renderLegend();
-    renderStats();
-    renderTopLocations();
-    renderArticles();
-    renderTable();
-    setStatus("");
+    const [data, articles] = await Promise.all([loadProtestData(), loadArticles()]);
+    state.data = data;
+    state.allArticles = articles;
+    renderAll();
+    setUpdatedNote();
+    if (!data.locations.length) {
+      setStatus(
+        "🕐 Los datos del mapa aún se están generando. El robot de datos (GitHub Actions) se ejecuta cada hora; " +
+          "si acabas de crear la web, ejecútalo una vez a mano desde la pestaña Actions del repositorio."
+      );
+    } else {
+      setStatus("");
+    }
   } catch (err) {
     console.error(err);
     setStatus(
-      `No se pudieron cargar los datos: ${err.message}. GDELT limita las peticiones; espera unos segundos y pulsa «Actualizar».`,
+      `No se pudieron cargar los datos: ${err.message}. Comprueba que la carpeta data/ existe en el repositorio.`,
       true
     );
   } finally {
@@ -272,16 +332,16 @@ async function load() {
 }
 
 // ---------- Controles ----------
-document.querySelectorAll(".chip[data-timespan]").forEach((chip) => {
+document.querySelectorAll(".chip[data-days]").forEach((chip) => {
   chip.addEventListener("click", () => {
-    document.querySelectorAll(".chip[data-timespan]").forEach((c) => {
+    document.querySelectorAll(".chip[data-days]").forEach((c) => {
       c.classList.remove("is-active");
       c.removeAttribute("aria-pressed");
     });
     chip.classList.add("is-active");
     chip.setAttribute("aria-pressed", "true");
-    state.timespan = Number(chip.dataset.timespan);
-    load();
+    state.days = Number(chip.dataset.days);
+    renderAll(); // filtro instantáneo, sin recargar datos
   });
 });
 
@@ -291,12 +351,14 @@ document.getElementById("refresh").addEventListener("click", () => {
   load();
 });
 
-document.getElementById("keyword").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") document.getElementById("refresh").click();
+document.getElementById("keyword").addEventListener("input", () => {
+  state.keyword = document.getElementById("keyword").value;
+  renderAll();
 });
 
 document.getElementById("language").addEventListener("change", () => {
-  document.getElementById("refresh").click();
+  state.language = document.getElementById("language").value;
+  renderAll();
 });
 
 document.getElementById("table-toggle").addEventListener("click", (e) => {

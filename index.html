@@ -15,7 +15,7 @@
       <span class="brand-icon" aria-hidden="true">📢</span>
       <div>
         <h1>Observatorio de Protestas Sociales</h1>
-        <p class="brand-sub">Cobertura mediática de protestas sociales en el mundo · datos de <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a></p>
+        <p class="brand-sub">Eventos de protesta en el mundo · datos de <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> actualizados cada hora</p>
       </div>
     </div>
     <button id="theme-toggle" class="ghost-btn" type="button" aria-label="Cambiar tema">🌓 Tema</button>
@@ -23,9 +23,9 @@
 
   <section class="filters" aria-label="Filtros">
     <div class="filter-group" role="group" aria-label="Periodo">
-      <button class="chip" data-timespan="1440" type="button">24 h</button>
-      <button class="chip is-active" data-timespan="4320" type="button" aria-pressed="true">3 días</button>
-      <button class="chip" data-timespan="10080" type="button">7 días</button>
+      <button class="chip" data-days="1" type="button">24 h</button>
+      <button class="chip is-active" data-days="3" type="button" aria-pressed="true">3 días</button>
+      <button class="chip" data-days="7" type="button">7 días</button>
     </div>
     <input id="keyword" class="text-input" type="search" placeholder="Filtrar por tema o lugar (ej. pensiones, Chile)…" aria-label="Palabra clave">
     <select id="language" class="select-input" aria-label="Idioma de la cobertura">
@@ -45,12 +45,12 @@
     <div class="stat-tile">
       <span class="stat-label">Focos detectados</span>
       <span class="stat-value" id="stat-locations">—</span>
-      <span class="stat-note">lugares con cobertura de protestas</span>
+      <span class="stat-note">lugares con eventos de protesta</span>
     </div>
     <div class="stat-tile">
-      <span class="stat-label">Intensidad total</span>
+      <span class="stat-label">Eventos de protesta</span>
       <span class="stat-value" id="stat-mentions">—</span>
-      <span class="stat-note">menciones en medios del periodo</span>
+      <span class="stat-note">eventos registrados en el periodo</span>
     </div>
     <div class="stat-tile">
       <span class="stat-label">Foco más activo</span>
@@ -83,7 +83,7 @@
     <div class="table-scroll">
       <table>
         <thead>
-          <tr><th scope="col">#</th><th scope="col">Lugar</th><th scope="col">Menciones</th><th scope="col">Lat</th><th scope="col">Lon</th></tr>
+          <tr><th scope="col">#</th><th scope="col">Lugar</th><th scope="col">Eventos</th><th scope="col">Lat</th><th scope="col">Lon</th></tr>
         </thead>
         <tbody id="table-body"></tbody>
       </table>
@@ -91,7 +91,8 @@
   </section>
 
   <footer class="footer">
-    <p>Los datos reflejan <strong>cobertura mediática</strong> de protestas (proyecto GDELT), no un recuento verificado de eventos.
+    <p><span id="updated"></span>Los eventos provienen del proyecto <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>
+       (detección automática en la prensa mundial, código CAMEO 14 «protesta»), no de un recuento verificado a mano.
        Fuente futura adicional: <a href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>.
        Mapa © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>.</p>
   </footer>

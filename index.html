@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mapa interactivo que monitorea la cobertura mediática de protestas sociales en todo el mundo, con datos abiertos de GDELT.">
+  <title>Observatorio de Protestas Sociales</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📢</text></svg>">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">📢</span>
+      <div>
+        <h1>Observatorio de Protestas Sociales</h1>
+        <p class="brand-sub">Cobertura mediática de protestas sociales en el mundo · datos de <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a></p>
+      </div>
+    </div>
+    <button id="theme-toggle" class="ghost-btn" type="button" aria-label="Cambiar tema">🌓 Tema</button>
+  </header>
+
+  <section class="filters" aria-label="Filtros">
+    <div class="filter-group" role="group" aria-label="Periodo">
+      <button class="chip" data-timespan="1440" type="button">24 h</button>
+      <button class="chip is-active" data-timespan="4320" type="button" aria-pressed="true">3 días</button>
+      <button class="chip" data-timespan="10080" type="button">7 días</button>
+    </div>
+    <input id="keyword" class="text-input" type="search" placeholder="Filtrar por tema o lugar (ej. pensiones, Chile)…" aria-label="Palabra clave">
+    <select id="language" class="select-input" aria-label="Idioma de la cobertura">
+      <option value="">Todos los idiomas</option>
+      <option value="spanish">Español</option>
+      <option value="english">Inglés</option>
+      <option value="french">Francés</option>
+      <option value="portuguese">Portugués</option>
+      <option value="arabic">Árabe</option>
+    </select>
+    <button id="refresh" class="primary-btn" type="button">Actualizar</button>
+  </section>
+
+  <div id="status" class="status" role="status" hidden></div>
+
+  <section class="stats" aria-label="Resumen">
+    <div class="stat-tile">
+      <span class="stat-label">Focos detectados</span>
+      <span class="stat-value" id="stat-locations">—</span>
+      <span class="stat-note">lugares con cobertura de protestas</span>
+    </div>
+    <div class="stat-tile">
+      <span class="stat-label">Intensidad total</span>
+      <span class="stat-value" id="stat-mentions">—</span>
+      <span class="stat-note">menciones en medios del periodo</span>
+    </div>
+    <div class="stat-tile">
+      <span class="stat-label">Foco más activo</span>
+      <span class="stat-value stat-value--text" id="stat-top">—</span>
+      <span class="stat-note" id="stat-top-note">&nbsp;</span>
+    </div>
+  </section>
+
+  <main class="layout">
+    <section class="map-panel" aria-label="Mapa de protestas">
+      <div id="map" role="application" aria-label="Mapa interactivo de focos de protesta"></div>
+      <div class="map-legend" id="legend" aria-hidden="true"></div>
+      <button id="table-toggle" class="ghost-btn map-table-btn" type="button" aria-expanded="false">Ver como tabla</button>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel" aria-label="Focos principales">
+        <h2>Focos principales</h2>
+        <ol id="top-locations" class="top-list"></ol>
+      </section>
+      <section class="panel" aria-label="Cobertura reciente">
+        <h2>Cobertura reciente</h2>
+        <ul id="articles" class="article-list"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <section id="table-view" class="table-view" hidden aria-label="Datos en tabla">
+    <h2>Focos de protesta (tabla)</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Lugar</th><th scope="col">Menciones</th><th scope="col">Lat</th><th scope="col">Lon</th></tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Los datos reflejan <strong>cobertura mediática</strong> de protestas (proyecto GDELT), no un recuento verificado de eventos.
+       Fuente futura adicional: <a href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>.
+       Mapa © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>.</p>
+  </footer>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

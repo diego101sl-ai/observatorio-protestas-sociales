@@ -153,15 +153,18 @@ else:
 # ---- ACLED (opcional): datos verificados a mano ----
 # Requiere los secretos ACLED_USERNAME y ACLED_PASSWORD en el repositorio
 # (Settings -> Secrets and variables -> Actions). ACLED publica semanalmente,
-# por eso se pide una ventana de 30 días. API: https://acleddata.com/api-documentation/
+# por eso se pide una ventana de 30 dias. API: https://acleddata.com/api-documentation/
+# El resultado (o el error exacto) queda siempre en data/acled_estado.json.
+import urllib.error
 import urllib.parse
 
 VENTANA_ACLED = 30
 usuario_acled = os.environ.get("ACLED_USERNAME", "").strip()
 clave_acled = os.environ.get("ACLED_PASSWORD", "").strip()
+estado_acled = ""
 
 if not usuario_acled or not clave_acled:
-    print("ACLED no configurado (faltan los secretos ACLED_USERNAME/ACLED_PASSWORD); se omite")
+    estado_acled = "omitido: faltan los secretos ACLED_USERNAME/ACLED_PASSWORD"
 else:
     try:
         cuerpo = urllib.parse.urlencode({
@@ -213,6 +216,17 @@ else:
         with open("data/acled.json", "w") as f:
             json.dump({"generated": salida["generated"], "window_days": VENTANA_ACLED,
                        "days": dias_acled, "locations": lista_acled}, f, ensure_ascii=False)
-        print(f"acled.json: {len(lista_acled)} focos de {len(eventos_acled)} eventos verificados")
+        estado_acled = f"ok: {len(lista_acled)} focos a partir de {len(eventos_acled)} eventos verificados"
     except Exception as err:
-        print("ACLED falló (se conserva el archivo anterior si existe):", err)
+        detalle = str(err)
+        if isinstance(err, urllib.error.HTTPError):
+            try:
+                detalle += " | respuesta: " + err.read().decode("utf-8", "replace")[:300]
+            except Exception:
+                pass
+        estado_acled = f"error: {detalle}"
+
+print("ACLED ->", estado_acled)
+with open("data/acled_estado.json", "w") as f:
+    json.dump({"cuando": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+               "estado": estado_acled}, f, ensure_ascii=False)

@@ -63,8 +63,9 @@ function traducirLocalizaciones(locations) {
 }
 
 /**
- * Artículos de prensa recientes sobre protestas (el robot los pide ya
- * a medios en español; ver scripts/actualizar_datos.py).
+ * Artículos de prensa recientes sobre protestas, de medios de todo el mundo.
+ * El robot traduce cada titular al español (campo title_es); si algún titular
+ * quedó sin traducir se muestra en su idioma original.
  * @returns {Promise<Array<{title: string, url: string, domain: string,
  *   country: string, seenDate: Date|null}>>}
  */
@@ -74,7 +75,7 @@ export async function loadArticles() {
   return articles
     .filter((a) => a && a.url)
     .map((a) => ({
-      title: a.title || a.url,
+      title: a.title_es || a.title || a.url,
       url: a.url,
       domain: a.domain || "",
       country: traducirPais(a.sourcecountry || ""),

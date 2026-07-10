@@ -131,20 +131,75 @@ def pedir_articulos(query):
     data = json.loads(fetch(url).decode("utf-8", "replace"))
     return data.get("articles") or []
 
-# Solo prensa en español (sourcelang:spanish), para que la web salga íntegra en español
 articulos = []
 try:
-    articulos = pedir_articulos("theme:PROTEST sourcelang:spanish")
+    articulos = pedir_articulos("theme:PROTEST")
 except Exception as err:
-    print("artlist theme:PROTEST en español falló:", err)
+    print("artlist theme:PROTEST falló:", err)
 if not articulos:
     time.sleep(6)
     try:
-        articulos = pedir_articulos(
-            "(protesta OR protestas OR manifestacion OR manifestantes OR huelga) sourcelang:spanish")
+        articulos = pedir_articulos('protest OR protesta OR manifestacion OR "manifestation"')
     except Exception as err:
         print("artlist alternativo falló:", err)
+
+# ---- Traducción de titulares al español ----
+# La cobertura es de medios de todo el mundo, en cualquier idioma; el titular
+# se traduce al español (endpoint público de Google Translate) y se guarda en
+# el campo "title_es". Una caché (data/traducciones.json, clave = URL del
+# artículo) evita retraducir cada hora los titulares ya conocidos.
+TRAD_CACHE = "data/traducciones.json"
+
+def traducir_texto(texto):
+    url = ("https://translate.googleapis.com/translate_a/single"
+           "?client=gtx&sl=auto&tl=es&dt=t&q=" + urllib.request.quote(texto))
+    data = json.loads(fetch(url, timeout=20).decode("utf-8", "replace"))
+    return "".join(s[0] for s in (data[0] or []) if s and s[0]).strip()
+
+def traducir_titulares(articulos):
+    try:
+        with open(TRAD_CACHE) as f:
+            cache = json.load(f)
+    except Exception:
+        cache = {}
+    pendientes = []
+    for a in articulos:
+        titulo = (a.get("title") or "").strip()
+        if not titulo:
+            continue
+        if (a.get("language") or "").lower() == "spanish":
+            a["title_es"] = titulo
+            continue
+        clave = a.get("url") or titulo
+        if cache.get(clave):
+            a["title_es"] = cache[clave]
+        else:
+            pendientes.append((a, clave, titulo))
+
+    def traducir(item):
+        _, _, titulo = item
+        try:
+            return traducir_texto(titulo)
+        except Exception:
+            return ""
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        for (a, clave, titulo), traduccion in zip(pendientes, pool.map(traducir, pendientes)):
+            if traduccion:
+                a["title_es"] = traduccion
+                cache[clave] = traduccion
+
+    # la caché solo conserva los artículos de la ventana actual
+    actuales = {a.get("url") or (a.get("title") or "") for a in articulos}
+    cache = {k: v for k, v in cache.items() if k in actuales}
+    with open(TRAD_CACHE, "w") as f:
+        json.dump(cache, f, ensure_ascii=False)
+    con_es = sum(1 for a in articulos if a.get("title_es"))
+    print(f"titulares traducidos al español: {con_es}/{len(articulos)}"
+          f" ({len(pendientes)} nuevos en esta pasada)")
+
 if articulos:
+    traducir_titulares(articulos)
     with open("data/articles.json", "w") as f:
         json.dump({"generated": salida["generated"], "articles": articulos},
                   f, ensure_ascii=False)

@@ -1,6 +1,7 @@
 import { loadProtestData, loadArticles, loadAcledData } from "./sources/gdelt.js";
 
 const REFRESH_EVERY_MS = 15 * 60 * 1000;
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)");
 
 // Periodos disponibles por fuente: GDELT llega cada 15 min (ventana de 7 días);
 // ACLED publica semanalmente (ventana de 30 días)
@@ -161,13 +162,14 @@ function renderMarkers() {
   const surface = cssVar("--surface-1");
   const maxCount = state.locations[0]?.count ?? 1;
 
-  for (const loc of state.locations) {
+  for (const [i, loc] of state.locations.entries()) {
     const marker = L.circleMarker([loc.lat, loc.lon], {
       radius: radiusFor(loc.count, maxCount),
       fillColor: colors[binIndex(loc.count)],
       fillOpacity: 0.85,
       color: surface, // anillo de 2px del color de la superficie: separa marcas solapadas
       weight: 2,
+      className: i < 3 && !REDUCED.matches ? "marker-pulse" : "", // los 3 focos más activos laten
     });
     const newsLink = loc.url
       ? `<a href="${escapeHtml(loc.url)}" target="_blank" rel="noopener">Noticia relacionada →</a>`
@@ -224,10 +226,13 @@ function renderChart() {
   days.forEach((d, i) => {
     const x = padL + i * step + (step - bw) / 2;
     const alto = Math.max(2, (totals[i] / max) * ih);
-    const fill = inWindow.has(d) ? "var(--accent)" : "var(--hairline)";
+    // teal = dentro del periodo; rojo = pico de la serie; gris = fuera del periodo
+    const fill = inWindow.has(d)
+      ? (i === maxIdx ? "var(--critical)" : "var(--accent)")
+      : "var(--hairline)";
     cuerpo +=
       `<g class="bar"><title>${fmtDia(d)}: ${totals[i].toLocaleString("es")} eventos</title>` +
-      `<rect x="${x.toFixed(1)}" y="${(padT + ih - alto).toFixed(1)}" width="${bw.toFixed(1)}" height="${alto.toFixed(1)}" rx="2" fill="${fill}"></rect></g>`;
+      `<rect x="${x.toFixed(1)}" y="${(padT + ih - alto).toFixed(1)}" width="${bw.toFixed(1)}" height="${alto.toFixed(1)}" rx="2" fill="${fill}" style="animation-delay:${i * 26}ms"></rect></g>`;
     // etiqueta el último día siempre, y el resto cada N — sin chocar con la última
     const esUltimo = i === days.length - 1;
     if (esUltimo || (i % everyN === 0 && days.length - 1 - i > everyN / 2)) {
@@ -273,9 +278,8 @@ function renderLegend() {
 function renderStats() {
   const total = state.locations.reduce((sum, l) => sum + l.count, 0);
   const top = state.locations[0];
-  document.getElementById("stat-locations").textContent =
-    state.locations.length.toLocaleString("es");
-  document.getElementById("stat-mentions").textContent = total.toLocaleString("es");
+  animateNumber(document.getElementById("stat-locations"), state.locations.length);
+  animateNumber(document.getElementById("stat-mentions"), total);
   document.getElementById("stat-top").textContent = top ? top.name : "—";
   document.getElementById("stat-top-note").textContent = top
     ? `${top.count.toLocaleString("es")} eventos`
@@ -296,7 +300,7 @@ function renderTopLocations() {
     });
     const count = document.createElement("span");
     count.className = "top-count";
-    count.textContent = ` · ${loc.count.toLocaleString("es")}`;
+    count.textContent = loc.count.toLocaleString("es");
     li.append(btn, count);
     el.appendChild(li);
   }
@@ -353,6 +357,44 @@ function formatDate(d) {
   return d.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 }
 
+// Contador animado de las cifras de resumen (sin animación si el sistema lo pide)
+function animateNumber(el, to) {
+  const from = Number(el.dataset.v || 0);
+  el.dataset.v = to;
+  if (REDUCED.matches || from === to) {
+    el.textContent = to.toLocaleString("es");
+    return;
+  }
+  cancelAnimationFrame(el._raf);
+  const t0 = performance.now();
+  const dur = 650;
+  const step = (t) => {
+    const p = Math.min(1, (t - t0) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * eased).toLocaleString("es");
+    if (p < 1) el._raf = requestAnimationFrame(step);
+  };
+  el._raf = requestAnimationFrame(step);
+}
+
+// Ticker de titulares (usa toda la cobertura, sin filtrar, para que siempre lata)
+function renderTicker() {
+  const bar = document.getElementById("ticker");
+  const track = document.getElementById("ticker-track");
+  if (!bar || !track) return;
+  const arts = state.allArticles.slice(0, 14);
+  bar.hidden = !arts.length;
+  if (!arts.length) return;
+  const half = arts
+    .map(
+      (a) =>
+        `<a class="ticker-item" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.title)}</a>`
+    )
+    .join("");
+  track.innerHTML = half + half; // dos copias para el bucle continuo
+  track.style.setProperty("--ticker-dur", `${Math.max(36, arts.length * 5)}s`);
+}
+
 function setStatus(message, isError = false) {
   const el = document.getElementById("status");
   el.hidden = !message;
@@ -368,13 +410,18 @@ function setUpdatedNote() {
     return;
   }
   const d = new Date(state.data.generated);
-  el.textContent = Number.isNaN(d.getTime())
-    ? ""
-    : `Datos actualizados: ${d.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}. `;
+  if (Number.isNaN(d.getTime())) {
+    el.textContent = "";
+    return;
+  }
+  const fecha = d.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  const fuente = state.source === "acled" ? "ACLED" : "GDELT";
+  el.textContent = `Datos actualizados: ${fecha} · Fuente activa: ${fuente}. `;
 }
 
 // ---------- Fuente de datos activa ----------
 function setSource(source) {
+  if (source === "acled" && !state.acledData) source = "gdelt"; // sin datos de ACLED no hay cambio
   state.source = source;
   state.data = source === "acled" && state.acledData ? state.acledData : state.gdeltData;
 
@@ -416,6 +463,7 @@ async function load() {
     state.gdeltData = data;
     state.acledData = acled;
     state.allArticles = articles;
+    renderTicker();
 
     // El selector de fuente solo aparece cuando el robot ya generó datos de ACLED
     document.getElementById("source-group").hidden = !acled;
@@ -426,7 +474,7 @@ async function load() {
     setUpdatedNote();
     if (!data.locations.length) {
       setStatus(
-        "🕐 Los datos del mapa aún se están generando. El robot de datos (GitHub Actions) se ejecuta cada hora; " +
+        "Los datos del mapa aún se están generando. El robot de datos (GitHub Actions) se ejecuta cada hora; " +
           "si acabas de crear la web, ejecútalo una vez a mano desde la pestaña Actions del repositorio."
       );
     } else {
@@ -482,10 +530,40 @@ document.getElementById("table-toggle").addEventListener("click", (e) => {
   view.hidden = !view.hidden;
   e.target.setAttribute("aria-expanded", String(!view.hidden));
   e.target.textContent = view.hidden ? "Ver como tabla" : "Ocultar tabla";
-  if (!view.hidden) view.scrollIntoView({ behavior: "smooth" });
+  if (!view.hidden) {
+    const top = view.getBoundingClientRect().top + window.scrollY - 70;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
 });
 
+document.getElementById("ticker-pause")?.addEventListener("click", (e) => {
+  const paused = document.getElementById("ticker").classList.toggle("is-paused");
+  e.currentTarget.setAttribute("aria-pressed", String(paused));
+  e.currentTarget.setAttribute(
+    "aria-label",
+    paused ? "Reanudar el movimiento de titulares" : "Pausar el movimiento de titulares"
+  );
+});
+
+// ---------- Foto de portada (mejora progresiva) ----------
+// Si el repositorio incluye img/hero.jpg, se muestra con duotono;
+// si no existe, el hero conserva su fondo gráfico de respaldo.
+function initHeroPhoto() {
+  const media = document.querySelector(".hero-media");
+  if (!media) return;
+  const probe = new Image();
+  probe.onload = () => {
+    probe.className = "hero-photo";
+    probe.alt = "";
+    probe.decoding = "async";
+    media.prepend(probe);
+    media.closest(".hero").classList.remove("hero--nophoto");
+  };
+  probe.src = "img/hero.jpg";
+}
+
 // ---------- Arranque ----------
+initHeroPhoto();
 renderLegend();
 load();
 setInterval(load, REFRESH_EVERY_MS);

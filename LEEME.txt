@@ -1,31 +1,27 @@
-CÓMO SUBIR EL NUEVO DISEÑO A GITHUB
-====================================
-
-Este zip contiene solo lo que cambia:
-
-  index.html
-  css/style.css
-  js/app.js
-
-(js/sources/gdelt.js NO cambió; data/ y vendor/ de tu repo no se tocan.)
-
-Pasos (desde github.com, sin instalar nada):
+CÓMO SUBIR LA FOTO DE PORTADA
+==============================
 
 1. Abre tu repositorio: diego101sl-ai/observatorio-protestas-sociales
-2. Pulsa «Add file» → «Upload files».
-3. Arrastra a la vez: index.html, la carpeta css y la carpeta js
-   (GitHub respeta las rutas y reemplaza los archivos existentes).
-4. Abajo escribe un mensaje, p. ej. «Rediseño institucional-documental»,
-   y pulsa «Commit changes».
-5. Espera 1–2 minutos a que GitHub Pages publique y recarga tu web
-   con Ctrl+F5 (o Cmd+Shift+R en Mac) para saltarte la caché.
+2. Pulsa «Add file» → «Upload files»
+3. Arrastra la carpeta «img» (o el archivo img/hero.jpg si GitHub
+   te la deja soltar directamente) — debe quedar creada la ruta
+   img/hero.jpg en la raíz del repositorio.
+4. Mensaje: «Añadir foto de portada» → «Commit changes»
+5. Espera 1-2 minutos y recarga tu web con Ctrl+F5.
+   La foto aparecerá automáticamente con el duotono azul: el diseño
+   ya la detecta sola (js/app.js la busca en img/hero.jpg).
 
-FOTO DE PORTADA (opcional, recomendada)
----------------------------------------
-Sube una fotografía con derechos de uso (p. ej. Wikimedia Commons,
-licencia CC) como:  img/hero.jpg   (carpeta img en la raíz del repo)
+CRÉDITO (recomendado añadirlo en el pie de página)
+---------------------------------------------------
+Fotografía: 17 de octubre de 1945, Plaza de Mayo, Buenos Aires.
+Autor: desconocido. Dominio público.
+Fuente: Wikimedia Commons.
 
-- Formato JPG, apaisada, mínimo ~1600 px de ancho.
-- El duotono azul marino y el movimiento se aplican solos.
-- Mientras no exista, se muestra el fondo gráfico de respaldo.
-- Recuerda acreditar al autor si la licencia lo pide (puede ir en el pie).
+FICHA TÉCNICA
+--------------
+- Recortada a 1920×860 px (panorámica), priorizando que las banderas
+  y los carteles de Perón queden visibles en el encuadre.
+- Comprimida a ~400 KB para no ralentizar la carga de la web.
+- Es la imagen a color: el duotono azul lo aplica el CSS del sitio
+  en vivo (grayscale + contraste + blend-mode luminosity), así que
+  no hace falta editarla más.

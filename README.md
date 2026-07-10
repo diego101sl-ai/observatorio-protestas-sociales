@@ -10,7 +10,7 @@ Un **robot de datos** (GitHub Actions, `.github/workflows/actualizar-datos.yml`)
 
 - 🗺️ **Mapa mundial** (Leaflet) con los eventos de protesta geolocalizados; el tamaño y el color de cada círculo indican cuántos eventos hubo en ese lugar.
 - 📊 **Resumen**: focos detectados, eventos totales y el foco más activo del periodo.
-- 📰 **Cobertura reciente**: últimos artículos de prensa de medios de todo el mundo (en 65 idiomas), con el titular traducido al español.
+- 📰 **Cobertura reciente**: últimos artículos de prensa de medios de todo el mundo (en 65 idiomas), con el titular traducido al español. El robot combina varias búsquedas en GDELT y descarta los artículos cuyo titular no habla de protestas (la etiqueta PROTEST de GDELT sola trae mucho ruido).
 - 🔎 **Filtros instantáneos**: periodo (24 h / 3 días / 7 días) y palabra clave (tema o lugar) — sin recargar.
 - 🇪🇸 **Todo en español**: el robot traduce automáticamente los titulares al español (con caché en `data/traducciones.json`) y el navegador traduce los nombres de países y ciudades (`js/nombres-es.js`).
 - ♿ **Accesible**: vista de tabla alternativa, tema claro/oscuro, paleta validada para daltonismo.

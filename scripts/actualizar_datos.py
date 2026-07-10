@@ -8,7 +8,7 @@ protesta (código CAMEO raíz 14, con coordenadas) y publica:
   - data/articles.json  -> artículos recientes de la DOC 2.0 API
   - data/dias/*.json    -> caché de días completos (evita re-descargas)
 """
-import io, json, os, time, urllib.request, zipfile
+import io, json, os, re, time, unicodedata, urllib.request, zipfile
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 
@@ -131,17 +131,27 @@ def pedir_articulos(query):
     data = json.loads(fetch(url).decode("utf-8", "replace"))
     return data.get("articles") or []
 
-articulos = []
-try:
-    articulos = pedir_articulos("theme:PROTEST")
-except Exception as err:
-    print("artlist theme:PROTEST falló:", err)
-if not articulos:
-    time.sleep(6)
+# Tres consultas complementarias (la API limita a 250 resultados y a
+# 1 petición cada 5 s): la etiqueta PROTEST de GDELT es generosa y trae
+# mucho ruido, así que después se filtra por el titular (ver más abajo).
+CONSULTAS = [
+    "theme:PROTEST",
+    '(protesta OR protestas OR manifestacion OR manifestantes OR huelga OR cacerolazo OR "paro nacional")',
+    '(protest OR protesters OR demonstrators OR demonstration OR "general strike" OR riots)',
+]
+articulos, urls_vistas = [], set()
+for i, consulta in enumerate(CONSULTAS):
+    if i:
+        time.sleep(6)
     try:
-        articulos = pedir_articulos('protest OR protesta OR manifestacion OR "manifestation"')
+        for a in pedir_articulos(consulta):
+            u = a.get("url")
+            if u and u not in urls_vistas:
+                urls_vistas.add(u)
+                articulos.append(a)
     except Exception as err:
-        print("artlist alternativo falló:", err)
+        print("artlist falló:", consulta[:50], "->", err)
+print(f"artículos crudos recibidos: {len(articulos)}")
 
 # ---- Traducción de titulares al español ----
 # La cobertura es de medios de todo el mundo, en cualquier idioma; el titular
@@ -198,8 +208,44 @@ def traducir_titulares(articulos):
     print(f"titulares traducidos al español: {con_es}/{len(articulos)}"
           f" ({len(pendientes)} nuevos en esta pasada)")
 
+# ---- Solo noticias de protesta ----
+# GDELT etiqueta un artículo como PROTEST aunque la protesta se mencione de
+# pasada en el cuerpo del texto; aquí se conservan únicamente los artículos
+# cuyo TITULAR (traducido u original) habla de protestas.
+PATRON_PROTESTA = re.compile(
+    r"protest|manifestac|manifestante|manifestation|manifestant|huelga|huelguista|"
+    r"\bmarchas?\b|disturbio|revuelta|\bmotin\b|amotinad|movilizacion|se movilizan?\b|cacerolazo|"
+    r"piquete|\bplanton\b|paro (nacional|general|civico)|cortes? de ruta|"
+    r"represion|pancarta|toman las calles|sal(en|ieron) a las? calles?|"
+    r"levantamiento popular|\briots?\b|boicot")
+
+def normalizar(texto):
+    texto = unicodedata.normalize("NFKD", str(texto).lower())
+    return "".join(c for c in texto if not unicodedata.combining(c))
+
+def es_noticia_de_protesta(a):
+    texto = normalizar((a.get("title_es") or "") + " | " + (a.get("title") or ""))
+    # "en marcha" casi siempre significa "en funcionamiento", no una marcha
+    for frase in ("puesta en marcha", "en marcha"):
+        texto = texto.replace(frase, " ")
+    return bool(PATRON_PROTESTA.search(texto))
+
 if articulos:
     traducir_titulares(articulos)
+    total = len(articulos)
+    articulos = [a for a in articulos if es_noticia_de_protesta(a)]
+    # la misma noticia llega a veces por varias URLs: una sola por titular
+    titulares_vistos = set()
+    unicos = []
+    for a in articulos:
+        t = normalizar(a.get("title_es") or a.get("title") or "")
+        if t not in titulares_vistos:
+            titulares_vistos.add(t)
+            unicos.append(a)
+    articulos = unicos
+    articulos.sort(key=lambda a: a.get("seendate") or "", reverse=True)
+    articulos = articulos[:250]
+    print(f"filtro de protestas: {len(articulos)}/{total} artículos conservados")
     with open("data/articles.json", "w") as f:
         json.dump({"generated": salida["generated"], "articles": articulos},
                   f, ensure_ascii=False)

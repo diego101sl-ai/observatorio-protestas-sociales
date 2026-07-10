@@ -14,7 +14,6 @@ const state = {
   source: "gdelt",
   days: 3, // ventana seleccionada, en días
   keyword: "",
-  language: "",
   gdeltData: { generated: "", days: [], locations: [] },
   acledData: null,
   data: { generated: "", days: [], locations: [] }, // la fuente activa
@@ -136,7 +135,6 @@ function applyFilters() {
   const cutoff = Date.now() - state.days * 86400000;
   state.articles = state.allArticles
     .filter((a) => !a.seenDate || a.seenDate.getTime() >= cutoff)
-    .filter((a) => !state.language || a.language === state.language)
     .filter((a) => !kw || a.title.toLowerCase().includes(kw))
     .slice(0, 60);
 
@@ -511,17 +509,11 @@ document.querySelectorAll(".chip[data-days]").forEach((chip) => {
 
 document.getElementById("refresh").addEventListener("click", () => {
   state.keyword = document.getElementById("keyword").value;
-  state.language = document.getElementById("language").value;
   load();
 });
 
 document.getElementById("keyword").addEventListener("input", () => {
   state.keyword = document.getElementById("keyword").value;
-  renderAll();
-});
-
-document.getElementById("language").addEventListener("change", () => {
-  state.language = document.getElementById("language").value;
   renderAll();
 });
 

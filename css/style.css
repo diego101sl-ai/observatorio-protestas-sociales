@@ -434,17 +434,13 @@ a:hover { color: var(--accent-strong); }
   vertical-align: 3px;
 }
 .ticker-item:hover { color: #ffffff; text-decoration: underline; text-underline-offset: 2px; }
-@media (prefers-reduced-motion: no-preference) {
-  .ticker-track { animation: ticker-scroll var(--ticker-dur, 60s) linear infinite; }
-  @keyframes ticker-scroll { to { transform: translateX(-50%); } }
-  .ticker:hover .ticker-track,
-  .ticker.is-paused .ticker-track,
-  .ticker-track:focus-within { animation-play-state: paused; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ticker-viewport { overflow-x: auto; }
-  .ticker-btn { display: none; }
-}
+/* El ticker se mueve siempre; el botón de pausa/play es el control del usuario
+   (antes se paraba con «reducir movimiento» del sistema y parecía roto) */
+.ticker-track { animation: ticker-scroll var(--ticker-dur, 60s) linear infinite; }
+@keyframes ticker-scroll { to { transform: translateX(-50%); } }
+.ticker:hover .ticker-track,
+.ticker.is-paused .ticker-track,
+.ticker-track:has(a:focus-visible) { animation-play-state: paused; }
 .ticker-btn {
   flex: none;
   display: inline-flex;

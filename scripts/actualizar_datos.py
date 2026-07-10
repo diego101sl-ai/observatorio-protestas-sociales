@@ -131,15 +131,17 @@ def pedir_articulos(query):
     data = json.loads(fetch(url).decode("utf-8", "replace"))
     return data.get("articles") or []
 
+# Solo prensa en español (sourcelang:spanish), para que la web salga íntegra en español
 articulos = []
 try:
-    articulos = pedir_articulos("theme:PROTEST")
+    articulos = pedir_articulos("theme:PROTEST sourcelang:spanish")
 except Exception as err:
-    print("artlist theme:PROTEST falló:", err)
+    print("artlist theme:PROTEST en español falló:", err)
 if not articulos:
     time.sleep(6)
     try:
-        articulos = pedir_articulos('protest OR protesta OR manifestacion OR "manifestation"')
+        articulos = pedir_articulos(
+            "(protesta OR protestas OR manifestacion OR manifestantes OR huelga) sourcelang:spanish")
     except Exception as err:
         print("artlist alternativo falló:", err)
 if articulos:

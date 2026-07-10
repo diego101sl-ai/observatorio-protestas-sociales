@@ -10,8 +10,9 @@ Un **robot de datos** (GitHub Actions, `.github/workflows/actualizar-datos.yml`)
 
 - 🗺️ **Mapa mundial** (Leaflet) con los eventos de protesta geolocalizados; el tamaño y el color de cada círculo indican cuántos eventos hubo en ese lugar.
 - 📊 **Resumen**: focos detectados, eventos totales y el foco más activo del periodo.
-- 📰 **Cobertura reciente**: últimos artículos de prensa sobre protestas, con filtro por idioma.
-- 🔎 **Filtros instantáneos**: periodo (24 h / 3 días / 7 días), palabra clave (tema o lugar) e idioma — sin recargar.
+- 📰 **Cobertura reciente**: últimos artículos de prensa en español sobre protestas en todo el mundo.
+- 🔎 **Filtros instantáneos**: periodo (24 h / 3 días / 7 días) y palabra clave (tema o lugar) — sin recargar.
+- 🇪🇸 **Todo en español**: los nombres de países y ciudades se traducen en el navegador (`js/nombres-es.js`) y los artículos se piden a medios en español.
 - ♿ **Accesible**: vista de tabla alternativa, tema claro/oscuro, paleta validada para daltonismo.
 - 🔄 Los datos se regeneran cada hora; la página los relee cada 15 minutos.
 
@@ -72,6 +73,7 @@ observatorio-protestas-sociales/
 │   └── dias/               # caché de días completos del robot
 ├── js/
 │   ├── app.js              # lógica: mapa, gráfico, filtros, paneles
+│   ├── nombres-es.js       # traducción de países y ciudades al español
 │   └── sources/
 │       └── gdelt.js        # lectura de los datos generados
 ├── scripts/

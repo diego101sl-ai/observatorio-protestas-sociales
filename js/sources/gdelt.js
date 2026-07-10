@@ -13,6 +13,8 @@
  * solo lee sus propios archivos, sin CORS ni límites de peticiones.
  */
 
+import { traducirLugar, traducirPais } from "../nombres-es.js";
+
 async function fetchLocalJson(path) {
   const res = await fetch(path, { cache: "no-store" });
   if (!res.ok) throw new Error(`No se pudo leer ${path} (HTTP ${res.status})`);
@@ -31,7 +33,7 @@ export async function loadProtestData() {
   return {
     generated: data.generated || "",
     days: Array.isArray(data.days) ? data.days : [],
-    locations: Array.isArray(data.locations) ? data.locations : [],
+    locations: traducirLocalizaciones(data.locations),
   };
 }
 
@@ -47,17 +49,24 @@ export async function loadAcledData() {
     return {
       generated: data.generated || "",
       days: Array.isArray(data.days) ? data.days : [],
-      locations: data.locations,
+      locations: traducirLocalizaciones(data.locations),
     };
   } catch {
     return null;
   }
 }
 
+// Los nombres de lugar llegan en inglés; se muestran traducidos al español
+function traducirLocalizaciones(locations) {
+  if (!Array.isArray(locations)) return [];
+  return locations.map((loc) => ({ ...loc, name: traducirLugar(loc.name) }));
+}
+
 /**
- * Artículos de prensa recientes sobre protestas.
+ * Artículos de prensa recientes sobre protestas (el robot los pide ya
+ * a medios en español; ver scripts/actualizar_datos.py).
  * @returns {Promise<Array<{title: string, url: string, domain: string,
- *   country: string, language: string, seenDate: Date|null}>>}
+ *   country: string, seenDate: Date|null}>>}
  */
 export async function loadArticles() {
   const data = await fetchLocalJson("data/articles.json");
@@ -68,8 +77,7 @@ export async function loadArticles() {
       title: a.title || a.url,
       url: a.url,
       domain: a.domain || "",
-      country: a.sourcecountry || "",
-      language: (a.language || "").toLowerCase(),
+      country: traducirPais(a.sourcecountry || ""),
       seenDate: parseSeenDate(a.seendate),
     }));
 }

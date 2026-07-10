@@ -624,12 +624,15 @@ a:hover { color: var(--accent-strong); }
 .map-panel {
   position: relative;
   isolation: isolate; /* contiene los z-index internos de Leaflet */
+  display: flex;
+  flex-direction: column;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--border);
   min-height: 460px;
 }
-#map { height: 64vh; min-height: 460px; background: var(--page); }
+/* El mapa llena la columna: crece a la par del panel de cobertura del lateral */
+#map { flex: 1; min-height: max(64vh, 460px); background: var(--page); }
 
 /* Pulso de los focos más activos (clase que asigna js/app.js) */
 @media (prefers-reduced-motion: no-preference) {
@@ -731,18 +734,18 @@ a:hover { color: var(--accent-strong); }
 
 .article-list {
   margin: 0; padding: 0; list-style: none;
-  max-height: 46vh; overflow-y: auto;
+  max-height: 110vh; overflow-y: auto;
   scrollbar-width: thin;
 }
 .article-list li {
-  padding: 0.58rem 0;
+  padding: 0.62rem 0;
   border-bottom: 1px solid var(--hairline);
 }
 .article-list li:last-child { border-bottom: none; }
 .article-list a {
   color: var(--text-primary);
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: 0.93rem;
   font-weight: 500;
   line-height: 1.4;
   display: block;
@@ -750,7 +753,7 @@ a:hover { color: var(--accent-strong); }
   text-wrap: pretty;
 }
 .article-list a:hover { color: var(--accent); }
-.article-meta { font-size: 0.74rem; color: var(--text-muted); margin-top: 0.12rem; }
+.article-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.12rem; }
 
 /* ============ Vista de tabla ============ */
 .table-view { padding-bottom: 1.1rem; }
@@ -861,10 +864,10 @@ a:hover { color: var(--accent-strong); }
 
 /* ============ Responsive ============ */
 @media (max-width: 940px) {
-  #map { height: 56vh; }
+  #map { flex: none; height: 56vh; min-height: 0; }
   .stats-band { grid-template-columns: 1fr; }
   .stat-tile + .stat-tile { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.13); }
-  .article-list { max-height: 340px; }
+  .article-list { max-height: 620px; }
   .hero-rings { right: -30%; opacity: 0.55; }
 }
 

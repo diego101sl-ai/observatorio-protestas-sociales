@@ -69,6 +69,9 @@ function applyBasemap() {
 }
 applyBasemap();
 
+// El mapa estira con la altura del lateral: recalcula el lienzo al cambiar de tamaño
+new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById("map"));
+
 const markerLayer = L.layerGroup().addTo(map);
 const markersByName = new Map();
 
@@ -390,7 +393,8 @@ function renderTicker() {
     )
     .join("");
   track.innerHTML = half + half; // dos copias para el bucle continuo
-  track.style.setProperty("--ticker-dur", `${Math.max(36, arts.length * 5)}s`);
+  // ~10 s por titular: lectura tranquila sin que parezca detenido
+  track.style.setProperty("--ticker-dur", `${Math.max(70, arts.length * 10)}s`);
 }
 
 function setStatus(message, isError = false) {

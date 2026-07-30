@@ -67,10 +67,23 @@ El servidor imprime las direcciones para conectarse:
 - **Jugadores**: `http://<ip-de-la-computadora>:3000/play` (celulares en la **misma red wifi**)
 - **Panel de perfiles**: `http://<ip-de-la-computadora>:3000/perfiles`
 
-> También se puede desplegar gratis en servicios como Render o Railway (comando de inicio:
-> `node server.js`, carpeta raíz: `juego/`). Ojo: en esos servicios el disco puede ser efímero
-> y los perfiles reiniciarse en cada despliegue; para el aula, la notebook local es lo más simple
-> y conserva los perfiles.
+## Jugarlo online (equipo distribuido)
+
+El repositorio ya trae la configuración de despliegue (`render.yaml` en la raíz). Pasos:
+
+1. Crear una cuenta gratuita en [render.com](https://render.com) (con el botón "Sign in with GitHub").
+2. En el panel: **New +** → **Blueprint** → conectar y elegir este repositorio.
+3. Elegir la rama que contiene el juego y confirmar. Render lee `render.yaml` y despliega solo.
+4. En 2-3 minutos queda una dirección pública tipo `https://cierre-de-edicion.onrender.com`:
+   - Pantalla central: `…onrender.com/host`
+   - Jugadores: `…onrender.com/play` (o escaneando el QR de la sala)
+   - Panel del capacitador: `…onrender.com/perfiles`
+
+> Avisos del plan gratuito: el servicio se duerme tras 15 minutos sin uso (la primera carga
+> puede tardar un minuto en despertarlo) y **el disco es efímero**: los perfiles e insignias
+> pueden reiniciarse cuando el servicio se reinicia. Para capacitaciones donde importa el
+> recorrido acumulado de cada periodista, la notebook del aula conserva los perfiles siempre;
+> el hosting gratuito es ideal para probar y jugar a distancia.
 
 ## Actualizar la base de hechos
 

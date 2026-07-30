@@ -1,0 +1,11 @@
+# Despliegue del juego "Cierre de Edición" en Render (plan gratuito)
+# Instrucciones: https://render.com → New + → Blueprint → elegir este repositorio y esta rama
+services:
+  - type: web
+    name: cierre-de-edicion
+    runtime: node
+    rootDir: juego
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /

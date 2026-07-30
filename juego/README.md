@@ -10,11 +10,26 @@ de medios. Estilo Kahoot: una pantalla central proyectada y hasta **10 jugadores
    de 4 dígitos y un QR.
 2. Cada periodista entra desde su celular (escanea el QR o va a la dirección y escribe el código
    y **su nombre — siempre el mismo**, porque guarda su historial).
-3. El capacitador aprieta **Comenzar**. La partida dura entre 4 y 5 minutos: 15 preguntas en
-   3 niveles que se aceleran (*Redactor* 20s → *Editor* 15s → *Cierre de edición* 10s).
-4. Cada pregunta suma **500 puntos + hasta 500 por velocidad**. Después de cada una se muestra
-   la respuesta correcta con su explicación pedagógica y el podio en vivo.
-5. Al final: podio animado, **insignias** para los destacados y perfil actualizado.
+3. El capacitador aprieta **Comenzar** y arranca la supervivencia:
+
+### La mecánica: ganar y perder tiempo
+
+- Cada jugador arranca con un **reloj vital de 60 segundos** (tope: 90s).
+- El reloj **corre mientras la pregunta está abierta** — igual para todos. Cuando todos
+  respondieron, la pregunta se cierra y el drenaje se detiene: responder rápido conviene a todos.
+- **Acertás → ganás segundos** (+10s al principio; el premio se achica con los niveles).
+  **Errás o no respondés → no ganás nada.**
+- La **ventana para responder es la misma para todos** y se acorta con los niveles:
+  *Redactor* 15s → *Editor* 12s → *Cierre de edición* 10s → *Muerte súbita* 8s.
+- Cuando tu reloj llega a **cero quedás ☠ fuera de juego**. Gana **el último en pie**
+  (tope de 30 preguntas; si sobreviven varios, gana el que más tiempo conserva).
+- Después de cada pregunta se muestra la respuesta correcta con su **explicación pedagógica**
+  y los relojes vitales de todos en vivo.
+- Con **sonido**: entrada de jugadores, aciertos, tiempo ganado, tic-tac de urgencia,
+  eliminaciones y fanfarria final (botón 🔊/🔇 en la pantalla central para silenciar).
+
+Una partida típica dura **4 a 5 minutos**. Al final: podio animado, **insignias** para los
+destacados y perfil actualizado.
 
 ### Tipos de desafío
 
@@ -33,8 +48,8 @@ la precisión acumulada por habilidad, sugiere el **punto débil a reforzar** de
 y permite **exportar todo a CSV** para preparar ejercicios personalizados.
 
 Insignias: 🔍 Detector de Opiniones · 🧭 Radar Sectorial · 🦅 Ojo de Águila · 🎯 Cazador de
-Actores · ⚡ Rayo · 🏆 Campeón de Edición · 🔥 En Racha · 🖋️ Pluma Perfecta · 📚 Maratonista ·
-🗞️ Veterano de Redacción.
+Actores · ⚡ Rayo · 🏆 Último en Pie · 🫀 Al Límite (se salvó con menos de 3s en el reloj) ·
+🔥 En Racha · 🖋️ Pluma Perfecta · 📚 Maratonista · 🗞️ Veterano de Redacción.
 
 ## Cómo ponerlo en marcha
 

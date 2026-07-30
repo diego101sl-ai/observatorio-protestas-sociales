@@ -2,7 +2,7 @@
 /* Pantalla del jugador (celular) */
 const socket = io();
 const $ = sel => document.querySelector(sel);
-const pantallas = ['#entrar', '#espera', '#pregunta', '#estado', '#fin'];
+const pantallas = ['#entrar', '#espera', '#pregunta', '#estado', '#muerto', '#fin'];
 function mostrar(sel) {
   for (const p of pantallas) $(p).classList.toggle('oculto', p !== sel);
 }
@@ -10,15 +10,41 @@ function mostrar(sel) {
 const FORMAS = ['▲', '■', '●', '◆'];
 let miNombre = null;
 let miUltimaOpcion = null;
-let misPuntos = 0;
+let miReloj = 0;          // ms restantes al abrir la pregunta
+let inicioPregunta = 0;
+let preguntaAbierta = false;
+let estoyVivo = true;
 let timerBarra = null;
+let drenaje = null;
+let urgenteSono = false;
+
+function fmt(ms) {
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
+const EMOJIS = {
+  detector_opiniones: '🔍', radar_sectorial: '🧭', ojo_de_aguila: '🦅',
+  cazador_actores: '🎯', rayo: '⚡', campeon: '🏆', al_limite: '🫀', racha: '🔥',
+  pluma_perfecta: '🖋️', maraton: '📚', veterano: '🗞️',
+};
 
 // prellenar código si vino por QR (?sala=1234)
 const params = new URLSearchParams(location.search);
 if (params.get('sala')) $('#codigo').value = params.get('sala');
 
+window.addEventListener('load', () => {
+  const nombre = sessionStorage.getItem('cde-nombre');
+  const sala = sessionStorage.getItem('cde-sala');
+  if (nombre && sala && !miNombre) {
+    $('#codigo').value = sala;
+    $('#nombre').value = nombre;
+  }
+});
+
 $('#form-entrar').addEventListener('submit', e => {
   e.preventDefault();
+  Sonidos.activar();
   $('#error').textContent = '';
   socket.emit('jugador:entrar', {
     codigo: $('#codigo').value.trim(),
@@ -36,103 +62,143 @@ $('#form-entrar').addEventListener('submit', e => {
       : `${resp.perfil.partidas} partida${resp.perfil.partidas === 1 ? '' : 's'} jugada${resp.perfil.partidas === 1 ? '' : 's'}`;
     $('#mi-coleccion').innerHTML = (resp.perfil.insignias || [])
       .map(id => `<span class="insignia">${EMOJIS[id] || '🏅'}</span>`).join('');
+    Sonidos.unirse();
     if (!resp.reconectado) mostrar('#espera');
   });
 });
 
-// reconexión automática si se recarga la página en medio de la partida
-window.addEventListener('load', () => {
-  const nombre = sessionStorage.getItem('cde-nombre');
-  const sala = sessionStorage.getItem('cde-sala');
-  if (nombre && sala && !miNombre) {
-    $('#codigo').value = sala;
-    $('#nombre').value = nombre;
-  }
-});
-
-const EMOJIS = {
-  detector_opiniones: '🔍', radar_sectorial: '🧭', ojo_de_aguila: '🦅',
-  cazador_actores: '🎯', rayo: '⚡', campeon: '🏆', racha: '🔥',
-  pluma_perfecta: '🖋️', maraton: '📚', veterano: '🗞️',
-};
-
-socket.on('partida:comenzo', () => {
-  misPuntos = 0;
-  $('#chip-puntos').textContent = '0 pts';
-  $('#chip-puntos').classList.remove('oculto');
+socket.on('partida:comenzo', ({ relojInicial }) => {
+  estoyVivo = true;
+  miReloj = relojInicial;
+  $('#chip-reloj').textContent = `⏱ ${fmt(miReloj)}`;
+  $('#chip-reloj').classList.remove('oculto');
   $('#estado-emoji').textContent = '🗞️';
   $('#estado-titulo').textContent = '¡Arranca la edición!';
-  $('#estado-puntos').textContent = '';
-  $('#estado-posicion').textContent = '';
+  $('#estado-detalle').textContent = `Tenés ${fmt(relojInicial)} de vida. Acertá para sumar tiempo.`;
+  $('#estado-reloj').textContent = '';
   mostrar('#estado');
 });
 
 socket.on('pregunta:nueva', p => {
+  if (!estoyVivo) return; // los eliminados miran la pantalla central
   miUltimaOpcion = null;
+  urgenteSono = false;
+  const mio = p.relojes.find(r => r.nombre === miNombre);
+  if (mio) miReloj = mio.restante;
+
   $('#texto-preg').textContent = p.texto;
   $('#contexto-preg').textContent = p.contexto || '';
+  $('#premio-preg').textContent = `+${p.gana}s si acertás`;
   $('#opciones').innerHTML = p.opciones.map((op, i) =>
     `<button class="opcion op-${i}" data-i="${i}"><span class="forma">${FORMAS[i]}</span><span>${escapar(op)}</span></button>`
   ).join('');
   for (const btn of document.querySelectorAll('#opciones .opcion')) {
     btn.addEventListener('click', () => responder(Number(btn.dataset.i)));
   }
+
+  // barra de la ventana común
   const relleno = $('#barra-j').firstElementChild;
   relleno.style.transition = 'none';
   relleno.style.transform = 'scaleX(1)';
   clearTimeout(timerBarra);
   timerBarra = setTimeout(() => {
-    relleno.style.transition = `transform ${p.duracion}s linear`;
+    relleno.style.transition = `transform ${p.ventana}s linear`;
     relleno.style.transform = 'scaleX(0)';
   }, 60);
-  $('#barra-j').classList.toggle('urgente', p.nivel === 3);
+  $('#barra-j').classList.toggle('urgente', p.nivel >= 3);
+
+  // mi reloj vital corre mientras la pregunta está abierta
+  inicioPregunta = Date.now();
+  preguntaAbierta = true;
+  clearInterval(drenaje);
+  pintarMiReloj();
+  drenaje = setInterval(pintarMiReloj, 150);
+
+  Sonidos.pregunta();
   mostrar('#pregunta');
 });
 
+const RELOJ_MAX_VISUAL = 90000;
+const LARGO_ARO = 276.5;
+
+function pintarMiReloj() {
+  const resta = Math.max(0, miReloj - (preguntaAbierta ? Date.now() - inicioPregunta : 0));
+  $('#mi-reloj').textContent = fmt(resta);
+  const critico = resta < 8000;
+  $('#aro').classList.toggle('critico', critico);
+  const fraccion = Math.min(1, resta / RELOJ_MAX_VISUAL);
+  $('#aro-frente').style.strokeDashoffset = String(LARGO_ARO * (1 - fraccion));
+  $('#chip-reloj').textContent = `⏱ ${fmt(resta)}`;
+  if (critico && !urgenteSono && preguntaAbierta) {
+    urgenteSono = true;
+    Sonidos.urgente();
+  }
+}
+
 function responder(opcion) {
-  if (miUltimaOpcion !== null) return;
+  if (miUltimaOpcion !== null || !estoyVivo) return;
   miUltimaOpcion = opcion;
   socket.emit('jugador:respuesta', { opcion });
+  Sonidos.envio();
   $('#estado-emoji').textContent = '📨';
   $('#estado-titulo').textContent = 'Enviado a la mesa de edición';
-  $('#estado-puntos').textContent = '';
-  $('#estado-posicion').textContent = 'Esperando al resto…';
+  $('#estado-detalle').textContent = 'Tu reloj sigue corriendo hasta que respondan todos…';
+  $('#estado-reloj').textContent = '';
   mostrar('#estado');
 }
 
 socket.on('pregunta:resultado', r => {
+  preguntaAbierta = false;
+  clearInterval(drenaje);
   const mio = r.detalle.find(d => d.nombre === miNombre);
   if (!mio) return;
-  misPuntos = mio.puntos;
-  $('#chip-puntos').textContent = `${misPuntos.toLocaleString('es-AR')} pts`;
+  miReloj = mio.restante;
+  $('#chip-reloj').textContent = `⏱ ${fmt(miReloj)}`;
 
-  const pos = r.podio.find(p => p.nombre === miNombre);
+  if (!mio.vivo) {
+    estoyVivo = false;
+    Sonidos.muerte();
+    const pos = r.tabla.find(t => t.nombre === miNombre);
+    $('#muerto-posicion').textContent =
+      `Quedaste ${pos ? pos.posicion + 'º' : 'fuera'} · caíste en la pregunta ${r.indice + 1}`;
+    mostrar('#muerto');
+    return;
+  }
+
   if (!mio.respondio) {
+    Sonidos.incorrecta();
     $('#estado-emoji').textContent = '⏰';
-    $('#estado-titulo').textContent = 'Se te fue el tiempo';
-    $('#estado-puntos').textContent = '+0';
+    $('#estado-titulo').textContent = 'No llegaste a responder';
+    $('#estado-detalle').textContent = 'Sin respuesta no se gana tiempo.';
   } else if (mio.acerto) {
+    Sonidos.correcta();
+    setTimeout(() => Sonidos.ganoTiempo(), 250);
     $('#estado-emoji').textContent = mio.racha >= 3 ? '🔥' : '✅';
     $('#estado-titulo').textContent = mio.racha >= 3 ? `¡Correcta! Racha ×${mio.racha}` : '¡Correcta!';
-    $('#estado-puntos').textContent = `+${mio.ganados.toLocaleString('es-AR')}`;
+    $('#estado-detalle').textContent = `+${Math.round(mio.ganadoMs / 1000)} segundos para tu reloj`;
   } else {
+    Sonidos.incorrecta();
     $('#estado-emoji').textContent = '❌';
     $('#estado-titulo').textContent = 'No era esa';
-    $('#estado-puntos').textContent = '+0';
+    $('#estado-detalle').textContent = 'No ganás tiempo. El reloj sigue corriendo.';
   }
-  $('#estado-posicion').textContent = pos ? `Vas ${pos.posicion}º de ${r.podio.length} · mirá la pantalla central` : '';
+  const pos = r.tabla.filter(t => t.vivo).findIndex(t => t.nombre === miNombre);
+  $('#estado-reloj').textContent = `⏱ ${fmt(miReloj)} · ${pos >= 0 ? `vas ${pos + 1}º de ${r.vivos} vivos` : ''}`;
   mostrar('#estado');
 });
 
-socket.on('partida:fin', ({ podio, resultados, insignias }) => {
+socket.on('partida:fin', ({ resultados, insignias }) => {
+  preguntaAbierta = false;
+  clearInterval(drenaje);
   const mio = resultados.find(r => r.nombre === miNombre);
   if (!mio) return;
   const medallas = { 1: '🥇', 2: '🥈', 3: '🥉' };
+  if (mio.posicion === 1) Sonidos.victoria(); else Sonidos.finPartida();
   $('#fin-medalla').textContent = medallas[mio.posicion] || '📰';
-  $('#fin-titulo').textContent = mio.posicion === 1 ? '¡Ganaste la edición!' : `${mio.posicion}º puesto`;
+  $('#fin-titulo').textContent = mio.posicion === 1 ? '¡Último/a en pie!' : `${mio.posicion}º puesto`;
   $('#fin-resumen').innerHTML =
-    `${mio.puntos.toLocaleString('es-AR')} puntos · ${mio.aciertos}/${mio.totalPreguntas} correctas<br>` +
-    resumenHabilidades(mio.stats);
+    (mio.vivo ? `Sobreviviste con ${fmt(mio.restante)} en el reloj` : `Caíste en la pregunta ${mio.preguntaMuerte}`) +
+    `<br>${mio.aciertos}/${mio.totalPreguntas} correctas · ` + resumenHabilidades(mio.stats);
   $('#fin-nuevas').innerHTML = mio.nuevasInsignias.map((id, i) => {
     const ins = insignias[id];
     return `<span class="insignia nueva" style="animation-delay:${0.2 + i * 0.2}s"><span class="emoji">${ins.emoji}</span>${ins.nombre}</span>`;
@@ -154,7 +220,7 @@ function resumenHabilidades(s) {
 }
 
 socket.on('sala:reabierta', () => {
-  // el capacitador lanzó otra partida con la misma sala
+  estoyVivo = true;
   if (miNombre) mostrar('#espera');
 });
 

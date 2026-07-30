@@ -7,11 +7,9 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗞️</text></svg>">
 <link rel="stylesheet" href="/css/estilo.css">
 <style>
-  body { display: flex; flex-direction: column; min-height: 100vh; padding: 1.2rem 1.6rem; gap: 1rem; }
+  body { display: flex; flex-direction: column; min-height: 100vh; padding: 1.2rem 1.6rem 3rem; gap: 1rem; }
 
-  header {
-    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-  }
+  header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
   header .marca { font-size: 1.15rem; }
   header .derecha { margin-left: auto; display: flex; gap: 0.6rem; align-items: center; }
 
@@ -19,90 +17,176 @@
 
   /* --- inicio --- */
   #inicio { flex: 1; display: grid; place-items: center; }
-  #inicio .caja { text-align: center; max-width: 34rem; display: flex; flex-direction: column; gap: 1.4rem; align-items: center; }
-  #inicio h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); }
-  #inicio h1 .linea2 { color: var(--amarillo); display: block; }
-  #inicio p { color: var(--gris); line-height: 1.5; max-width: 30rem; }
+  #inicio .caja { text-align: center; max-width: 44rem; display: flex; flex-direction: column; gap: 1.6rem; align-items: center; }
+  #inicio .kicker { color: var(--amarillo); }
+  #inicio h1 { font-size: clamp(2.3rem, 5.6vw, 4.4rem); }
+  #inicio h1 .linea2 {
+    display: block;
+    background: linear-gradient(180deg, var(--amarillo), var(--amarillo-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 6px 24px rgba(255, 178, 0, 0.25));
+  }
+  #inicio p { color: var(--gris); line-height: 1.55; max-width: 34rem; font-size: 1.05rem; }
+  #inicio .reglas { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; }
+  #inicio .regla {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+    color: var(--gris); text-transform: uppercase;
+    border: 1px solid var(--linea); border-radius: 999px; padding: 0.4rem 0.9rem;
+    background: linear-gradient(180deg, rgba(140,170,230,0.07), transparent);
+  }
 
   /* --- lobby --- */
-  #lobby { flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
-  #lobby .invitacion { display: flex; flex-direction: column; gap: 1.2rem; align-items: center; text-align: center; }
-  #codigo-sala {
-    font-family: var(--mono); font-size: clamp(4rem, 11vw, 8rem); font-weight: 700;
-    letter-spacing: 0.12em; color: var(--amarillo); line-height: 1;
+  #lobby { flex: 1; display: grid; grid-template-columns: 1.15fr 1fr; gap: 2rem; align-items: center; }
+  #lobby .invitacion {
+    display: flex; flex-direction: column; gap: 1.1rem; align-items: center; text-align: center;
+    padding: 2.2rem 1.6rem;
   }
-  #qr { background: #fff; padding: 12px; border-radius: 10px; display: inline-block; }
-  #qr svg { display: block; width: 180px; height: 180px; }
-  #url-sala { color: var(--gris); font-size: 1rem; }
-  #lobby .sala-jugadores { display: flex; flex-direction: column; gap: 0.9rem; }
-  #lista-jugadores { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  #codigo-sala {
+    font-family: var(--mono); font-size: clamp(3.6rem, 9vw, 7rem); font-weight: 700;
+    letter-spacing: 0.14em; line-height: 1;
+    background: linear-gradient(180deg, #ffe9ad, var(--amarillo) 45%, var(--amarillo-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 8px 30px rgba(255, 178, 0, 0.3));
+  }
+  #qr { background: #fff; padding: 13px; border-radius: 14px; display: inline-block; box-shadow: 0 14px 40px -12px rgba(0,0,0,0.8), 0 0 0 6px rgba(255,255,255,0.06); }
+  #qr svg { display: block; width: 170px; height: 170px; }
+  #url-sala { color: var(--gris); font-size: 0.95rem; }
+  #lobby .sala-jugadores { display: flex; flex-direction: column; gap: 1rem; }
+  #lista-jugadores { display: flex; flex-wrap: wrap; gap: 0.6rem; min-height: 3rem; }
   .ficha-jugador {
-    background: var(--tinta-2); border: 1px solid var(--linea);
-    border-radius: 8px; padding: 0.6rem 1rem; font-weight: 700;
-    animation: aparecer 0.35s ease backwards;
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    background: linear-gradient(180deg, rgba(140,170,230,0.09), transparent 60%), var(--tinta-2);
+    border: 1px solid var(--linea);
+    border-radius: 10px; padding: 0.5rem 0.9rem 0.5rem 0.5rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px -10px rgba(0,0,0,0.7);
+    animation: aparecer 0.4s cubic-bezier(0.2, 1.4, 0.4, 1) backwards;
+  }
+  .ficha-jugador .avatar {
+    width: 1.8rem; height: 1.8rem; border-radius: 7px;
+    display: grid; place-items: center;
+    font-family: var(--cond); font-size: 0.85rem; font-weight: 600; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
   }
   @media (max-width: 800px) { #lobby { grid-template-columns: 1fr; } }
 
   /* --- cuenta regresiva --- */
-  #cuenta { flex: 1; display: grid; place-items: center; }
-  #cuenta div { font-family: var(--mono); font-size: clamp(6rem, 22vw, 15rem); font-weight: 700; color: var(--amarillo); }
+  #cuenta { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6rem; }
+  #cuenta .numero {
+    font-family: var(--display); font-size: clamp(7rem, 24vw, 16rem); line-height: 1;
+    background: linear-gradient(180deg, #ffe9ad, var(--amarillo) 45%, var(--amarillo-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 10px 50px rgba(255, 178, 0, 0.35));
+  }
+  #cuenta .numero.salto { animation: salto-numero 0.9s cubic-bezier(0.2, 1.3, 0.4, 1); }
+  @keyframes salto-numero {
+    0% { transform: scale(1.7); opacity: 0; filter: blur(6px); }
+    45% { transform: scale(1); opacity: 1; filter: blur(0); }
+  }
+  #regla-reloj { color: var(--gris); font-size: 1.2rem; text-align: center; max-width: 34rem; line-height: 1.55; }
 
   /* --- juego --- */
-  #juego { flex: 1; display: grid; grid-template-columns: 1fr 15rem; gap: 1.4rem; min-height: 0; }
+  #juego { flex: 1; display: grid; grid-template-columns: 1fr 16.5rem; gap: 1.4rem; min-height: 0; }
   #panel-pregunta { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
 
   #cable {
     flex: 1;
-    background: var(--tinta-2); border: 1px solid var(--linea); border-radius: 12px;
-    padding: 1.6rem 1.9rem;
-    display: flex; flex-direction: column; gap: 1rem; justify-content: center;
+    padding: 1.7rem 2rem;
+    display: flex; flex-direction: column; gap: 1.05rem; justify-content: center;
     position: relative; overflow: hidden;
+    animation: entra-cable 0.4s cubic-bezier(0.2, 1.2, 0.4, 1) backwards;
+  }
+  @keyframes entra-cable {
+    from { transform: translateY(14px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
   #cable::before {
-    content: ""; position: absolute; inset: 0 auto 0 0; width: 5px;
-    background: var(--amarillo);
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 6px;
+    background: linear-gradient(180deg, var(--amarillo), var(--amarillo-2));
+    box-shadow: 0 0 18px rgba(255, 197, 49, 0.5);
   }
+  #cable .cabecera-cable { display: flex; align-items: center; gap: 0.9rem; }
   #tipo-pregunta { color: var(--amarillo); }
-  #texto-pregunta { font-size: clamp(1.2rem, 2.4vw, 1.7rem); font-weight: 900; text-wrap: balance; }
+  #texto-pregunta { font-size: clamp(1.25rem, 2.5vw, 1.85rem); }
   #contexto {
-    font-size: clamp(1rem, 2vw, 1.35rem); line-height: 1.5; color: var(--papel);
-    border-top: 1px dashed var(--linea); padding-top: 1rem;
+    font-size: clamp(1.05rem, 2vw, 1.4rem); line-height: 1.55; color: var(--papel);
+    border-top: 1px dashed var(--linea); padding-top: 1.05rem;
   }
   #explicacion {
-    background: var(--tinta-3); border-left: 4px solid var(--ok);
-    border-radius: 0 8px 8px 0;
-    padding: 0.9rem 1.1rem; line-height: 1.5; font-size: 1.02rem;
+    background: linear-gradient(180deg, rgba(62, 229, 154, 0.08), transparent), var(--tinta-3);
+    border: 1px solid rgba(62, 229, 154, 0.25);
+    border-left: 4px solid var(--ok);
+    border-radius: 10px;
+    padding: 0.95rem 1.15rem; line-height: 1.55; font-size: 1.05rem;
+    animation: entra-cable 0.35s ease backwards;
   }
 
-  #grilla-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-  #grilla-opciones .opcion { font-size: clamp(0.95rem, 1.8vw, 1.15rem); font-weight: 600; min-height: 4rem; }
+  #grilla-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  #grilla-opciones .opcion { font-size: clamp(1rem, 1.8vw, 1.2rem); min-height: 4.3rem; }
+  #grilla-opciones .opcion:nth-child(1) { animation: entra-cable 0.35s 0.05s ease backwards; }
+  #grilla-opciones .opcion:nth-child(2) { animation: entra-cable 0.35s 0.12s ease backwards; }
+  #grilla-opciones .opcion:nth-child(3) { animation: entra-cable 0.35s 0.19s ease backwards; }
+  #grilla-opciones .opcion:nth-child(4) { animation: entra-cable 0.35s 0.26s ease backwards; }
 
-  #rail { display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
-  #rail .fila-podio { animation: aparecer 0.3s ease backwards; }
-  #respondieron { color: var(--gris); }
+  #rail { display: flex; flex-direction: column; gap: 0.65rem; min-width: 0; }
+  #rail .fila-podio { flex-wrap: wrap; }
+  #respondieron { color: var(--gris); font-size: 0.8rem; }
+
+  .reloj-vital {
+    flex-basis: 100%;
+    height: 6px; border-radius: 3px;
+    background: var(--tinta-3); overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .reloj-vital > div {
+    height: 100%; border-radius: 3px;
+    background: linear-gradient(90deg, #2bd489, var(--ok));
+    box-shadow: 0 0 8px rgba(62, 229, 154, 0.5);
+    transition: width 0.2s linear;
+  }
+  .fila-podio.critico .reloj-vital > div { background: linear-gradient(90deg, #ff7585, var(--error)); box-shadow: 0 0 10px rgba(255, 77, 99, 0.6); }
+  .fila-podio.critico .pts { color: var(--error); animation: pulso 0.6s infinite; }
+  .fila-podio.muerto { opacity: 0.4; filter: saturate(0.3); }
+  .fila-podio.muerto .nombre-j { text-decoration: line-through; }
+
+  #bajas {
+    background: linear-gradient(180deg, #ff5f74, var(--error));
+    color: #fff;
+    border-radius: 10px; padding: 0.7rem 1rem;
+    font-family: var(--cond); font-size: 1.05rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    text-align: center;
+    box-shadow: 0 10px 30px -8px rgba(255, 77, 99, 0.6);
+    animation: aparecer 0.35s ease backwards;
+  }
 
   /* --- fin --- */
-  #fin { flex: 1; display: flex; flex-direction: column; gap: 1.6rem; align-items: center; overflow-y: auto; }
-  #fin h2 { font-size: clamp(1.8rem, 4.5vw, 3rem); text-align: center; }
-  #escenario { display: flex; align-items: flex-end; gap: 1rem; margin-top: 0.5rem; }
-  .columna-podio { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: clamp(7rem, 16vw, 11rem); }
-  .columna-podio .quien { font-weight: 900; text-align: center; font-size: 1.05rem; overflow-wrap: anywhere; }
-  .columna-podio .cuanto { font-family: var(--mono); color: var(--gris); }
+  #fin { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; align-items: center; overflow-y: auto; padding-top: 0.5rem; }
+  #fin h2 { font-size: clamp(2rem, 5vw, 3.4rem); text-align: center; }
+  #escenario { display: flex; align-items: flex-end; gap: 1.1rem; margin-top: 0.4rem; }
+  .columna-podio { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; width: clamp(7.5rem, 17vw, 12rem); }
+  .columna-podio .quien { font-family: var(--cond); font-weight: 600; text-align: center; font-size: 1.25rem; overflow-wrap: anywhere; }
+  .columna-podio .cuanto { font-family: var(--mono); font-size: 0.75rem; color: var(--gris); text-align: center; }
   .columna-podio .bloque {
-    width: 100%; border-radius: 10px 10px 0 0; display: grid; place-items: center;
-    font-size: 2.2rem; padding-top: 0.4rem;
-    animation: crecer 0.7s ease backwards;
+    width: 100%; border-radius: 12px 12px 0 0; display: grid; place-items: center;
+    font-size: 2.4rem; padding-top: 0.4rem;
+    animation: crecer 0.75s cubic-bezier(0.2, 1.2, 0.4, 1) backwards;
     transform-origin: bottom;
+    box-shadow: 0 -6px 30px -8px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.35);
   }
-  .columna-podio.oro .bloque { height: 9.5rem; background: linear-gradient(180deg, #ffc531, #b8860b); animation-delay: 0.55s; }
-  .columna-podio.plata .bloque { height: 7rem; background: linear-gradient(180deg, #cdd6e4, #7e8ba0); animation-delay: 0.3s; }
-  .columna-podio.bronce .bloque { height: 5rem; background: linear-gradient(180deg, #d99a5b, #8c5a2b); animation-delay: 0.05s; }
+  .columna-podio.oro .bloque { height: 10rem; background: linear-gradient(180deg, #ffdf7e, var(--amarillo) 35%, #a86f00); animation-delay: 0.55s; box-shadow: 0 -10px 44px -6px rgba(255, 178, 0, 0.45), inset 0 2px 0 rgba(255,255,255,0.5); }
+  .columna-podio.plata .bloque { height: 7.4rem; background: linear-gradient(180deg, #eef3fb, #b9c5d8 40%, #6e7d96); animation-delay: 0.3s; }
+  .columna-podio.bronce .bloque { height: 5.4rem; background: linear-gradient(180deg, #f0b980, #cd8544 40%, #7d4a1d); animation-delay: 0.05s; }
   @keyframes crecer { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
   #resto-tabla { display: flex; flex-direction: column; gap: 0.4rem; width: min(30rem, 90vw); }
-  #insignias-fin { display: flex; flex-direction: column; gap: 0.8rem; width: min(46rem, 94vw); }
+  #insignias-fin { display: flex; flex-direction: column; gap: 0.8rem; width: min(48rem, 94vw); }
   #insignias-fin .jugador-insignias { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
-  #insignias-fin .jugador-insignias .quien { font-weight: 800; min-width: 8rem; }
+  #insignias-fin .jugador-insignias .quien { font-weight: 600; min-width: 8rem; }
+
+  #confeti { position: fixed; inset: 0; pointer-events: none; z-index: 30; }
 </style>
 </head>
 <body>
@@ -112,6 +196,7 @@
     <div class="derecha">
       <span id="chip-nivel" class="chip oculto"></span>
       <span id="progreso" class="chip oculto"></span>
+      <button id="btn-sonido" class="boton secundario" style="padding:0.45rem 0.85rem; font-size:1rem" aria-label="Silenciar sonido">🔊</button>
     </div>
   </header>
 
@@ -119,9 +204,16 @@
     <!-- Pantalla inicial -->
     <section id="inicio">
       <div class="caja">
-        <h1 class="titular">La noticia está en el aire.<span class="linea2">¿Quién la registra mejor?</span></h1>
-        <p>Hechos reales del relevamiento de medios. Identificá si son hechos completos, su sector,
-           su escala y sus actores — antes de que cierre la edición. Hasta 10 periodistas por sala.</p>
+        <span class="etiqueta kicker">Observatorio · sala de entrenamiento</span>
+        <h1 class="titular">La noticia está en el aire.<span class="linea2">¿Quién sobrevive al cierre?</span></h1>
+        <p>Hechos reales del relevamiento de medios. Cada periodista arranca con 60 segundos de vida:
+           acertar suma tiempo, errar no suma nada, y el reloj corre. Gana el último en pie.</p>
+        <div class="reglas">
+          <span class="regla">⏱ 60s de vida inicial</span>
+          <span class="regla">✅ acierto = +tiempo</span>
+          <span class="regla">☠ reloj en cero = afuera</span>
+          <span class="regla">👥 hasta 10 jugadores</span>
+        </div>
         <button id="btn-crear" class="boton">Crear sala</button>
         <a href="/perfiles" class="etiqueta" style="text-decoration: underline;">Panel de perfiles del capacitador</a>
       </div>
@@ -129,7 +221,7 @@
 
     <!-- Lobby -->
     <section id="lobby" class="oculto">
-      <div class="invitacion">
+      <div class="invitacion tarjeta-pro">
         <span class="etiqueta">Entrá desde el celular con el código</span>
         <div id="codigo-sala">— — — —</div>
         <div id="qr"></div>
@@ -143,14 +235,19 @@
     </section>
 
     <!-- Cuenta regresiva -->
-    <section id="cuenta" class="oculto"><div>3</div></section>
+    <section id="cuenta" class="oculto">
+      <div class="numero">3</div>
+      <p id="regla-reloj"></p>
+    </section>
 
     <!-- Juego -->
     <section id="juego" class="oculto">
       <div id="panel-pregunta">
         <div class="barra-tiempo" id="barra"><div></div></div>
-        <div id="cable">
-          <span id="tipo-pregunta" class="etiqueta"></span>
+        <div id="cable" class="tarjeta-pro">
+          <div class="cabecera-cable">
+            <span id="tipo-pregunta" class="etiqueta"></span>
+          </div>
           <div id="texto-pregunta" class="titular"></div>
           <div id="contexto"></div>
           <div id="explicacion" class="oculto"></div>
@@ -158,8 +255,9 @@
         <div id="grilla-opciones"></div>
       </div>
       <aside id="rail">
-        <span class="etiqueta">Tapa de mañana · podio</span>
+        <span class="etiqueta">Relojes vitales</span>
         <div id="podio-vivo"></div>
+        <div id="bajas" class="oculto"></div>
         <span id="respondieron" class="tele"></span>
       </aside>
     </section>
@@ -167,6 +265,7 @@
     <!-- Final -->
     <section id="fin" class="oculto">
       <h2 class="titular">🗞️ Edición cerrada</h2>
+      <span id="sub-fin" class="etiqueta"></span>
       <div id="escenario"></div>
       <div id="resto-tabla"></div>
       <div id="insignias-fin"></div>
@@ -174,8 +273,27 @@
     </section>
   </main>
 
+  <!-- Ticker de titulares reales -->
+  <div class="ticker">
+    <span class="sello-vivo">ÚLTIMO MOMENTO</span>
+    <div class="cinta"><div id="cinta-titulares"></div></div>
+  </div>
+
+  <!-- Flash de eliminación -->
+  <div id="flash-baja" class="flash-baja" aria-hidden="true">
+    <div class="contenido">
+      <span class="calavera">☠️</span>
+      <span class="quien-cayo" id="quien-cayo"></span>
+      <span class="sub">se quedó sin tiempo · fuera de juego</span>
+    </div>
+  </div>
+
+  <canvas id="confeti"></canvas>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/qrcode.js"></script>
+  <script src="/js/sonidos.js"></script>
+  <script src="/js/confeti.js"></script>
   <script src="/js/host.js"></script>
 </body>
 </html>

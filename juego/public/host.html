@@ -124,7 +124,9 @@
   }
 
   #grilla-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
-  #grilla-opciones .opcion { font-size: clamp(1rem, 1.8vw, 1.2rem); min-height: 4.3rem; }
+  #grilla-opciones .opcion { font-size: clamp(0.95rem, 1.7vw, 1.15rem); min-height: 4rem; }
+  /* con 5 opciones, la última ocupa el ancho completo */
+  #grilla-opciones .opcion:nth-child(5):last-child { grid-column: 1 / -1; }
   #grilla-opciones .opcion:nth-child(1) { animation: entra-cable 0.35s 0.05s ease backwards; }
   #grilla-opciones .opcion:nth-child(2) { animation: entra-cable 0.35s 0.12s ease backwards; }
   #grilla-opciones .opcion:nth-child(3) { animation: entra-cable 0.35s 0.19s ease backwards; }
@@ -187,6 +189,14 @@
   #insignias-fin .jugador-insignias .quien { font-weight: 600; min-width: 8rem; }
 
   #confeti { position: fixed; inset: 0; pointer-events: none; z-index: 30; }
+
+  .acciones-fin { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+  /* --- repaso --- */
+  #repaso { flex: 1; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; padding-bottom: 1rem; }
+  #repaso .cabecera-repaso { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+  #repaso h2 { font-size: clamp(1.5rem, 3.4vw, 2.4rem); }
+  #lista-repaso { display: grid; grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); gap: 0.9rem; }
 </style>
 </head>
 <body>
@@ -257,6 +267,7 @@
       <aside id="rail">
         <span class="etiqueta">Relojes vitales</span>
         <div id="podio-vivo"></div>
+        <div id="pedidos-vivo"></div>
         <div id="bajas" class="oculto"></div>
         <span id="respondieron" class="tele"></span>
       </aside>
@@ -269,7 +280,20 @@
       <div id="escenario"></div>
       <div id="resto-tabla"></div>
       <div id="insignias-fin"></div>
-      <button id="btn-otra" class="boton">Otra partida (misma sala)</button>
+      <div class="acciones-fin">
+        <button id="btn-repaso" class="boton secundario">📋 Ver respuestas correctas</button>
+        <button id="btn-otra" class="boton">Otra partida (misma sala)</button>
+      </div>
+    </section>
+
+    <!-- Repaso de respuestas correctas -->
+    <section id="repaso" class="oculto">
+      <div class="cabecera-repaso">
+        <h2 class="titular">📋 Repaso de la edición</h2>
+        <button id="btn-volver-podio" class="boton secundario">Volver al podio</button>
+      </div>
+      <p class="etiqueta">Todas las consignas de la partida con su respuesta correcta y el porqué.</p>
+      <div id="lista-repaso"></div>
     </section>
   </main>
 

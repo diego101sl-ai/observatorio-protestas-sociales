@@ -14,28 +14,37 @@ de medios. Estilo Kahoot: una pantalla central proyectada y hasta **10 jugadores
 
 ### La mecánica: ganar y perder tiempo
 
-- Cada jugador arranca con un **reloj vital de 60 segundos** (tope: 90s).
-- El reloj **corre mientras la pregunta está abierta** — igual para todos. Cuando todos
-  respondieron, la pregunta se cierra y el drenaje se detiene: responder rápido conviene a todos.
-- **Acertás → ganás segundos** (+10s al principio; el premio se achica con los niveles).
+- Cada jugador arranca con un **reloj vital de 90 segundos** (tope: 130s).
+- Los **primeros 4 segundos de cada pregunta son de lectura**: el reloj no corre. Después
+  empieza a drenar, igual para todos. Cuando todos respondieron la pregunta se cierra y el
+  drenaje se detiene: responder rápido conviene a todos.
+- **Acertás → ganás segundos** (+14s al principio; el premio se achica con los niveles).
   **Errás o no respondés → no ganás nada.**
 - La **ventana para responder es la misma para todos** y se acorta con los niveles:
-  *Redactor* 15s → *Editor* 12s → *Cierre de edición* 10s → *Muerte súbita* 8s.
+  *Redactor* 26s → *Editor* 22s → *Cierre de edición* 18s → *Muerte súbita* 15s. Desde el
+  nivel 3 se suma además un **impuesto de cierre** (−4s y luego −8s por ronda) que acelera
+  el desenlace.
+- **Pedir ayuda**: con el reloj por debajo de 35s aparece el botón **🙋 Pedir 5 segundos**
+  (2 veces por partida). El pedido se anuncia en la pantalla central y en los celulares de
+  los demás, que pueden **🤝 donar 5 segundos propios** si conservan más de 12s. Quien dona
+  gana la insignia *Solidaridad de Redacción*.
 - Cuando tu reloj llega a **cero quedás ☠ fuera de juego**. Gana **el último en pie**
-  (tope de 30 preguntas; si sobreviven varios, gana el que más tiempo conserva).
+  (tope de 24 preguntas; si sobreviven varios, gana el que más tiempo conserva).
 - Después de cada pregunta se muestra la respuesta correcta con su **explicación pedagógica**
   y los relojes vitales de todos en vivo.
-- Con **sonido**: entrada de jugadores, aciertos, tiempo ganado, tic-tac de urgencia,
-  eliminaciones y fanfarria final (botón 🔊/🔇 en la pantalla central para silenciar).
+- Con **sonido**: entrada de jugadores, aciertos, tiempo ganado, pedidos de ayuda, tic-tac de
+  urgencia, eliminaciones y fanfarria final (botón 🔊/🔇 en la pantalla central para silenciar).
 
-Una partida típica dura **4 a 5 minutos**. Al final: podio animado, **insignias** para los
-destacados y perfil actualizado.
+Una partida típica dura **5 a 7 minutos**. Al final: podio animado, **insignias**, perfil
+actualizado y **repaso completo** con todas las consignas, su respuesta correcta y el porqué
+(en la pantalla central para todo el grupo, y en cada celular con las respuestas propias
+marcadas como correctas o incorrectas).
 
 ### Tipos de desafío
 
 | Desafío | Qué entrena |
 |---|---|
-| **Detector** — ¿hecho u otra cosa? | Distinguir hechos completos de textos sin actor, sin tiempo/lugar, u opiniones |
+| **Detector** — ¿hecho u otra cosa? | Distinguir hechos completos de textos sin actor, **sin el cargo del actor**, sin tiempo/lugar, u opiniones |
 | **Radar sectorial** | Clasificar el hecho en su sector (Agenda Política, Finanzas, Trabajadores, Energía, Agro, Industria) |
 | **Ojo de águila** | Identificar la escala (Internacional, Latinoamericana, Nacional, Provincial) |
 | **Escuela de actores** | Diferenciar actores de individuos e instituciones, y la calidad en la que actúan |
@@ -49,7 +58,8 @@ y permite **exportar todo a CSV** para preparar ejercicios personalizados.
 
 Insignias: 🔍 Detector de Opiniones · 🧭 Radar Sectorial · 🦅 Ojo de Águila · 🎯 Cazador de
 Actores · ⚡ Rayo · 🏆 Último en Pie · 🫀 Al Límite (se salvó con menos de 3s en el reloj) ·
-🔥 En Racha · 🖋️ Pluma Perfecta · 📚 Maratonista · 🗞️ Veterano de Redacción.
+🤝 Solidaridad de Redacción (donó segundos propios) · 🔥 En Racha · 🖋️ Pluma Perfecta ·
+📚 Maratonista · 🗞️ Veterano de Redacción.
 
 ## Cómo ponerlo en marcha
 
@@ -95,6 +105,11 @@ node tools/parsear-relevamiento.js ruta/al/relevamiento1.md ruta/al/relevamiento
 
 Regenera `data/hechos.json`. Los señuelos (`data/senuelos.json`) y las cartas de concepto
 (`data/conceptos.json`) se editan a mano: son material pedagógico curado.
+
+El parser marca cada hecho con `conCargo`: solo los que identifican al actor **con su cargo**
+(o a la institución con quien la conduce, "a cargo de…") pueden salir en el juego como
+ejemplo de *hecho completo*. Así se evita presentar como correcto un registro al que le
+falta el cargo.
 
 ### Pendiente para la próxima versión
 

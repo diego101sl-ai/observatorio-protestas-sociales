@@ -86,6 +86,26 @@
   #muerto h2 { color: var(--error); }
   #muerto-posicion { color: var(--gris); }
 
+  /* --- ayuda entre jugadores (barra única al pie) --- */
+  #zona-ayuda:empty { display: none; }
+  #zona-ayuda {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+    background: rgba(7, 11, 19, 0.96);
+    border-top: 1px solid var(--linea);
+    backdrop-filter: blur(6px);
+    position: sticky; bottom: 0;
+    margin: 0 -1rem -1rem;
+  }
+  #zona-ayuda .boton { width: 100%; font-size: 1rem; padding: 0.8rem 1rem; }
+  .nota-ayuda { font-family: var(--mono); font-size: 0.7rem; color: var(--gris); text-align: center; letter-spacing: 0.06em; line-height: 1.5; }
+
+  /* --- repaso personal --- */
+  #mi-repaso { gap: 0.8rem; overflow-y: auto; }
+  #mi-repaso .cabecera-mi-repaso { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; }
+  #mi-repaso h2 { font-size: 1.35rem; }
+  #lista-mi-repaso { display: flex; flex-direction: column; gap: 0.7rem; }
+
   /* --- fin --- */
   #fin { align-items: center; text-align: center; gap: 1rem; overflow-y: auto; }
   #fin .medalla { font-size: 4.5rem; line-height: 1; }
@@ -175,9 +195,22 @@
       <div class="grupo-insignias" id="fin-nuevas"></div>
       <span class="etiqueta">Tu colección</span>
       <div class="grupo-insignias" id="fin-coleccion"></div>
+      <button id="btn-mi-repaso" class="boton secundario">📋 Ver mis respuestas</button>
       <p class="etiqueta">Quedate: el capacitador puede lanzar otra partida.</p>
     </section>
+
+    <!-- Repaso personal -->
+    <section id="mi-repaso" class="oculto">
+      <div class="cabecera-mi-repaso">
+        <h2 class="titular">📋 Tus respuestas</h2>
+        <button id="btn-volver-fin" class="boton secundario">Volver</button>
+      </div>
+      <div id="lista-mi-repaso"></div>
+    </section>
   </main>
+
+  <!-- Barra de ayuda entre compañeros: única y siempre visible durante la partida -->
+  <div id="zona-ayuda"></div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/sonidos.js"></script>

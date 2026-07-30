@@ -2,12 +2,12 @@
 /* Pantalla del jugador (celular) */
 const socket = io();
 const $ = sel => document.querySelector(sel);
-const pantallas = ['#entrar', '#espera', '#pregunta', '#estado', '#muerto', '#fin'];
+const pantallas = ['#entrar', '#espera', '#pregunta', '#estado', '#muerto', '#fin', '#mi-repaso'];
 function mostrar(sel) {
   for (const p of pantallas) $(p).classList.toggle('oculto', p !== sel);
 }
 
-const FORMAS = ['▲', '■', '●', '◆'];
+const FORMAS = ['▲', '■', '●', '◆', '★'];
 let miNombre = null;
 let miUltimaOpcion = null;
 let miReloj = 0;          // ms restantes al abrir la pregunta
@@ -17,6 +17,13 @@ let estoyVivo = true;
 let timerBarra = null;
 let drenaje = null;
 let urgenteSono = false;
+let graciaMs = 0;
+let ventanaMs = 0;
+let pedidosRestantes = 0;
+let segundosDonacion = 5;
+let pediAhora = false;        // ya pedí en esta pregunta
+let pedidoAjeno = null;       // { clave, nombre } de un compañero que pide
+let ultimoRepaso = null;      // { repaso, misRespuestas } para la pantalla final
 
 function fmt(ms) {
   const s = Math.max(0, Math.ceil(ms / 1000));
@@ -26,7 +33,7 @@ function fmt(ms) {
 const EMOJIS = {
   detector_opiniones: '🔍', radar_sectorial: '🧭', ojo_de_aguila: '🦅',
   cazador_actores: '🎯', rayo: '⚡', campeon: '🏆', al_limite: '🫀', racha: '🔥',
-  pluma_perfecta: '🖋️', maraton: '📚', veterano: '🗞️',
+  pluma_perfecta: '🖋️', maraton: '📚', veterano: '🗞️', companera: '🤝',
 };
 
 // prellenar código si vino por QR (?sala=1234)
@@ -67,9 +74,15 @@ $('#form-entrar').addEventListener('submit', e => {
   });
 });
 
-socket.on('partida:comenzo', ({ relojInicial }) => {
+socket.on('partida:comenzo', ({ relojInicial, pedidos, donacion, umbralPedir, minimoDonar }) => {
   estoyVivo = true;
   miReloj = relojInicial;
+  pedidosRestantes = pedidos;
+  segundosDonacion = donacion;
+  if (umbralPedir) UMBRAL_PEDIR = umbralPedir;
+  if (minimoDonar) MINIMO_DONAR = minimoDonar;
+  pedidoAjeno = null;
+  ultimoRepaso = null;
   $('#chip-reloj').textContent = `⏱ ${fmt(miReloj)}`;
   $('#chip-reloj').classList.remove('oculto');
   $('#estado-emoji').textContent = '🗞️';
@@ -107,8 +120,12 @@ socket.on('pregunta:nueva', p => {
   }, 60);
   $('#barra-j').classList.toggle('urgente', p.nivel >= 3);
 
-  // mi reloj vital corre mientras la pregunta está abierta
+  // mi reloj vital corre mientras la pregunta está abierta (tras la gracia de lectura)
   inicioPregunta = Date.now();
+  graciaMs = (p.gracia || 0) * 1000;
+  ventanaMs = p.ventana * 1000;
+  pediAhora = false;
+  pedidoAjeno = null;
   preguntaAbierta = true;
   clearInterval(drenaje);
   pintarMiReloj();
@@ -121,8 +138,14 @@ socket.on('pregunta:nueva', p => {
 const RELOJ_MAX_VISUAL = 90000;
 const LARGO_ARO = 276.5;
 
+function transcurridoReal() {
+  if (!preguntaAbierta) return 0;
+  return Math.max(0, Math.min(Date.now() - inicioPregunta - graciaMs, ventanaMs - graciaMs));
+}
+
 function pintarMiReloj() {
-  const resta = Math.max(0, miReloj - (preguntaAbierta ? Date.now() - inicioPregunta : 0));
+  const resta = Math.max(0, miReloj - transcurridoReal());
+  pintarAyuda(resta);
   $('#mi-reloj').textContent = fmt(resta);
   const critico = resta < 8000;
   $('#aro').classList.toggle('critico', critico);
@@ -134,6 +157,87 @@ function pintarMiReloj() {
     Sonidos.urgente();
   }
 }
+
+// ---------- Pedir / donar segundos (umbrales los define el servidor) ----------
+let UMBRAL_PEDIR = 35000;
+let MINIMO_DONAR = 12000;
+
+function pintarAyuda(restaMs) {
+  const zona = $('#zona-ayuda');
+  let html = '';
+
+  if (pedidoAjeno && pedidoAjeno.nombre !== miNombre && estoyVivo && restaMs > MINIMO_DONAR) {
+    html += `<button class="boton donar" data-donar="${escapar(pedidoAjeno.clave)}">
+        🤝 Darle ${segundosDonacion}s a ${escapar(pedidoAjeno.nombre)}</button>`;
+  } else if (pedidoAjeno && pedidoAjeno.nombre !== miNombre && estoyVivo) {
+    html += `<span class="nota-ayuda">${escapar(pedidoAjeno.nombre)} pide ${segundosDonacion}s · necesitás más de ${MINIMO_DONAR / 1000}s para poder dar</span>`;
+  }
+
+  if (estoyVivo && !pediAhora && pedidosRestantes > 0 && restaMs <= UMBRAL_PEDIR) {
+    html += `<button class="boton pedir" data-pedir="1">
+        🙋 Pedir ${segundosDonacion} segundos (te quedan ${pedidosRestantes})</button>`;
+  }
+
+  if (zona.innerHTML !== html) zona.innerHTML = html;
+}
+
+function limpiarAyuda() {
+  $('#zona-ayuda').innerHTML = '';
+}
+
+document.addEventListener('click', e => {
+  const pedir = e.target.closest('[data-pedir]');
+  if (pedir) {
+    pediAhora = true;
+    socket.emit('jugador:pedirTiempo');
+    Sonidos.pedido();
+    pintarAyuda(0);
+    return;
+  }
+  const donar = e.target.closest('[data-donar]');
+  if (donar) {
+    socket.emit('jugador:donarTiempo', { clave: donar.dataset.donar });
+    pedidoAjeno = null;
+    pintarAyuda(miReloj - transcurridoReal());
+  }
+});
+
+socket.on('tiempo:pedido', ({ clave, nombre, restantes }) => {
+  if (nombre === miNombre) {
+    pedidosRestantes = restantes;
+  } else {
+    pedidoAjeno = { clave, nombre };
+    Sonidos.pedido();
+  }
+  pintarAyuda(miReloj - transcurridoReal());
+});
+
+socket.on('tiempo:donado', ({ de, para, segundos, relojes }) => {
+  if (pedidoAjeno && pedidoAjeno.nombre === para) pedidoAjeno = null;
+  const mio = relojes.find(r => r.nombre === miNombre);
+  if (mio) {
+    // el servidor manda el reloj ya con la donación aplicada; reanclamos el cronómetro local
+    miReloj = mio.restante + transcurridoReal();
+  }
+  if (para === miNombre) {
+    Sonidos.donacion();
+    $('#estado-detalle').textContent = `🤝 ${de} te dio ${segundos} segundos`;
+  } else if (de === miNombre) {
+    Sonidos.donacion();
+  }
+  pintarMiReloj();
+});
+
+socket.on('tiempo:vencido', ({ nombre }) => {
+  if (pedidoAjeno && pedidoAjeno.nombre === nombre) pedidoAjeno = null;
+  pintarAyuda(miReloj - transcurridoReal());
+});
+
+socket.on('tiempo:rechazado', ({ motivo }) => {
+  pedidoAjeno = null;
+  $('#zona-ayuda').innerHTML = `<span class="nota-ayuda">${escapar(motivo)}</span>`;
+  setTimeout(() => pintarAyuda(miReloj - transcurridoReal()), 2500);
+});
 
 function responder(opcion) {
   if (miUltimaOpcion !== null || !estoyVivo) return;
@@ -157,6 +261,7 @@ socket.on('pregunta:resultado', r => {
 
   if (!mio.vivo) {
     estoyVivo = false;
+    limpiarAyuda();
     Sonidos.muerte();
     const pos = r.tabla.find(t => t.nombre === miNombre);
     $('#muerto-posicion').textContent =
@@ -187,11 +292,39 @@ socket.on('pregunta:resultado', r => {
   mostrar('#estado');
 });
 
-socket.on('partida:fin', ({ resultados, insignias }) => {
+// ---------- Repaso personal ----------
+$('#btn-mi-repaso').addEventListener('click', () => mostrar('#mi-repaso'));
+$('#btn-volver-fin').addEventListener('click', () => mostrar('#fin'));
+
+function pintarMiRepaso(repaso, misRespuestas) {
+  const porIndice = new Map(misRespuestas.map(r => [r.indice, r]));
+  $('#lista-mi-repaso').innerHTML = repaso.map((p, i) => {
+    const mia = porIndice.get(i);
+    const clase = !mia ? '' : mia.acerto ? 'acerte' : 'erre';
+    const miTexto = mia && mia.opcion !== null ? p.opciones[mia.opcion] : null;
+    return `<div class="repaso-item ${clase}">
+      <div class="cabecera">
+        <span class="numero">${p.n.toString().padStart(2, '0')}</span>
+        <span class="etiqueta">${mia ? (mia.acerto ? '✅ correcta' : '❌ incorrecta') : '— no jugada'}</span>
+      </div>
+      <span class="consigna">${escapar(p.texto)}</span>
+      ${p.contexto ? `<div class="cita">${escapar(p.contexto)}</div>` : ''}
+      <div class="respuesta">
+        <span class="marca-ok">✓ ${escapar(p.opciones[p.correcta])}</span>
+        ${miTexto && !mia.acerto ? `<span class="marca-mal">${escapar(miTexto)}</span>` : ''}
+      </div>
+      <div class="porque">${escapar(p.explicacion)}</div>
+    </div>`;
+  }).join('');
+}
+
+socket.on('partida:fin', ({ resultados, insignias, repaso }) => {
   preguntaAbierta = false;
   clearInterval(drenaje);
+  limpiarAyuda();
   const mio = resultados.find(r => r.nombre === miNombre);
   if (!mio) return;
+  if (repaso) pintarMiRepaso(repaso, mio.respuestas || []);
   const medallas = { 1: '🥇', 2: '🥈', 3: '🥉' };
   if (mio.posicion === 1) Sonidos.victoria(); else Sonidos.finPartida();
   $('#fin-medalla').textContent = medallas[mio.posicion] || '📰';
@@ -221,6 +354,7 @@ function resumenHabilidades(s) {
 
 socket.on('sala:reabierta', () => {
   estoyVivo = true;
+  limpiarAyuda();
   if (miNombre) mostrar('#espera');
 });
 

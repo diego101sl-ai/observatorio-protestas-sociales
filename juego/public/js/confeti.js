@@ -57,5 +57,10 @@ window.Confeti = (() => {
     else { animando = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
   }
 
-  return { lanzar };
+  function limpiar() {
+    piezas = [];
+    if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  return { lanzar, limpiar };
 })();

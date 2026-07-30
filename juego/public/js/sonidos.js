@@ -60,6 +60,8 @@ window.Sonidos = (() => {
     incorrecta() { tono(170, 0.3, { tipo: 'sawtooth', vol: 0.07, desliz: -60 }); },
     ganoTiempo() { tono(988, 0.07, { tipo: 'square', vol: 0.06 }); tono(1319, 0.12, { tipo: 'square', vol: 0.06, retardo: 0.07 }); },
     tictac()     { tono(1100, 0.03, { tipo: 'square', vol: 0.045 }); },
+    pedido()     { tono(587, 0.12, { tipo: 'sine', vol: 0.08 }); tono(880, 0.16, { tipo: 'sine', vol: 0.08, retardo: 0.13 }); },
+    donacion()   { [659, 880, 1047].forEach((f, i) => tono(f, 0.13, { tipo: 'triangle', vol: 0.085, retardo: i * 0.09 })); },
     urgente()    { tono(1300, 0.05, { tipo: 'square', vol: 0.06 }); tono(1300, 0.05, { tipo: 'square', vol: 0.06, retardo: 0.12 }); },
     muerte()     {
       tono(400, 0.5, { tipo: 'sawtooth', vol: 0.09, desliz: -320 });

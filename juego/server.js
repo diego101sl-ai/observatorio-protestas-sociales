@@ -24,19 +24,29 @@ const SECTORES = ['AGENDA POLÍTICA', 'FINANZAS', 'TRABAJADORES', 'ENERGÍA', 'A
 const ESCALAS = ['Internacional', 'Latinoamericana', 'Nacional', 'Provincial'];
 
 // ---------- Reglas del reloj vital ----------
-const RELOJ_INICIAL = 60_000;  // ms de vida con los que arranca cada jugador
-const RELOJ_MAX = 90_000;      // tope del reloj (para que nadie se escape)
-const MAX_PREGUNTAS = 30;      // tope duro de preguntas por partida
-const PAUSA_RESULTADO = 5000;  // ms mostrando la respuesta correcta y explicación
+const RELOJ_INICIAL = 90_000;  // ms de vida con los que arranca cada jugador
+const RELOJ_MAX = 130_000;     // tope del reloj (para que nadie se escape)
+const MAX_PREGUNTAS = 24;      // tope duro de preguntas por partida
+const PAUSA_RESULTADO = 7000;  // ms mostrando la respuesta correcta y explicación
+const GRACIA_LECTURA = 4000;   // ms al abrir la pregunta en los que el reloj NO corre
 
-// Fases: la ventana de respuesta (igual para todos) se achica y el premio también
+// Fases: la ventana de respuesta (igual para todos) se achica, el premio también
+// y desde el nivel 3 se suma un descuento fijo por ronda ("impuesto de cierre")
+// que garantiza que la partida converja a un ganador.
 function faseDePregunta(indice) {
-  if (indice < 5) return { nivel: 1, nombre: 'REDACTOR', ventana: 15, gana: 10 };
-  if (indice < 12) return { nivel: 2, nombre: 'EDITOR', ventana: 12, gana: 8 };
-  if (indice < 20) return { nivel: 3, nombre: 'CIERRE DE EDICIÓN', ventana: 10, gana: 6 };
-  return { nivel: 4, nombre: 'MUERTE SÚBITA', ventana: 8, gana: 5 };
+  if (indice < 6) return { nivel: 1, nombre: 'REDACTOR', ventana: 26, gana: 14, impuesto: 0 };
+  if (indice < 12) return { nivel: 2, nombre: 'EDITOR', ventana: 22, gana: 12, impuesto: 0 };
+  if (indice < 18) return { nivel: 3, nombre: 'CIERRE DE EDICIÓN', ventana: 18, gana: 10, impuesto: 4 };
+  return { nivel: 4, nombre: 'MUERTE SÚBITA', ventana: 15, gana: 8, impuesto: 8 };
 }
 const MAX_JUGADORES = 10;
+
+// ---------- Pedir segundos a los compañeros ----------
+const DONACION = 5000;          // ms que se transfieren en cada ayuda
+const PEDIDOS_POR_PARTIDA = 2;  // cuántas veces puede pedir cada jugador
+const UMBRAL_PEDIR = 35_000;    // solo se puede pedir con el reloj por debajo de esto
+const MINIMO_DONAR = 12_000;    // quien dona debe conservar más que esto (le quedan 7s como mínimo)
+const VENCIMIENTO_PEDIDO = 25_000; // ms que queda abierto un pedido
 
 // ---------- Perfiles persistentes ----------
 const RUTA_PERFILES = path.join(__dirname, 'data', 'perfiles.json');
@@ -81,6 +91,7 @@ const INSIGNIAS = {
   ojo_de_aguila:      { emoji: '🦅', nombre: 'Ojo de Águila', desc: 'Identifica la escala de un vistazo' },
   cazador_actores:    { emoji: '🎯', nombre: 'Cazador de Actores', desc: 'Distingue actores de individuos como nadie' },
   rayo:               { emoji: '⚡', nombre: 'Rayo', desc: 'Respuestas correctas más veloces de la partida' },
+  companera:          { emoji: '🤝', nombre: 'Solidaridad de Redacción', desc: 'Regaló segundos propios a un compañero en apuros' },
   campeon:            { emoji: '🏆', nombre: 'Último en Pie', desc: 'Sobrevivió a toda la redacción' },
   al_limite:          { emoji: '🫀', nombre: 'Al Límite', desc: 'Se salvó con menos de 3 segundos en el reloj' },
   racha:              { emoji: '🔥', nombre: 'En Racha', desc: '5 respuestas correctas seguidas' },
@@ -102,17 +113,26 @@ function mezclar(arr) {
 function tomar(arr, n) { return mezclar(arr).slice(0, n); }
 
 // ---------- Generación de preguntas ----------
-const OPCIONES_HECHO = ['Es un hecho completo', 'Le falta el actor', 'Le falta tiempo / lugar', 'Es una opinión'];
-const DEFECTO_A_OPCION = { falta_actor: 1, falta_tiempo: 2, opinion: 3 };
+const OPCIONES_HECHO = [
+  'Es un hecho completo',
+  'Le falta el actor',
+  'Le falta el cargo del actor',
+  'Le falta tiempo / lugar',
+  'Es una opinión',
+];
+const DEFECTO_A_OPCION = { falta_actor: 1, falta_cargo: 2, falta_tiempo: 3, opinion: 4 };
+
+// Solo son "hecho completo" los que identifican al actor CON su cargo
+const HECHOS_COMPLETOS = HECHOS.filter(h => h.conCargo && h.actores.length > 0 && h.resumen.length > 120);
 
 function preguntaHechoReal() {
-  const h = alAzar(HECHOS.filter(x => x.actores.length > 0 && x.resumen.length > 80));
+  const h = alAzar(HECHOS_COMPLETOS);
   return {
     tipo: 'hecho_o_no', habilidad: 'hecho',
     texto: '¿Esto es un hecho bien registrado?',
     contexto: h.resumen,
     opciones: OPCIONES_HECHO, correcta: 0,
-    explicacion: `Es un hecho completo: tiene actor identificado (${h.actores.slice(0, 2).join(', ')}${h.actores.length > 2 ? '…' : ''}), está ubicado en tiempo y espacio, y tiene fuente (${h.medio}, ${h.fecha}).`,
+    explicacion: `Es un hecho completo: el actor está identificado con su cargo (${h.actores.slice(0, 2).join(', ')}${h.actores.length > 2 ? '…' : ''}), está ubicado en tiempo y espacio, y tiene fuente (${h.medio}, ${h.fecha}).`,
     fuente: h.medio,
   };
 }
@@ -169,29 +189,27 @@ function preguntaConcepto(c) {
 function generarPartida() {
   const preguntas = [];
 
-  // 12 × hecho o no: 3 de cada defecto + 3 hechos reales
+  // 10 × hecho o no: 2 de cada defecto (incluido el cargo) + 2 hechos completos
   const porDefecto = d => SENUELOS.filter(s => s.defecto === d);
-  for (const defecto of ['falta_actor', 'falta_tiempo', 'opinion']) {
-    for (const s of tomar(porDefecto(defecto), 3)) preguntas.push(preguntaSenuelo(s));
+  for (const defecto of ['falta_actor', 'falta_cargo', 'falta_tiempo', 'opinion']) {
+    for (const s of tomar(porDefecto(defecto), 2)) preguntas.push(preguntaSenuelo(s));
   }
-  for (let i = 0; i < 3; i++) preguntas.push(preguntaHechoReal());
+  for (let i = 0; i < 2; i++) preguntas.push(preguntaHechoReal());
 
-  // 7 × sector: los 6 sectores + 1 extra
-  const sectores = mezclar(SECTORES.slice());
-  sectores.push(alAzar(SECTORES));
-  for (const sector of sectores) {
+  // 6 × sector: uno por sector
+  for (const sector of mezclar(SECTORES.slice())) {
     preguntas.push(preguntaSector(alAzar(HECHOS.filter(h => h.sector === sector))));
   }
 
-  // 6 × escala: las 4 escalas + 2 extra
+  // 5 × escala: las 4 escalas + 1 extra
   const escalas = mezclar(ESCALAS.slice());
-  escalas.push(alAzar(ESCALAS), alAzar(ESCALAS));
+  escalas.push(alAzar(ESCALAS));
   for (const escala of escalas) {
     preguntas.push(preguntaEscala(alAzar(HECHOS.filter(h => h.escala === escala))));
   }
 
-  // 5 × concepto de actor
-  for (const c of tomar(CONCEPTOS, 5)) preguntas.push(preguntaConcepto(c));
+  // 4 × concepto de actor
+  for (const c of tomar(CONCEPTOS, 4)) preguntas.push(preguntaConcepto(c));
 
   return mezclar(preguntas).slice(0, MAX_PREGUNTAS);
 }
@@ -244,6 +262,18 @@ function estadoLobby(sala) {
   };
 }
 
+// Cuánto tiempo drenó la pregunta abierta hasta ahora (con la gracia de lectura descontada)
+function drenajeActual(sala) {
+  if (!sala.abierta) return 0;
+  const transcurrido = Date.now() - sala.abierta.inicio;
+  return Math.max(0, Math.min(transcurrido - GRACIA_LECTURA, sala.abierta.ventanaMs - GRACIA_LECTURA));
+}
+
+// Reloj de un jugador tal como se ve en pantalla en este instante
+function relojActual(sala, j) {
+  return Math.max(0, j.reloj - (j.vivo ? drenajeActual(sala) : 0));
+}
+
 // Tabla de posiciones: vivos ordenados por reloj, luego muertos por orden de eliminación
 function tabla(sala) {
   const vivos = [...sala.jugadores.values()].filter(j => j.vivo)
@@ -268,6 +298,7 @@ function crearSala(hostSocket) {
     muertos: 0,
     abierta: null, // { inicio, ventanaMs, ganaMs, respuestas: Map(clave -> {opcion, ms}) }
     timer: null,
+    pedidos: new Map(), // clave del que pide -> { nombre, vence, timer }
   };
   salas.set(sala.codigo, sala);
   hostSocket.join('sala-' + sala.codigo);
@@ -285,22 +316,95 @@ function comenzarPartida(sala) {
   sala.preguntas = generarPartida();
   sala.indice = -1;
   sala.muertos = 0;
+  limpiarPedidos(sala);
   for (const j of sala.jugadores.values()) {
     j.puntos = 0; j.racha = 0; j.mejorRacha = 0;
     j.reloj = RELOJ_INICIAL; j.vivo = true;
     j.ordenMuerte = 0; j.preguntaMuerte = null; j.seSalvoAlLimite = false;
+    j.pedidosRestantes = PEDIDOS_POR_PARTIDA; j.donaciones = 0; j.recibidos = 0;
     j.stats = { hecho: { ok: 0, total: 0 }, sector: { ok: 0, total: 0 }, escala: { ok: 0, total: 0 }, actor: { ok: 0, total: 0 } };
     j.tiempos = [];
+    j.respuestas = [];
   }
   emitirA(sala, 'partida:comenzo', {
     relojInicial: RELOJ_INICIAL,
     jugadores: sala.jugadores.size,
+    pedidos: PEDIDOS_POR_PARTIDA,
+    donacion: DONACION / 1000,
+    umbralPedir: UMBRAL_PEDIR,
+    minimoDonar: MINIMO_DONAR,
   });
   setTimeout(() => siguientePregunta(sala), 3600); // cuenta regresiva en pantalla
 }
 
 function vivosConectados(sala) {
   return [...sala.jugadores.values()].filter(j => j.vivo && j.conectado);
+}
+
+// ---------- Pedidos de tiempo ----------
+function limpiarPedidos(sala) {
+  for (const p of sala.pedidos.values()) clearTimeout(p.timer);
+  sala.pedidos.clear();
+}
+
+function pedidosAbiertos(sala) {
+  return [...sala.pedidos.entries()].map(([clave, p]) => ({ clave, nombre: p.nombre }));
+}
+
+function pedirTiempo(sala, clave) {
+  if (sala.estado !== 'jugando') return;
+  const j = sala.jugadores.get(clave);
+  if (!j || !j.vivo || j.pedidosRestantes <= 0) return;
+  if (sala.pedidos.has(clave)) return;
+  if (relojActual(sala, j) > UMBRAL_PEDIR) return;
+  if (vivosConectados(sala).length < 2) return;
+
+  j.pedidosRestantes--;
+  const pedido = {
+    nombre: j.nombre,
+    timer: setTimeout(() => {
+      if (sala.pedidos.get(clave) === pedido) {
+        sala.pedidos.delete(clave);
+        emitirA(sala, 'tiempo:vencido', { clave, nombre: j.nombre, pedidos: pedidosAbiertos(sala) });
+      }
+    }, VENCIMIENTO_PEDIDO),
+  };
+  sala.pedidos.set(clave, pedido);
+  emitirA(sala, 'tiempo:pedido', {
+    clave, nombre: j.nombre,
+    restantes: j.pedidosRestantes,
+    segundos: DONACION / 1000,
+    pedidos: pedidosAbiertos(sala),
+  });
+}
+
+function donarTiempo(sala, claveDonante, claveDestino, avisar) {
+  const fallo = motivo => { if (avisar) avisar(motivo); };
+  if (sala.estado !== 'jugando') return fallo('La partida no está en juego.');
+  const pedido = sala.pedidos.get(claveDestino);
+  if (!pedido) return fallo('Otro compañero llegó primero.');
+  const donante = sala.jugadores.get(claveDonante);
+  const destino = sala.jugadores.get(claveDestino);
+  if (!donante || !destino || donante === destino) return fallo('No se pudo enviar el tiempo.');
+  if (!donante.vivo || !destino.vivo) return fallo('Ya está fuera de juego.');
+  if (relojActual(sala, donante) <= MINIMO_DONAR) {
+    return fallo(`Necesitás más de ${MINIMO_DONAR / 1000}s en tu reloj para poder dar.`);
+  }
+
+  clearTimeout(pedido.timer);
+  sala.pedidos.delete(claveDestino);
+
+  donante.reloj -= DONACION;
+  destino.reloj = Math.min(destino.reloj + DONACION, RELOJ_MAX);
+  donante.donaciones++;
+  destino.recibidos++;
+
+  emitirA(sala, 'tiempo:donado', {
+    de: donante.nombre, para: destino.nombre,
+    segundos: DONACION / 1000,
+    relojes: tabla(sala),
+    pedidos: pedidosAbiertos(sala),
+  });
 }
 
 function siguientePregunta(sala) {
@@ -312,17 +416,20 @@ function siguientePregunta(sala) {
 
   const p = sala.preguntas[sala.indice];
   const fase = faseDePregunta(sala.indice);
+  limpiarPedidos(sala);
   sala.abierta = {
     inicio: Date.now(),
     ventanaMs: fase.ventana * 1000,
     ganaMs: fase.gana * 1000,
+    impuestoMs: fase.impuesto * 1000,
     respuestas: new Map(),
   };
 
   emitirA(sala, 'pregunta:nueva', {
     indice: sala.indice, maximo: sala.preguntas.length,
     nivel: fase.nivel, nombreNivel: fase.nombre,
-    ventana: fase.ventana, gana: fase.gana,
+    ventana: fase.ventana, gana: fase.gana, impuesto: fase.impuesto,
+    gracia: GRACIA_LECTURA / 1000,
     tipo: p.tipo, texto: p.texto, contexto: p.contexto,
     opciones: p.opciones, fuente: p.fuente,
     // relojes al momento de abrir: los clientes los hacen correr en pantalla
@@ -362,8 +469,11 @@ function cerrarPregunta(sala) {
   sala.abierta = null;
   clearTimeout(sala.timer);
 
-  // el tiempo drenado es el mismo para todos los vivos: lo que estuvo abierta la pregunta
-  const drenaje = Math.min(Date.now() - abierta.inicio, abierta.ventanaMs);
+  // el tiempo drenado es el mismo para todos los vivos: lo que estuvo abierta la
+  // pregunta descontando la gracia de lectura, más el impuesto de cierre del nivel
+  const transcurrido = Date.now() - abierta.inicio;
+  const drenaje = Math.max(0, Math.min(transcurrido - GRACIA_LECTURA, abierta.ventanaMs - GRACIA_LECTURA))
+    + abierta.impuestoMs;
 
   const detalle = [];
   const bajas = [];
@@ -373,6 +483,7 @@ function cerrarPregunta(sala) {
     const acerto = r && r.opcion === p.correcta;
     let ganado = 0;
 
+    j.respuestas.push({ indice: sala.indice, opcion: r ? r.opcion : null, acerto: !!acerto });
     j.reloj -= drenaje;
     if (acerto) {
       ganado = abierta.ganaMs;
@@ -420,8 +531,22 @@ function cerrarPregunta(sala) {
 
 function terminarPartida(sala) {
   sala.estado = 'fin';
+  limpiarPedidos(sala);
   const posiciones = tabla(sala);
   const resultados = [];
+
+  // Repaso: todas las preguntas jugadas con su respuesta correcta y explicación
+  const jugadas = Math.max(0, Math.min(sala.indice, sala.preguntas.length));
+  const repaso = sala.preguntas.slice(0, jugadas).map((p, i) => ({
+    n: i + 1,
+    tipo: p.tipo,
+    texto: p.texto,
+    contexto: p.contexto,
+    opciones: p.opciones,
+    correcta: p.correcta,
+    explicacion: p.explicacion,
+    fuente: p.fuente,
+  }));
 
   // ⚡ Rayo: mejor promedio de respuesta correcta (mínimo 5 correctas)
   let rayo = null, mejorProm = Infinity;
@@ -451,6 +576,7 @@ function terminarPartida(sala) {
     if (rayo === j.nombre) otorgar('rayo');
     if (pos === 1 && sala.jugadores.size >= 2) otorgar('campeon');
     if (j.seSalvoAlLimite) otorgar('al_limite');
+    if (j.donaciones > 0) otorgar('companera');
     if (j.mejorRacha >= 5) otorgar('racha');
     const totalOk = s.hecho.ok + s.sector.ok + s.escala.ok + s.actor.ok;
     const totalPreg = s.hecho.total + s.sector.total + s.escala.total + s.actor.total;
@@ -482,6 +608,8 @@ function terminarPartida(sala) {
       stats: s, nuevasInsignias: nuevas,
       coleccion: Object.keys(perfil.insignias),
       partidas: perfil.partidas,
+      donaciones: j.donaciones, recibidos: j.recibidos,
+      respuestas: j.respuestas,
     });
   }
   guardarPerfiles();
@@ -490,7 +618,8 @@ function terminarPartida(sala) {
     tabla: posiciones,
     resultados,
     insignias: INSIGNIAS,
-    preguntasJugadas: sala.indice,
+    preguntasJugadas: jugadas,
+    repaso,
   });
 }
 
@@ -516,6 +645,7 @@ io.on('connection', socket => {
     sala.estado = 'lobby';
     sala.preguntas = [];
     sala.indice = -1;
+    limpiarPedidos(sala);
     emitirA(sala, 'sala:reabierta', {});
     emitirA(sala, 'sala:lobby', estadoLobby(sala));
   });
@@ -541,6 +671,7 @@ io.on('connection', socket => {
     const jugador = existente || {
       nombre, clave, puntos: 0, racha: 0, mejorRacha: 0,
       reloj: RELOJ_INICIAL, vivo: true, ordenMuerte: 0, preguntaMuerte: null, seSalvoAlLimite: false,
+      pedidosRestantes: PEDIDOS_POR_PARTIDA, donaciones: 0, recibidos: 0, respuestas: [],
       stats: { hecho: { ok: 0, total: 0 }, sector: { ok: 0, total: 0 }, escala: { ok: 0, total: 0 }, actor: { ok: 0, total: 0 } },
       tiempos: [],
     };
@@ -564,6 +695,19 @@ io.on('connection', socket => {
     const sala = salas.get(socket.data.codigoJugador);
     if (sala && socket.data.clave != null) {
       registrarRespuesta(sala, socket.data.clave, Number(opcion));
+    }
+  });
+
+  socket.on('jugador:pedirTiempo', () => {
+    const sala = salas.get(socket.data.codigoJugador);
+    if (sala && socket.data.clave != null) pedirTiempo(sala, socket.data.clave);
+  });
+
+  socket.on('jugador:donarTiempo', ({ clave }) => {
+    const sala = salas.get(socket.data.codigoJugador);
+    if (sala && socket.data.clave != null) {
+      donarTiempo(sala, socket.data.clave, String(clave),
+        motivo => socket.emit('tiempo:rechazado', { motivo }));
     }
   });
 

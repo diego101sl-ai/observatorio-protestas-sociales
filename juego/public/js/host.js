@@ -3,17 +3,19 @@
 const socket = io();
 
 const $ = sel => document.querySelector(sel);
-const pantallas = ['#inicio', '#lobby', '#cuenta', '#juego', '#fin'];
+const pantallas = ['#inicio', '#lobby', '#cuenta', '#juego', '#fin', '#repaso'];
 function mostrar(sel) {
   for (const p of pantallas) $(p).classList.toggle('oculto', p !== sel);
 }
 
-const FORMAS = ['▲', '■', '●', '◆'];
-const RELOJ_MAX_VISUAL = 90000;
+const FORMAS = ['▲', '■', '●', '◆', '★'];
+const RELOJ_MAX_VISUAL = 130000;
 let timerBarra = null;
 let drenaje = null;      // intervalo que hace correr los relojes en pantalla
 let relojes = [];        // snapshot de la tabla al abrir la pregunta
 let inicioPregunta = 0;
+let graciaMs = 0;        // segundos de lectura en los que el reloj no corre
+let ventanaMs = 0;
 let preguntaAbierta = false;
 let jugadoresPrevios = 0;
 let tictacTimer = null;
@@ -87,10 +89,13 @@ $('#btn-comenzar').addEventListener('click', () => { Sonidos.activar(); socket.e
 $('#btn-otra').addEventListener('click', () => socket.emit('host:otra'));
 
 // ---------- Cuenta regresiva ----------
-socket.on('partida:comenzo', ({ relojInicial }) => {
+socket.on('partida:comenzo', ({ relojInicial, pedidos, donacion }) => {
   mostrar('#cuenta');
-  $('#regla-reloj').textContent =
-    `Cada uno arranca con ${Math.round(relojInicial / 1000)} segundos de vida. Acertar suma tiempo. Gana el último en pie.`;
+  $('#pedidos-vivo').innerHTML = '';
+  $('#regla-reloj').innerHTML =
+    `Cada uno arranca con <b>${Math.round(relojInicial / 1000)} segundos</b> de vida. Acertar suma tiempo.<br>` +
+    `Quien esté en apuros puede pedir <b>${donacion} segundos</b> a un compañero (${pedidos} veces por partida).<br>` +
+    `Gana el último en pie.`;
   let n = 3;
   const num = $('#cuenta .numero');
   const animar = () => {
@@ -122,7 +127,8 @@ socket.on('pregunta:nueva', p => {
   Sonidos.pregunta();
   $('#chip-nivel').textContent = `Nivel ${p.nivel} · ${p.nombreNivel}`;
   $('#chip-nivel').className = `chip nivel-${Math.min(p.nivel, 3)}`;
-  $('#progreso').textContent = `Pregunta ${p.indice + 1} · +${p.gana}s por acierto`;
+  $('#progreso').textContent = `Pregunta ${p.indice + 1} · +${p.gana}s por acierto` +
+    (p.impuesto ? ` · −${p.impuesto}s de cierre` : '');
   $('#progreso').classList.remove('oculto');
 
   $('#tipo-pregunta').textContent = NOMBRES_TIPO[p.tipo] || p.tipo;
@@ -131,6 +137,7 @@ socket.on('pregunta:nueva', p => {
   $('#contexto').classList.toggle('oculto', !p.contexto);
   $('#explicacion').classList.add('oculto');
   $('#bajas').classList.add('oculto');
+  $('#pedidos-vivo').innerHTML = '';
 
   $('#grilla-opciones').innerHTML = p.opciones.map((op, i) =>
     `<div class="opcion op-${i}" data-i="${i}"><span class="forma">${FORMAS[i]}</span><span>${escapar(op)}</span></div>`
@@ -164,6 +171,8 @@ socket.on('pregunta:nueva', p => {
   // relojes vitales corriendo en vivo
   relojes = p.relojes;
   inicioPregunta = Date.now();
+  graciaMs = (p.gracia || 0) * 1000;
+  ventanaMs = p.ventana * 1000;
   preguntaAbierta = true;
   clearInterval(drenaje);
   pintarRelojes();
@@ -171,7 +180,9 @@ socket.on('pregunta:nueva', p => {
 });
 
 function pintarRelojes() {
-  const transcurrido = preguntaAbierta ? Date.now() - inicioPregunta : 0;
+  const transcurrido = preguntaAbierta
+    ? Math.max(0, Math.min(Date.now() - inicioPregunta - graciaMs, ventanaMs - graciaMs))
+    : 0;
   $('#podio-vivo').innerHTML = relojes.map((j, i) => {
     if (!j.vivo) {
       return `<div class="fila-podio muerto">
@@ -195,6 +206,36 @@ function pintarRelojes() {
 socket.on('pregunta:respondio', ({ respondieron, total }) => {
   $('#respondieron').textContent = `${respondieron}/${total} respondieron`;
 });
+
+// ---------- Pedidos de tiempo ----------
+socket.on('tiempo:pedido', ({ nombre, segundos }) => {
+  Sonidos.pedido();
+  const aviso = document.createElement('div');
+  aviso.className = 'aviso-pedido';
+  aviso.dataset.de = nombre;
+  aviso.innerHTML = `<span class="mano">🙋</span><span><b>${escapar(nombre)}</b> pide ${segundos} segundos</span>`;
+  $('#pedidos-vivo').appendChild(aviso);
+});
+
+socket.on('tiempo:donado', ({ de, para, segundos, relojes: tablaNueva }) => {
+  Sonidos.donacion();
+  quitarAviso(para);
+  const aviso = document.createElement('div');
+  aviso.className = 'aviso-pedido';
+  aviso.innerHTML = `<span class="mano">🤝</span><span><b>${escapar(de)}</b> le dio ${segundos}s a <b>${escapar(para)}</b></span>`;
+  $('#pedidos-vivo').appendChild(aviso);
+  setTimeout(() => aviso.remove(), 5000);
+  relojes = tablaNueva;
+  pintarRelojes();
+});
+
+socket.on('tiempo:vencido', ({ nombre }) => quitarAviso(nombre));
+
+function quitarAviso(nombre) {
+  for (const el of document.querySelectorAll('#pedidos-vivo .aviso-pedido')) {
+    if (el.dataset.de === nombre) el.remove();
+  }
+}
 
 // ---------- Resultado ----------
 socket.on('pregunta:resultado', r => {
@@ -231,7 +272,31 @@ socket.on('pregunta:resultado', r => {
 });
 
 // ---------- Final ----------
-socket.on('partida:fin', ({ tabla, resultados, insignias, preguntasJugadas }) => {
+// ---------- Repaso ----------
+const NOMBRES_TIPO_CORTO = {
+  hecho_o_no: 'Detector', sector: 'Sector', escala: 'Escala', concepto: 'Actores',
+};
+$('#btn-repaso').addEventListener('click', () => { Confeti.limpiar(); mostrar('#repaso'); });
+$('#btn-volver-podio').addEventListener('click', () => mostrar('#fin'));
+
+function pintarRepaso(repaso) {
+  $('#lista-repaso').innerHTML = repaso.map(p => `
+    <div class="repaso-item">
+      <div class="cabecera">
+        <span class="numero">${p.n.toString().padStart(2, '0')}</span>
+        <span class="etiqueta">${NOMBRES_TIPO_CORTO[p.tipo] || p.tipo}</span>
+      </div>
+      <span class="consigna">${escapar(p.texto)}</span>
+      ${p.contexto ? `<div class="cita">${escapar(p.contexto)}</div>` : ''}
+      <div class="respuesta">
+        <span class="marca-ok">✓ ${escapar(p.opciones[p.correcta])}</span>
+      </div>
+      <div class="porque">${escapar(p.explicacion)}</div>
+    </div>`).join('');
+}
+
+socket.on('partida:fin', ({ tabla, resultados, insignias, preguntasJugadas, repaso }) => {
+  if (repaso) pintarRepaso(repaso);
   preguntaAbierta = false;
   clearInterval(drenaje);
   mostrar('#fin');

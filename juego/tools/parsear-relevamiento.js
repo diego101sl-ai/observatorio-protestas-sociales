@@ -15,6 +15,32 @@ const ESCALAS_VALIDAS = new Set([
   'Nacional', 'Provincial', 'Latinoamericana', 'Internacional',
 ]);
 
+// Cargos y roles que, escritos junto al actor, hacen que el hecho esté bien atribuido.
+// Se usa para elegir qué hechos pueden salir como "hecho completo" en el juego:
+// si el actor aparece sin cargo, el hecho no sirve como ejemplo de registro correcto.
+const CARGOS = [
+  'president[ae]', 'expresident[ae]', 'vicepresident[ae]',
+  'ministr[oa]', 'exministr[oa]', 'secretari[oa]', 'subsecretari[oa]', 'prosecretari[oa]',
+  'titular', 'director[a]?', 'vicedirector[a]?', 'gerent[e]', 'administrador[a]?',
+  'gobernador[a]?', 'exgobernador[a]?', 'vicegobernador[a]?', 'intendent[ae]', 'exintendent[ae]',
+  'senador[a]?', 'diputad[oa]', 'legislador[a]?', 'concejal[a]?', 'canciller',
+  'jef[ea]', 'vocer[oa]', 'portavoz', 'delegad[oa]', 'apoderad[oa]', 'interventor[a]?',
+  'juez[a]?', 'jueza', 'camarista', 'fiscal', 'defensor[a]?', 'abogad[oa]', 'querellante',
+  'embajador[a]?', 'cónsul', 'representante', 'enviad[oa]',
+  'dirigent[e]', 'referent[e]', 'líder', 'militante', 'sindicalista',
+  'economist[a]', 'analista', 'consultor[a]?', 'investigador[a]?', 'docent[e]', 'rector[a]?', 'decan[oa]',
+  'empresari[oa]', 'accionista', 'financista', 'supervisor[a]?', 'coordinador[a]?', 'asesor[a]?',
+  'trabajador[a]?', 'delegado', 'comisari[oa]', 'general', 'coronel', 'obispo', 'papa',
+];
+const RE_CARGO = new RegExp(
+  // "Nombre Apellido, cargo" o "Nombre Apellido, ex cargo"
+  '[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\\s+(?:de|del|la|las|los|van|da|di)\\s+|\\s+)' +
+  '[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+[a-záéíóúñ]*,\\s+(?:ex\\s*)?(?:' + CARGOS.join('|') + ')\\b',
+  'i'
+);
+// Institución cargada con quien la conduce: "El Ministerio X, a cargo de Y"
+const RE_A_CARGO = /,\s*a cargo de\s+[A-ZÁÉÍÓÚÑ]/;
+
 const archivos = process.argv.slice(2);
 if (archivos.length === 0) {
   console.error('Uso: node tools/parsear-relevamiento.js archivo1.md [archivo2.md ...]');
@@ -59,11 +85,15 @@ for (const archivo of archivos) {
 
     const linkM = bloque.match(/- Link:\s*(\S+)/);
 
+    // ¿El hecho identifica al actor con su cargo? Solo estos sirven como
+    // ejemplo de "hecho completo" en el juego.
+    const conCargo = RE_CARGO.test(resumen) || RE_A_CARGO.test(resumen);
+
     hechos.push({
       id: hechos.length + 1,
       titulo, medio, fecha, escala, sector,
       orbita: null, // pendiente: se completará cuando la fuente exporte la órbita
-      actores, resumen,
+      actores, resumen, conCargo,
       link: linkM ? linkM[1] : null,
     });
   }
@@ -91,4 +121,5 @@ for (const h of unicos) {
 console.log(`Hechos válidos: ${unicos.length} (descartados por sector/escala no válidos: ${descartados}, duplicados: ${hechos.length - unicos.length})`);
 console.log('Por escala:', porEscala);
 console.log('Por sector:', porSector);
+console.log('Con actor + cargo explícito (aptos como "hecho completo"):', unicos.filter(h => h.conCargo).length);
 console.log('Guardado en', salida);

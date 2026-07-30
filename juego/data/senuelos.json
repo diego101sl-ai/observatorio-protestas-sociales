@@ -214,5 +214,77 @@
     "texto": "Lamentablemente, la interna de la UOM volvió a dejar a los trabajadores metalúrgicos como rehenes de una disputa que no les pertenece.",
     "defecto": "opinion",
     "explicacion": "\"Lamentablemente\" y \"rehenes\" expresan la posición del redactor. El hecho: la intervención judicial del gremio, el fallo de la Sala VIII y la designación de paritarios por el interventor Biglieri."
+  },
+  {
+    "texto": "Bartolomé Abdala negó este martes, durante un acto en La Punta, que exista un acuerdo electoral entre Javier Milei y el gobierno de San Luis, y afirmó: \"No hay ningún acuerdo\".",
+    "defecto": "falta_cargo",
+    "explicacion": "Están el actor, el tiempo y el lugar, pero no sabemos desde qué lugar habla: el registro real lo identificaba como senador nacional por La Libertad Avanza. Sin el cargo no se puede evaluar en calidad de qué actúa.",
+    "id": 37
+  },
+  {
+    "texto": "Luciano Ayala inauguró este martes, en el Polideportivo Municipal Manuel García Ferré, una Oficina de Empleo en La Punta junto a representantes de la Agencia Territorial San Luis.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: el hecho real precisaba \"Luciano Ayala, intendente de La Punta\". Sin esa referencia no se sabe si actúa como autoridad municipal, como dirigente o como vecino.",
+    "id": 38
+  },
+  {
+    "texto": "María Fernanda Raverta confirmó este miércoles que el IFE 3 alcanzará a menos beneficiarios y que se concentrará en las zonas que vuelven a cuarentena estricta.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: es \"María Fernanda Raverta, titular de la ANSES\". La institución se registra a través de quien la conduce, y sin el cargo se pierde justamente esa atribución.",
+    "id": 39
+  },
+  {
+    "texto": "Abel Furlán rechazó este miércoles la oferta salarial de la Cámara Argentina del Acero y anunció que las negociaciones continuarán el 6 de agosto.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: el registro real lo ubicaba como titular de la UOM. El cargo es lo que convierte la declaración de una persona en la posición de un actor colectivo.",
+    "id": 40
+  },
+  {
+    "texto": "Martín Llaryora, Maximiliano Pullaro y Rogelio Frigerio firmaron este miércoles en San Francisco un documento que reclama la eliminación de las retenciones agropecuarias.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo de cada uno: son los gobernadores de Córdoba, Santa Fe y Entre Ríos. Sin esa precisión no se entiende que el reclamo lo firman tres provincias, ni el peso institucional del hecho.",
+    "id": 41
+  },
+  {
+    "texto": "Mariano Barbieri declaró este miércoles ante el Tribunal Oral Federal 7 que encontró coincidencias entre retiros bancarios de empresas investigadas y las fechas de presuntos pagos de sobornos.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: era \"supervisor de la ex AFIP\". El valor de un testimonio depende de desde qué función se declara: no es lo mismo un perito oficial que un particular.",
+    "id": 42
+  },
+  {
+    "texto": "Luis Caputo encabezó este miércoles la licitación quincenal de deuda por USD 1.351 millones y presentó un nuevo bono dual con vencimiento en enero de 2028.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: \"Luis Caputo, ministro de Economía\". El cargo es lo que hace que la acción comprometa al Estado y no a una persona.",
+    "id": 43
+  },
+  {
+    "texto": "Máximo Kirchner pidió este martes, en una entrevista con el canal C5N, reabrir el diálogo con Axel Kicillof para unificar al peronismo bonaerense.",
+    "defecto": "falta_cargo",
+    "explicacion": "Faltan los cargos: \"Máximo Kirchner, diputado nacional y líder de La Cámpora\" y \"Axel Kicillof, gobernador de la provincia de Buenos Aires\". Sin ellos no se lee la relación de fuerzas entre ambos.",
+    "id": 44
+  },
+  {
+    "texto": "Alberto Biglieri quedó facultado esta semana, tras un fallo de la Sala VIII de la Cámara Nacional de Apelaciones del Trabajo, para discutir paritarias y designar negociadores en la UOM.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: es el interventor judicial de la UOM. Justamente el cargo —y su origen judicial— es lo que está en disputa en este hecho.",
+    "id": 45
+  },
+  {
+    "texto": "Pablo Quirno ratificó este miércoles, en una entrevista radial, las diferencias políticas e ideológicas del Gobierno argentino con sus socios regionales.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta el cargo: \"Pablo Quirno, canciller argentino\". Una definición de política exterior solo es tal si se sabe que la enuncia quien conduce la Cancillería.",
+    "id": 46
+  },
+  {
+    "texto": "Cristina Fernández de Kirchner publicó este miércoles una columna en medios internacionales y anunció que llevó su condena ante el Comité de Derechos Humanos de la ONU.",
+    "defecto": "falta_cargo",
+    "explicacion": "Falta la condición desde la que actúa: \"expresidenta, que cumple arresto domiciliario\". En un hecho judicial, la situación procesal del actor es parte de su identificación.",
+    "id": 47
+  },
+  {
+    "texto": "Ignacio Morales y Nicolás Capella coincidieron este miércoles en que la licitación tendría buena demanda y proyectaron un rendimiento cercano al 8%.",
+    "defecto": "falta_cargo",
+    "explicacion": "Faltan los cargos: uno es director de inversiones de Wise Capital y el otro sales trader de Invertir en Bolsa. En declaraciones de mercado, saber para quién trabaja quien habla es parte del hecho.",
+    "id": 48
   }
 ]

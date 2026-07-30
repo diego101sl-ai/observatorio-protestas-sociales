@@ -1,0 +1,156 @@
+[
+  {
+    "id": 1,
+    "pregunta": "¿Cuál de estos es un ACTOR?",
+    "opciones": [
+      { "texto": "José Pérez, trabajador de Arcor, marcha a título personal contra la cuarentena", "correcta": false },
+      { "texto": "La seccional Avellaneda de la UOM, que denuncia a Techint ante la Justicia", "correcta": true },
+      { "texto": "El Poder Judicial", "correcta": false },
+      { "texto": "Un vecino indignado que llama a la radio", "correcta": false }
+    ],
+    "explicacion": "Un actor representa intereses colectivos con una estrategia de poder. José Pérez marcha como individuo (no es delegado ni representa a sus compañeros); \"el Poder Judicial\" es una abstracción sin responsable identificable; el vecino es un individuo. La seccional de la UOM actúa como organización, en calidad de representación de trabajadores."
+  },
+  {
+    "id": 2,
+    "pregunta": "¿Cuál de estos es un ACTOR?",
+    "opciones": [
+      { "texto": "\"Fuentes del mercado\" que anticipan una devaluación", "correcta": false },
+      { "texto": "\"La gente\" que está cansada de la política", "correcta": false },
+      { "texto": "La Cámara Argentina del Acero, que presenta una oferta paritaria", "correcta": true },
+      { "texto": "\"Los argentinos de bien\"", "correcta": false }
+    ],
+    "explicacion": "La Cámara Argentina del Acero es un grupo de interés organizado que fija fines y negocia. \"Fuentes del mercado\", \"la gente\" y \"los argentinos de bien\" son referencias difusas: no se puede identificar quién habla ni qué intereses representa."
+  },
+  {
+    "id": 3,
+    "pregunta": "Los chalecos amarillos en Francia comenzaron como individuos sueltos protestando por el combustible. ¿Cuándo se convirtieron en ACTOR?",
+    "opciones": [
+      { "texto": "Nunca: siguen siendo individuos sueltos", "correcta": false },
+      { "texto": "Cuando la protesta salió en los medios internacionales", "correcta": false },
+      { "texto": "Cuando tomaron forma colectiva: referentes, programa de lucha e intereses que representan", "correcta": true },
+      { "texto": "Cuando el gobierno francés los recibió en una audiencia", "correcta": false }
+    ],
+    "explicacion": "Un conjunto de individuos se convierte en actor cuando adquiere forma colectiva: referentes, programa de lucha y un grupo de intereses que representa. La cobertura mediática o el reconocimiento oficial no crean al actor; lo crea la organización."
+  },
+  {
+    "id": 4,
+    "pregunta": "Una nota dice: \"El Ministerio de Salud presentó el plan de vacunación\". ¿Cómo se registra el actor?",
+    "opciones": [
+      { "texto": "Se carga \"Ministerio de Salud\" como actor institucional", "correcta": false },
+      { "texto": "Se identifica al funcionario a cargo: el ministro o ministra que presentó el plan", "correcta": true },
+      { "texto": "No se carga: los ministerios nunca aparecen en el registro", "correcta": false },
+      { "texto": "Se carga \"el Estado\" como actor general", "correcta": false }
+    ],
+    "explicacion": "Las instituciones gubernamentales representan una correlación de fuerzas: quien la dirige es quien ganó esa disputa. Por eso se identifica al funcionario a cargo (\"El Ministerio de Salud, a cargo de X, presentó...\"). Si cambia el titular, cambia la caracterización de la institución."
+  },
+  {
+    "id": 5,
+    "pregunta": "\"El Poder Judicial avanza contra la corrupción.\" ¿Se puede registrar así el actor?",
+    "opciones": [
+      { "texto": "Sí: el Poder Judicial es uno de los tres poderes del Estado", "correcta": false },
+      { "texto": "No: hay que identificar el tribunal concreto y sus integrantes", "correcta": true },
+      { "texto": "Sí, pero solo en hechos de escala nacional", "correcta": false },
+      { "texto": "No: los hechos judiciales no se registran", "correcta": false }
+    ],
+    "explicacion": "Los poderes del Estado en sí mismos no son un actor: no se puede identificar quién actúa. Se registra el tribunal concreto (por ejemplo, el Tribunal Oral Federal 7) y, cuando es relevante, los jueces que firman."
+  },
+  {
+    "id": 6,
+    "pregunta": "Hugo Yasky habla sobre la ley de teletrabajo EN UNA SESIÓN DE DIPUTADOS, como presidente de una comisión. ¿En calidad de qué actúa?",
+    "opciones": [
+      { "texto": "Actor sindical: es secretario general de la CTA", "correcta": false },
+      { "texto": "Actor político: actúa como diputado nacional", "correcta": true },
+      { "texto": "Individuo: habla a título personal", "correcta": false },
+      { "texto": "Las dos cosas a la vez, se registra dos veces", "correcta": false }
+    ],
+    "explicacion": "Cuando un actor se corresponde con dos órbitas, hay que ver EN CALIDAD DE QUÉ desarrolla la acción. En una sesión de Diputados, presidiendo una comisión, Yasky actúa como diputado: actor político. El mismo Yasky hablando como secretario de la CTA en una radio actúa en calidad sindical."
+  },
+  {
+    "id": 7,
+    "pregunta": "Hugo Yasky, como secretario general de la CTA, propone por radio un aporte extraordinario de las grandes fortunas. ¿En calidad de qué actúa?",
+    "opciones": [
+      { "texto": "Actor político: es diputado nacional", "correcta": false },
+      { "texto": "Actor sindical: habla como conducción de la CTA", "correcta": true },
+      { "texto": "Individuo: es solo una propuesta personal", "correcta": false },
+      { "texto": "Actor económico: habla de impuestos", "correcta": false }
+    ],
+    "explicacion": "Es el caso espejo del anterior: mismo dirigente, distinta calidad. Al hablar como secretario general de la CTA, representa los intereses de esa central sindical. El tema del que habla (impuestos) no define la calidad del actor: la define el rol desde el que actúa."
+  },
+  {
+    "id": 8,
+    "pregunta": "Repartidores de apps (Uber, Rappi, Glovo) sin sindicato se movilizan y luego forman una asociación. ¿Son un actor del sector trabajadores?",
+    "opciones": [
+      { "texto": "No: sin sindicato tradicional no hay actor", "correcta": false },
+      { "texto": "Sí: son una nueva forma de organización que actúa en calidad de trabajadores", "correcta": true },
+      { "texto": "No: son monotributistas, no trabajadores", "correcta": false },
+      { "texto": "Solo si el Ministerio de Trabajo les da personería", "correcta": false }
+    ],
+    "explicacion": "No todos los trabajadores están organizados en sindicatos tradicionales. Surgen nuevas formas de organización y de lucha: movilizaciones que luego forman asociaciones, organizaciones virtuales que llevan la lucha a la calle. Lo que define al actor es la organización colectiva y actuar en calidad de trabajadores, no la personería."
+  },
+  {
+    "id": 9,
+    "pregunta": "Un trabajador metalúrgico participa de una marcha anticuarentena con consignas políticas generales. No es delegado ni representa a sus compañeros. ¿Cómo se registra?",
+    "opciones": [
+      { "texto": "Sector trabajadores: es un obrero metalúrgico", "correcta": false },
+      { "texto": "No es un actor: participa como individuo, no en calidad de trabajador", "correcta": true },
+      { "texto": "Sector trabajadores, pero con una nota aclaratoria", "correcta": false },
+      { "texto": "Actor político: la marcha es política", "correcta": false }
+    ],
+    "explicacion": "Para que la acción corresponda al sector trabajadores, tiene que realizarse EN CALIDAD de trabajador: qué hace, contra quién, con qué programa. Su oficio no convierte en gremial cualquier acción que realice. Marchando a título personal con consignas generales, es un individuo, no un actor."
+  },
+  {
+    "id": 10,
+    "pregunta": "María Fernanda Raverta, titular de la ANSES, anuncia el alcance del IFE 3. ¿Cuál es el actor y por qué?",
+    "opciones": [
+      { "texto": "La ANSES, porque es el organismo que paga", "correcta": false },
+      { "texto": "Raverta a cargo de la ANSES: la funcionaria encarna la conducción del organismo", "correcta": true },
+      { "texto": "El Gobierno nacional en general", "correcta": false },
+      { "texto": "Los beneficiarios del IFE", "correcta": false }
+    ],
+    "explicacion": "La institución se registra a través de quien la conduce: \"ANSES, a cargo de María Fernanda Raverta\". Dentro de una misma presidencia, al cambiar el titular de la ANSES cambiaron las políticas del organismo: la conducción define la caracterización."
+  },
+  {
+    "id": 11,
+    "pregunta": "¿Qué diferencia a un ACTOR de un INDIVIDUO?",
+    "opciones": [
+      { "texto": "El actor sale en los medios; el individuo no", "correcta": false },
+      { "texto": "El actor representa intereses colectivos y tiene estrategia; el individuo no", "correcta": true },
+      { "texto": "El actor es famoso; el individuo es anónimo", "correcta": false },
+      { "texto": "El actor tiene cargo público; el individuo no", "correcta": false }
+    ],
+    "explicacion": "Los actores son entes capaces de fijarse fines y emplear racionalmente sus medios para alcanzarlos, representando intereses colectivos. La fama, la cobertura mediática o el cargo no definen al actor: lo define la representación colectiva con estrategia de poder."
+  },
+  {
+    "id": 12,
+    "pregunta": "Según las reglas mnemotécnicas de la capacitación, ¿qué hace un ACTOR POLÍTICO?",
+    "opciones": [
+      { "texto": "Conserva la órbita", "correcta": true },
+      { "texto": "Conserva el sector", "correcta": false },
+      { "texto": "Define la órbita", "correcta": false },
+      { "texto": "Define el sector", "correcta": false }
+    ],
+    "explicacion": "Las tres reglas: actor POLÍTICO conserva la órbita; actor ECONÓMICO conserva el sector; actor ESTRATÉGICO define la órbita. Y nunca confundir la discusión del tema con el sector."
+  },
+  {
+    "id": 13,
+    "pregunta": "Un senador anuncia un proyecto sobre paritarias docentes. ¿El sector del hecho es TRABAJADORES?",
+    "opciones": [
+      { "texto": "Sí: el tema son las paritarias", "correcta": false },
+      { "texto": "No necesariamente: no hay que confundir el tema en discusión con el sector", "correcta": true },
+      { "texto": "Sí: siempre que se hable de salarios es sector trabajadores", "correcta": false },
+      { "texto": "No: los senadores no pueden generar hechos del sector trabajadores", "correcta": false }
+    ],
+    "explicacion": "Regla clave: no confundir la discusión del tema con el sector. Un senador actuando en calidad de legislador genera un hecho de agenda política aunque el tema sea laboral. El ejemplo de la capacitación: Yasky en Diputados analizando un proyecto sobre trabajadores es agenda política, con etiqueta trabajadores."
+  },
+  {
+    "id": 14,
+    "pregunta": "¿Cuál de estas acciones corresponde al SECTOR TRABAJADORES?",
+    "opciones": [
+      { "texto": "Un diputado de extracción sindical vota una ley laboral en el Congreso", "correcta": false },
+      { "texto": "Delegados de la UOM presentan una denuncia contra la empresa donde trabajan", "correcta": true },
+      { "texto": "Un empleado bancario opina sobre la economía en Twitter", "correcta": false },
+      { "texto": "Un ministro anuncia un aumento del salario mínimo", "correcta": false }
+    ],
+    "explicacion": "Los delegados de la UOM actúan organizados y en calidad de trabajadores, contra su empleador, con un programa. El diputado y el ministro actúan en calidad política (aunque el tema sea laboral) y el empleado tuitero es un individuo."
+  }
+]

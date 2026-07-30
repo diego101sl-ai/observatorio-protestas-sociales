@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "texto": "Se modificó el protocolo de actuación policial frente a delitos informáticos que involucren a menores, en respuesta al aumento de amenazas de violencia en escuelas difundidas por redes sociales.",
+    "defecto": "falta_actor",
+    "explicacion": "¿Quién lo modificó? La voz pasiva esconde al actor. El hecho real identificaba al Ministerio de Seguridad de la Nación y la Resolución 725/2026."
+  },
+  {
+    "id": 2,
+    "texto": "Hay fuerte preocupación en el sector metalúrgico por el atraso salarial, que ya acumula dos años sin un aumento pactado en la negociación colectiva.",
+    "defecto": "falta_actor",
+    "explicacion": "\"Hay preocupación\" no tiene sujeto: no dice quién se pronuncia ni quién negocia. El hecho real tenía actores concretos: la UOM y la Cámara Argentina del Acero."
+  },
+  {
+    "id": 3,
+    "texto": "El Poder Judicial avanza contra la corrupción en la obra pública con nuevos testimonios que complican a los acusados.",
+    "defecto": "falta_actor",
+    "explicacion": "\"El Poder Judicial\" como tal no es un actor identificable: hay que nombrar el tribunal y sus integrantes. El hecho real identificaba al Tribunal Oral Federal 7 y al testigo Mariano Barbieri."
+  },
+  {
+    "id": 4,
+    "texto": "Se aprobó el ingreso de un nuevo proyecto minero al régimen RIGI con una inversión de USD 709 millones para producir litio en Catamarca.",
+    "defecto": "falta_actor",
+    "explicacion": "¿Quién aprobó y qué empresa invierte? Faltan ambos actores. El hecho real nombraba al Comité Evaluador del RIGI (Ministerio de Economía) y a la minera Liex, subsidiaria de Zijin Mining."
+  },
+  {
+    "id": 5,
+    "texto": "Se reclamó formalmente al Gobierno nacional la reducción hasta la eliminación definitiva de las retenciones a las exportaciones agropecuarias.",
+    "defecto": "falta_actor",
+    "explicacion": "¿Quién reclamó? Sin sujeto no hay hecho estructurado. El hecho real identificaba a los gobernadores Llaryora, Pullaro y Frigerio en la cumbre de la Región Centro."
+  },
+  {
+    "id": 6,
+    "texto": "Desde el oficialismo aseguraron que no hace falta ningún acuerdo electoral con el gobernador para competir en la provincia.",
+    "defecto": "falta_actor",
+    "explicacion": "\"Desde el oficialismo\" es una fuente difusa, no un actor. El hecho real citaba con nombre y cargo a Bartolomé Abdala, senador nacional, y a los gobernadores aludidos."
+  },
+  {
+    "id": 7,
+    "texto": "Trascendió que la próxima licitación de deuda incluirá un nuevo bono dual que ajusta por tasa mayorista o por dólar linked.",
+    "defecto": "falta_actor",
+    "explicacion": "\"Trascendió\" no identifica quién licita ni quién informa. El hecho real nombraba a la Secretaría de Finanzas, al ministro Luis Caputo y a las consultoras que analizaron el instrumento."
+  },
+  {
+    "id": 8,
+    "texto": "Se presentó una denuncia contra una empresa siderúrgica por posible violación de las medidas sanitarias dispuestas por las autoridades.",
+    "defecto": "falta_actor",
+    "explicacion": "¿Quién denunció y contra qué empresa? El caso real de la capacitación identificaba a integrantes de la seccional Avellaneda de la UOM denunciando a Techint."
+  },
+  {
+    "id": 9,
+    "texto": "Aseguran que el diálogo dentro del peronismo bonaerense está roto y que no habrá acercamiento en el corto plazo.",
+    "defecto": "falta_actor",
+    "explicacion": "\"Aseguran\" es impersonal: no sabemos quién habla ni en calidad de qué. El hecho real citaba a Máximo Kirchner, diputado nacional, y a fuentes del entorno del gobernador Kicillof."
+  },
+  {
+    "id": 10,
+    "texto": "Se conoció que el organismo previsional reducirá el alcance del beneficio de emergencia a menos personas en la próxima etapa.",
+    "defecto": "falta_actor",
+    "explicacion": "\"El organismo previsional\" sin responsable no es actor: la institución se carga con quien la dirige. El ejemplo real: María Fernanda Raverta, titular de la ANSES, confirmó el alcance del IFE 3."
+  },
+  {
+    "id": 11,
+    "texto": "Fuentes del mercado señalaron que la autoridad monetaria dejó de comprar divisas y vendió futuros para contener la suba del tipo de cambio.",
+    "defecto": "falta_actor",
+    "explicacion": "\"Fuentes del mercado\" y \"la autoridad monetaria\" son referencias vagas. El hecho real identificaba al Banco Central de la República Argentina y a la consultora LCG con su informe."
+  },
+  {
+    "id": 12,
+    "texto": "Se inauguró una nueva Oficina de Empleo que ofrecerá asesoramiento, inscripción a programas nacionales y capacitaciones.",
+    "defecto": "falta_actor",
+    "explicacion": "¿Quién inauguró y en qué municipio? El hecho real identificaba a Luciano Ayala, intendente de La Punta, junto a la Agencia Territorial San Luis."
+  },
+  {
+    "id": 13,
+    "texto": "La Unión Obrera Metalúrgica y la Cámara Argentina del Acero volverán a reunirse próximamente para intentar destrabar la paritaria siderúrgica.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"Próximamente\" no ubica el hecho en el tiempo. El hecho real fijaba fecha y ámbito: la próxima reunión oficial es el 6 de agosto en la Secretaría de Trabajo."
+  },
+  {
+    "id": 14,
+    "texto": "El Banco Central rompió en los últimos tiempos una larga racha de compras de divisas y el dólar mayorista cerró con una suba contenida.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"En los últimos tiempos\" es vago: ¿cuándo exactamente? El hecho real precisaba la jornada (ayer), la racha (135 ruedas) y el valor de cierre ($1.498)."
+  },
+  {
+    "id": 15,
+    "texto": "Los gobernadores de Córdoba, Santa Fe y Entre Ríos se reunieron en una cumbre regional y firmaron un documento contra las retenciones.",
+    "defecto": "falta_tiempo",
+    "explicacion": "¿Cuándo y dónde fue la cumbre? El hecho real la ubicaba: este miércoles, en la ciudad cordobesa de San Francisco, con inauguración de la sede de la Región Centro."
+  },
+  {
+    "id": 16,
+    "texto": "Cristina Fernández de Kirchner presentó en algún momento de este año una comunicación ante el Comité de Derechos Humanos de la ONU para cuestionar su condena.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"En algún momento de este año\" no es ubicación temporal. El hecho real fechaba el anuncio (este miércoles), la conferencia en el NH Hotel porteño y los hitos judiciales previos."
+  },
+  {
+    "id": 17,
+    "texto": "Una empresa china fue aprobada para producir carbonato de litio en un salar del norte argentino, en una planta con capacidad de 40.000 toneladas anuales.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"Un salar del norte argentino\" no ubica el hecho en el espacio ni dice cuándo se aprobó. El hecho real lo situaba: Salar Tres Quebradas, Fiambalá, Catamarca, anunciado este miércoles."
+  },
+  {
+    "id": 18,
+    "texto": "El intendente Luciano Ayala inaugurará junto a autoridades nacionales una Oficina de Empleo municipal en una localidad puntana.",
+    "defecto": "falta_tiempo",
+    "explicacion": "Hecho a futuro sin fecha y con lugar impreciso (\"una localidad puntana\"). El hecho real ocurrió este martes en el Polideportivo Municipal de La Punta."
+  },
+  {
+    "id": 19,
+    "texto": "Máximo Kirchner pidió recientemente, en una entrevista televisiva, reabrir el diálogo con el gobernador bonaerense para unificar al peronismo.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"Recientemente\" y \"una entrevista televisiva\" no anclan el hecho. El registro real precisaba el día y el medio: entrevista concedida al canal C5N."
+  },
+  {
+    "id": 20,
+    "texto": "La Secretaría de Finanzas saldrá en las próximas semanas a buscar más de USD 1.300 millones en una licitación de deuda.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"En las próximas semanas\" no es una fecha. El hecho real ocurrió este miércoles, en la licitación quincenal, con segunda vuelta prevista para el jueves."
+  },
+  {
+    "id": 21,
+    "texto": "Un exfuncionario del organismo recaudador declaró en un tribunal federal sobre coincidencias entre retiros bancarios y presuntos pagos de sobornos.",
+    "defecto": "falta_tiempo",
+    "explicacion": "¿Cuándo declaró y ante qué tribunal? El hecho real lo ubicaba: este miércoles, ante el Tribunal Oral Federal 7, en el juicio por la causa Cuadernos."
+  },
+  {
+    "id": 22,
+    "texto": "En diversas provincias del país se abrieron oficinas de empleo que articulan programas nacionales con los municipios.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"Diversas provincias\" y sin fecha: el hecho queda flotando en tiempo y espacio. El registro real enumeraba las tres oficinas activas de San Luis (Merlo, Unión y La Punta) y la fecha de la inauguración."
+  },
+  {
+    "id": 23,
+    "texto": "El Gobierno nacional habilitó un nuevo procedimiento de inscripción para las subastas públicas de privatizaciones, según se supo en las últimas horas.",
+    "defecto": "falta_tiempo",
+    "explicacion": "\"Según se supo en las últimas horas\" no reemplaza la ubicación temporal precisa: el registro real citaba la norma y su fecha de publicación en el Boletín Oficial."
+  },
+  {
+    "id": 24,
+    "texto": "Trabajadores de una fábrica del conurbano realizaron una asamblea en la puerta de la planta en reclamo de recomposición salarial.",
+    "defecto": "falta_tiempo",
+    "explicacion": "¿Qué fábrica, qué localidad, qué día, qué organización? \"Una fábrica del conurbano\" no ubica el hecho en el espacio ni identifica a sus actores con precisión."
+  },
+  {
+    "id": 25,
+    "texto": "La paritaria siderúrgica demuestra una vez más que la dirigencia sindical y las cámaras empresarias son incapaces de ponerse de acuerdo en lo más mínimo.",
+    "defecto": "opinion",
+    "explicacion": "\"Demuestra que son incapaces\" es un juicio de valor del que escribe, no un hecho verificable. El hecho registrable es la reunión, la oferta concreta y su rechazo."
+  },
+  {
+    "id": 26,
+    "texto": "La decisión del Banco Central de no intervenir en el mercado cambiario es una jugada brillante que le devuelve credibilidad a la política económica.",
+    "defecto": "opinion",
+    "explicacion": "\"Jugada brillante\" y \"devuelve credibilidad\" son valoraciones. El hecho es que el BCRA no intervino tras 135 ruedas y el dólar cerró en $1.498; el mérito o el error es opinión."
+  },
+  {
+    "id": 27,
+    "texto": "Está claro que el reclamo de los gobernadores por las retenciones es puro oportunismo electoral de cara a 2027.",
+    "defecto": "opinion",
+    "explicacion": "\"Está claro que\" y \"puro oportunismo\" atribuyen intenciones sin fuente. El hecho registrable es la cumbre, el documento firmado y las declaraciones textuales."
+  },
+  {
+    "id": 28,
+    "texto": "El ingreso de capitales chinos al RIGI debería preocuparnos a todos: la Argentina está regalando su litio a cambio de promesas.",
+    "defecto": "opinion",
+    "explicacion": "\"Debería preocuparnos\" y \"está regalando\" son posiciones editoriales. El hecho es la aprobación del proyecto de Liex con una inversión de USD 709 millones."
+  },
+  {
+    "id": 29,
+    "texto": "Con este nuevo bono dual, el equipo económico por fin entendió lo que el mercado venía pidiendo desde hace meses.",
+    "defecto": "opinion",
+    "explicacion": "\"Por fin entendió\" es interpretación del redactor. El hecho es la licitación de USD 1.351 millones y el debut del instrumento; la lectura sobre el aprendizaje del equipo es opinión."
+  },
+  {
+    "id": 30,
+    "texto": "El testimonio del exfuncionario de la AFIP fue devastador y no deja dudas sobre la culpabilidad de los acusados en la causa Cuadernos.",
+    "defecto": "opinion",
+    "explicacion": "\"Devastador\" y \"no deja dudas\" anticipan un veredicto que solo puede dar el tribunal. El hecho es la declaración y las coincidencias informadas; el propio testigo aclaró que solo informó coincidencias."
+  },
+  {
+    "id": 31,
+    "texto": "Es evidente que el gesto de Máximo Kirchner hacia Kicillof llega demasiado tarde y que la ruptura del peronismo bonaerense ya no tiene arreglo.",
+    "defecto": "opinion",
+    "explicacion": "\"Es evidente\", \"demasiado tarde\" y \"no tiene arreglo\" son pronósticos y valoraciones. El hecho registrable son las declaraciones de cada actor, con sus citas textuales."
+  },
+  {
+    "id": 32,
+    "texto": "La apertura de oficinas de empleo es apenas maquillaje estadístico que no resuelve el verdadero drama del trabajo informal en la Argentina.",
+    "defecto": "opinion",
+    "explicacion": "\"Apenas maquillaje\" y \"verdadero drama\" son caracterizaciones del redactor. El hecho es la inauguración, sus servicios, horarios y los actores presentes."
+  },
+  {
+    "id": 33,
+    "texto": "La presentación de Cristina Kirchner ante la ONU confirma que la expresidenta sigue siendo la dirigente más perseguida de la historia argentina.",
+    "defecto": "opinion",
+    "explicacion": "\"Confirma que es la más perseguida\" es una tesis, no un hecho. Lo registrable: presentó una comunicación ante el Comité de DDHH de la ONU y publicó una columna; las valoraciones van entre comillas y atribuidas."
+  },
+  {
+    "id": 34,
+    "texto": "El protocolo del Ministerio de Seguridad para amenazas escolares es un avance histórico que va a terminar con la violencia en las aulas.",
+    "defecto": "opinion",
+    "explicacion": "\"Avance histórico\" y \"va a terminar con la violencia\" son valoración y pronóstico. El hecho es la Resolución 725/2026 y su contenido: los cinco supuestos de excepción, la orden judicial, el registro."
+  },
+  {
+    "id": 35,
+    "texto": "Los números del RIGI son impresionantes y demuestran que la Argentina volvió a ser confiable para los inversores del mundo.",
+    "defecto": "opinion",
+    "explicacion": "\"Impresionantes\" y \"volvió a ser confiable\" son juicios. Los datos registrables: 22 proyectos aprobados, USD 121.237 millones comprometidos, 45 empresas de 11 países."
+  },
+  {
+    "id": 36,
+    "texto": "Lamentablemente, la interna de la UOM volvió a dejar a los trabajadores metalúrgicos como rehenes de una disputa que no les pertenece.",
+    "defecto": "opinion",
+    "explicacion": "\"Lamentablemente\" y \"rehenes\" expresan la posición del redactor. El hecho: la intervención judicial del gremio, el fallo de la Sala VIII y la designación de paritarios por el interventor Biglieri."
+  }
+]

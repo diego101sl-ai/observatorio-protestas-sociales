@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cierre de Edición — Perfiles</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗞️</text></svg>">
+<link rel="stylesheet" href="/css/estilo.css">
+<style>
+  body { padding: 1.5rem; max-width: 62rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.4rem; }
+  header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  header .derecha { margin-left: auto; display: flex; gap: 0.7rem; }
+  header a { text-decoration: none; }
+  .intro { color: var(--gris); line-height: 1.5; max-width: 44rem; }
+
+  .tarjeta {
+    background: var(--tinta-2); border: 1px solid var(--linea); border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    display: flex; flex-direction: column; gap: 0.9rem;
+  }
+  .tarjeta .fila-nombre { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+  .tarjeta .quien { font-size: 1.25rem; font-weight: 900; }
+  .tarjeta .meta { font-family: var(--mono); font-size: 0.8rem; color: var(--gris); }
+
+  .habilidades { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.8rem; }
+  .habilidad { display: flex; flex-direction: column; gap: 0.3rem; }
+  .habilidad .fila { display: flex; justify-content: space-between; align-items: baseline; }
+  .habilidad .valor { font-family: var(--mono); font-size: 0.85rem; }
+  .medidor { height: 7px; background: var(--tinta-3); border-radius: 4px; overflow: hidden; }
+  .medidor > div { height: 100%; border-radius: 4px; background: var(--ok); }
+  .medidor.flojo > div { background: var(--error); }
+  .medidor.medio > div { background: var(--amarillo); }
+  .punto-debil {
+    align-self: flex-start;
+    font-size: 0.82rem; font-weight: 700;
+    color: var(--error); border: 1px solid var(--error);
+    border-radius: 999px; padding: 0.2rem 0.7rem;
+  }
+  .grupo-insignias { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  #vacio { color: var(--gris); text-align: center; padding: 3rem 1rem; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <header>
+    <span class="marca"><span class="sello">Cierre</span> de Edición</span>
+    <span class="etiqueta">Panel del capacitador</span>
+    <div class="derecha">
+      <a class="boton secundario" href="/api/perfiles.csv" download>Exportar CSV</a>
+      <a class="boton secundario" href="/host">Pantalla central</a>
+    </div>
+  </header>
+  <p class="intro">Recorrido acumulado de cada periodista a través de todas las partidas:
+     precisión por habilidad, punto débil sugerido para reforzar con ejercicios, e insignias ganadas.
+     Los perfiles se guardan en <span class="tele">juego/data/perfiles.json</span>.</p>
+  <div id="lista"></div>
+  <div id="vacio" class="oculto">Todavía no hay perfiles registrados.<br>Se crean automáticamente cuando alguien juega su primera partida.</div>
+
+<script>
+'use strict';
+const NOMBRES_HAB = { hecho: 'Hecho vs. opinión', sector: 'Sector', escala: 'Escala', actor: 'Actores' };
+
+function escapar(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+fetch('/api/perfiles').then(r => r.json()).then(({ insignias, perfiles }) => {
+  const lista = Object.values(perfiles).sort((a, b) => b.puntosTotales - a.puntosTotales);
+  if (lista.length === 0) {
+    document.getElementById('vacio').classList.remove('oculto');
+    return;
+  }
+  document.getElementById('lista').innerHTML = lista.map(p => {
+    let peor = null, peorPct = 1.01;
+    const barras = Object.entries(p.habilidades).map(([hab, v]) => {
+      const pct = v.total > 0 ? v.ok / v.total : null;
+      if (pct !== null && v.total >= 3 && pct < peorPct) { peorPct = pct; peor = hab; }
+      const clase = pct === null ? '' : pct < 0.5 ? 'flojo' : pct < 0.75 ? 'medio' : '';
+      return `<div class="habilidad">
+        <div class="fila"><span class="etiqueta">${NOMBRES_HAB[hab]}</span>
+        <span class="valor">${pct === null ? 'sin datos' : Math.round(pct * 100) + '% (' + v.ok + '/' + v.total + ')'}</span></div>
+        <div class="medidor ${clase}"><div style="width:${pct === null ? 0 : pct * 100}%"></div></div>
+      </div>`;
+    }).join('');
+    const chips = Object.entries(p.insignias).map(([id, dato]) => {
+      const ins = insignias[id];
+      if (!ins) return '';
+      return `<span class="insignia" title="${escapar(ins.desc)} — desde ${dato.primera}">
+        <span class="emoji">${ins.emoji}</span>${ins.nombre}${dato.veces > 1 ? ' ×' + dato.veces : ''}</span>`;
+    }).join('');
+    return `<div class="tarjeta" style="margin-bottom:1rem">
+      <div class="fila-nombre">
+        <span class="quien">${escapar(p.nombre)}</span>
+        <span class="meta">${p.partidas} partidas · ${p.victorias} victorias · mejor: ${p.mejorPuntaje.toLocaleString('es-AR')} pts · desde ${p.creado}</span>
+      </div>
+      <div class="habilidades">${barras}</div>
+      ${peor && peorPct < 0.75 ? `<span class="punto-debil">Reforzar: ${NOMBRES_HAB[peor]} (${Math.round(peorPct * 100)}%)</span>` : ''}
+      <div class="grupo-insignias">${chips || '<span class="etiqueta">Sin insignias todavía</span>'}</div>
+    </div>`;
+  }).join('');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+/* CIERRE DE EDICIÓN — estilos compartidos
+   Identidad: sala de redacción bajo deadline. Tinta, papel, amarillo prensa, teletipo. */
+
+:root {
+  --tinta: #0f141d;
+  --tinta-2: #161d2a;
+  --tinta-3: #1e2736;
+  --linea: #2a3547;
+  --papel: #eef2f7;
+  --gris: #8b98ad;
+  --amarillo: #ffc531;
+  --ok: #3ecf8e;
+  --error: #ff5468;
+  --op-a: #e4574f;
+  --op-b: #3d7bf5;
+  --op-c: #eba51f;
+  --op-d: #2fae74;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", monospace;
+  --sans: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--tinta);
+  color: var(--papel);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.titular {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.tele { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.etiqueta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--gris);
+}
+
+/* ---------- Marca ---------- */
+.marca {
+  display: inline-flex; align-items: baseline; gap: 0.5rem;
+  font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em;
+}
+.marca .sello {
+  background: var(--amarillo); color: var(--tinta);
+  padding: 0.1em 0.45em; border-radius: 3px;
+}
+
+/* ---------- Botones ---------- */
+.boton {
+  display: inline-block;
+  font: inherit; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+  background: var(--amarillo); color: var(--tinta);
+  border: none; border-radius: 8px;
+  padding: 0.85rem 1.8rem;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+.boton:hover { filter: brightness(1.08); }
+.boton:active { transform: scale(0.97); }
+.boton:focus-visible { outline: 3px solid var(--papel); outline-offset: 2px; }
+.boton:disabled { opacity: 0.4; cursor: default; }
+.boton.secundario {
+  background: transparent; color: var(--papel);
+  border: 1px solid var(--linea);
+}
+
+/* ---------- Opciones (colores + formas) ---------- */
+.op-0 { --op: var(--op-a); }
+.op-1 { --op: var(--op-b); }
+.op-2 { --op: var(--op-c); }
+.op-3 { --op: var(--op-d); }
+
+.opcion {
+  position: relative;
+  display: flex; align-items: center; gap: 0.8rem;
+  background: var(--tinta-2);
+  border: 2px solid var(--op);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  color: var(--papel);
+  font: inherit; text-align: left;
+  transition: transform 0.08s ease, background 0.15s ease, opacity 0.3s ease;
+}
+.opcion .forma {
+  flex: 0 0 auto;
+  width: 2.1rem; height: 2.1rem;
+  display: grid; place-items: center;
+  background: var(--op); color: #fff;
+  border-radius: 7px;
+  font-size: 1.05rem; line-height: 1;
+}
+button.opcion { cursor: pointer; }
+button.opcion:active { transform: scale(0.97); }
+button.opcion:focus-visible { outline: 3px solid var(--papel); outline-offset: 2px; }
+
+.opcion.correcta { background: var(--op); box-shadow: 0 0 0 3px var(--papel) inset; }
+.opcion.apagada { opacity: 0.28; }
+
+/* ---------- Timer ---------- */
+.barra-tiempo {
+  height: 8px; border-radius: 4px;
+  background: var(--tinta-3);
+  overflow: hidden;
+}
+.barra-tiempo > div {
+  height: 100%; width: 100%;
+  background: var(--amarillo);
+  border-radius: 4px;
+  transform-origin: left;
+}
+.barra-tiempo.urgente > div { background: var(--error); }
+
+/* ---------- Chips ---------- */
+.chip {
+  display: inline-block;
+  font-family: var(--mono); font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  border: 1px solid var(--linea); border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  color: var(--gris);
+}
+.chip.nivel-1 { border-color: var(--ok); color: var(--ok); }
+.chip.nivel-2 { border-color: var(--amarillo); color: var(--amarillo); }
+.chip.nivel-3 { border-color: var(--error); color: var(--error); animation: pulso 0.9s infinite; }
+
+@keyframes pulso {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* ---------- Podio lateral ---------- */
+.fila-podio {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: var(--tinta-2);
+  transition: background 0.4s ease;
+}
+.fila-podio .pos {
+  font-family: var(--mono); font-weight: 700;
+  width: 1.6rem; text-align: center; color: var(--gris);
+}
+.fila-podio .nombre-j {
+  flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: 600;
+}
+.fila-podio .pts { font-family: var(--mono); color: var(--amarillo); }
+.fila-podio.p1 { background: linear-gradient(90deg, rgba(255,197,49,0.22), var(--tinta-2)); }
+.fila-podio.p1 .pos { color: var(--amarillo); }
+.fila-podio.p2 { background: linear-gradient(90deg, rgba(200,210,225,0.14), var(--tinta-2)); }
+.fila-podio.p3 { background: linear-gradient(90deg, rgba(205,127,50,0.16), var(--tinta-2)); }
+
+/* ---------- Insignias ---------- */
+.insignia {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--tinta-3); border: 1px solid var(--linea);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem 0.35rem 0.5rem;
+  font-size: 0.85rem;
+}
+.insignia .emoji { font-size: 1.15rem; }
+.insignia.nueva {
+  border-color: var(--amarillo);
+  animation: aparecer 0.5s ease backwards;
+}
+@keyframes aparecer {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Utilidades ---------- */
+.oculto { display: none !important; }
+.centrado { text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cierre de Edición</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗞️</text></svg>">
+<link rel="stylesheet" href="/css/estilo.css">
+<style>
+  body { display: grid; place-items: center; min-height: 100vh; padding: 1.5rem; }
+  .caja { max-width: 36rem; display: flex; flex-direction: column; gap: 1.6rem; align-items: center; text-align: center; }
+  h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); }
+  h1 span { color: var(--amarillo); }
+  p { color: var(--gris); line-height: 1.55; }
+  .acciones { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .acciones a { text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="caja">
+    <span class="marca"><span class="sello">Cierre</span> de Edición</span>
+    <h1 class="titular">La noticia está en el aire. <span>¿Quién la registra mejor?</span></h1>
+    <p>Juego de entrenamiento para periodistas del observatorio: identificar hechos,
+       actores, escalas y sectores con material real del relevamiento de medios.
+       Compiten hasta 10 jugadores por sala, en partidas de 4 a 5 minutos.</p>
+    <div class="acciones">
+      <a class="boton" href="/host">📺 Pantalla central</a>
+      <a class="boton secundario" href="/play">📱 Jugar</a>
+    </div>
+    <a class="etiqueta" style="text-decoration: underline;" href="/perfiles">Panel de perfiles del capacitador</a>
+  </div>
+</body>
+</html>

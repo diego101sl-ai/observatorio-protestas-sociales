@@ -1,0 +1,16 @@
+{
+  "name": "cierre-de-edicion",
+  "version": "1.0.0",
+  "description": "Juego de entrenamiento para periodistas: identificar hechos, actores, escalas y sectores. Multijugador estilo Kahoot (hasta 10 jugadores).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "datos": "node tools/parsear-relevamiento.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "qrcode-generator": "^2.0.4",
+    "socket.io": "^4.8.1"
+  }
+}

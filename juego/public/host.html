@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cierre de Edición — Pantalla central</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗞️</text></svg>">
+<link rel="stylesheet" href="/css/estilo.css">
+<style>
+  body { display: flex; flex-direction: column; min-height: 100vh; padding: 1.2rem 1.6rem; gap: 1rem; }
+
+  header {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  header .marca { font-size: 1.15rem; }
+  header .derecha { margin-left: auto; display: flex; gap: 0.6rem; align-items: center; }
+
+  main { flex: 1; display: flex; flex-direction: column; }
+
+  /* --- inicio --- */
+  #inicio { flex: 1; display: grid; place-items: center; }
+  #inicio .caja { text-align: center; max-width: 34rem; display: flex; flex-direction: column; gap: 1.4rem; align-items: center; }
+  #inicio h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); }
+  #inicio h1 .linea2 { color: var(--amarillo); display: block; }
+  #inicio p { color: var(--gris); line-height: 1.5; max-width: 30rem; }
+
+  /* --- lobby --- */
+  #lobby { flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+  #lobby .invitacion { display: flex; flex-direction: column; gap: 1.2rem; align-items: center; text-align: center; }
+  #codigo-sala {
+    font-family: var(--mono); font-size: clamp(4rem, 11vw, 8rem); font-weight: 700;
+    letter-spacing: 0.12em; color: var(--amarillo); line-height: 1;
+  }
+  #qr { background: #fff; padding: 12px; border-radius: 10px; display: inline-block; }
+  #qr svg { display: block; width: 180px; height: 180px; }
+  #url-sala { color: var(--gris); font-size: 1rem; }
+  #lobby .sala-jugadores { display: flex; flex-direction: column; gap: 0.9rem; }
+  #lista-jugadores { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .ficha-jugador {
+    background: var(--tinta-2); border: 1px solid var(--linea);
+    border-radius: 8px; padding: 0.6rem 1rem; font-weight: 700;
+    animation: aparecer 0.35s ease backwards;
+  }
+  @media (max-width: 800px) { #lobby { grid-template-columns: 1fr; } }
+
+  /* --- cuenta regresiva --- */
+  #cuenta { flex: 1; display: grid; place-items: center; }
+  #cuenta div { font-family: var(--mono); font-size: clamp(6rem, 22vw, 15rem); font-weight: 700; color: var(--amarillo); }
+
+  /* --- juego --- */
+  #juego { flex: 1; display: grid; grid-template-columns: 1fr 15rem; gap: 1.4rem; min-height: 0; }
+  #panel-pregunta { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+
+  #cable {
+    flex: 1;
+    background: var(--tinta-2); border: 1px solid var(--linea); border-radius: 12px;
+    padding: 1.6rem 1.9rem;
+    display: flex; flex-direction: column; gap: 1rem; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  #cable::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 5px;
+    background: var(--amarillo);
+  }
+  #tipo-pregunta { color: var(--amarillo); }
+  #texto-pregunta { font-size: clamp(1.2rem, 2.4vw, 1.7rem); font-weight: 900; text-wrap: balance; }
+  #contexto {
+    font-size: clamp(1rem, 2vw, 1.35rem); line-height: 1.5; color: var(--papel);
+    border-top: 1px dashed var(--linea); padding-top: 1rem;
+  }
+  #explicacion {
+    background: var(--tinta-3); border-left: 4px solid var(--ok);
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1.1rem; line-height: 1.5; font-size: 1.02rem;
+  }
+
+  #grilla-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  #grilla-opciones .opcion { font-size: clamp(0.95rem, 1.8vw, 1.15rem); font-weight: 600; min-height: 4rem; }
+
+  #rail { display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+  #rail .fila-podio { animation: aparecer 0.3s ease backwards; }
+  #respondieron { color: var(--gris); }
+
+  /* --- fin --- */
+  #fin { flex: 1; display: flex; flex-direction: column; gap: 1.6rem; align-items: center; overflow-y: auto; }
+  #fin h2 { font-size: clamp(1.8rem, 4.5vw, 3rem); text-align: center; }
+  #escenario { display: flex; align-items: flex-end; gap: 1rem; margin-top: 0.5rem; }
+  .columna-podio { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: clamp(7rem, 16vw, 11rem); }
+  .columna-podio .quien { font-weight: 900; text-align: center; font-size: 1.05rem; overflow-wrap: anywhere; }
+  .columna-podio .cuanto { font-family: var(--mono); color: var(--gris); }
+  .columna-podio .bloque {
+    width: 100%; border-radius: 10px 10px 0 0; display: grid; place-items: center;
+    font-size: 2.2rem; padding-top: 0.4rem;
+    animation: crecer 0.7s ease backwards;
+    transform-origin: bottom;
+  }
+  .columna-podio.oro .bloque { height: 9.5rem; background: linear-gradient(180deg, #ffc531, #b8860b); animation-delay: 0.55s; }
+  .columna-podio.plata .bloque { height: 7rem; background: linear-gradient(180deg, #cdd6e4, #7e8ba0); animation-delay: 0.3s; }
+  .columna-podio.bronce .bloque { height: 5rem; background: linear-gradient(180deg, #d99a5b, #8c5a2b); animation-delay: 0.05s; }
+  @keyframes crecer { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  #resto-tabla { display: flex; flex-direction: column; gap: 0.4rem; width: min(30rem, 90vw); }
+  #insignias-fin { display: flex; flex-direction: column; gap: 0.8rem; width: min(46rem, 94vw); }
+  #insignias-fin .jugador-insignias { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+  #insignias-fin .jugador-insignias .quien { font-weight: 800; min-width: 8rem; }
+</style>
+</head>
+<body>
+  <header>
+    <span class="marca"><span class="sello">Cierre</span> de Edición</span>
+    <span class="etiqueta">Entrenamiento de registro periodístico</span>
+    <div class="derecha">
+      <span id="chip-nivel" class="chip oculto"></span>
+      <span id="progreso" class="chip oculto"></span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Pantalla inicial -->
+    <section id="inicio">
+      <div class="caja">
+        <h1 class="titular">La noticia está en el aire.<span class="linea2">¿Quién la registra mejor?</span></h1>
+        <p>Hechos reales del relevamiento de medios. Identificá si son hechos completos, su sector,
+           su escala y sus actores — antes de que cierre la edición. Hasta 10 periodistas por sala.</p>
+        <button id="btn-crear" class="boton">Crear sala</button>
+        <a href="/perfiles" class="etiqueta" style="text-decoration: underline;">Panel de perfiles del capacitador</a>
+      </div>
+    </section>
+
+    <!-- Lobby -->
+    <section id="lobby" class="oculto">
+      <div class="invitacion">
+        <span class="etiqueta">Entrá desde el celular con el código</span>
+        <div id="codigo-sala">— — — —</div>
+        <div id="qr"></div>
+        <div id="url-sala" class="tele"></div>
+      </div>
+      <div class="sala-jugadores">
+        <span class="etiqueta">En la redacción (<span id="cuenta-jugadores">0</span>/10)</span>
+        <div id="lista-jugadores"></div>
+        <button id="btn-comenzar" class="boton" disabled>Comenzar partida</button>
+      </div>
+    </section>
+
+    <!-- Cuenta regresiva -->
+    <section id="cuenta" class="oculto"><div>3</div></section>
+
+    <!-- Juego -->
+    <section id="juego" class="oculto">
+      <div id="panel-pregunta">
+        <div class="barra-tiempo" id="barra"><div></div></div>
+        <div id="cable">
+          <span id="tipo-pregunta" class="etiqueta"></span>
+          <div id="texto-pregunta" class="titular"></div>
+          <div id="contexto"></div>
+          <div id="explicacion" class="oculto"></div>
+        </div>
+        <div id="grilla-opciones"></div>
+      </div>
+      <aside id="rail">
+        <span class="etiqueta">Tapa de mañana · podio</span>
+        <div id="podio-vivo"></div>
+        <span id="respondieron" class="tele"></span>
+      </aside>
+    </section>
+
+    <!-- Final -->
+    <section id="fin" class="oculto">
+      <h2 class="titular">🗞️ Edición cerrada</h2>
+      <div id="escenario"></div>
+      <div id="resto-tabla"></div>
+      <div id="insignias-fin"></div>
+      <button id="btn-otra" class="boton">Otra partida (misma sala)</button>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/qrcode.js"></script>
+  <script src="/js/host.js"></script>
+</body>
+</html>

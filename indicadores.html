@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explorador de indicadores laborales de OITraF: todas las series oficiales de Argentina, América Latina y el mundo, con gráfico, tabla, descarga CSV y enlace a la fuente.">
+  <meta name="theme-color" content="#071b3d">
+  <title>Indicadores laborales · OITraF</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23071b3d'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23ffffff' stroke-width='6' stroke-dasharray='9 5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5322d'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/oitraf.css">
+</head>
+<body>
+  <a class="skip-link" href="#resultados">Saltar a los resultados</a>
+
+  <header class="masthead">
+    <div class="shell masthead-inner">
+      <a class="brand" href="index.html" aria-label="OITraF, portada">
+        <svg class="brand-mark" width="40" height="40" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <circle cx="32" cy="32" r="18" fill="none" stroke="#ffffff" stroke-width="5" stroke-dasharray="9.4 5"/>
+          <circle cx="32" cy="32" r="9" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.7"/>
+          <circle cx="32" cy="32" r="4" fill="#e5322d"/>
+        </svg>
+        <span>
+          <span class="brand-word">OITra<b>F</b></span>
+          <span class="brand-sub">Observatorio del Trabajo y del Futuro</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="index.html#argentina">Argentina</a>
+        <a href="index.html#latam">América Latina</a>
+        <a href="index.html#mundo">Mundo</a>
+        <a href="index.html#cobertura">Cobertura de medios</a>
+        <a href="protestas.html">Protestas</a>
+        <a href="indicadores.html" aria-current="page">Todos los indicadores</a>
+      </nav>
+      <button id="theme-toggle" class="theme-btn" type="button" aria-label="Cambiar tema claro u oscuro">
+        <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 1.4 A5.6 5.6 0 0 1 7 12.6 Z" fill="currentColor"/></svg>
+        Tema
+      </button>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="h-exp">
+    <div class="shell hero-body" style="padding-block:2.2rem 1.8rem">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span>Explorador · todas las series oficiales</p>
+      <h1 id="h-exp" class="display" style="font-size:clamp(2.2rem,5vw,3.8rem)">Indicadores del <em>trabajo</em></h1>
+      <p class="hero-lede">Filtrá por escala, país, tema y fuente. Cada serie trae su gráfico, su tabla, la descarga en CSV y el enlace al organismo que la publica. <span id="gen"></span></p>
+    </div>
+  </section>
+
+  <div class="explorer-controls">
+    <div class="shell filters" role="search" aria-label="Filtros del explorador">
+      <label class="sr-only" for="f-escala">Escala</label>
+      <select id="f-escala" class="select"></select>
+      <label class="sr-only" for="f-geo">Geografía</label>
+      <select id="f-geo" class="select"></select>
+      <label class="sr-only" for="f-tema">Tema</label>
+      <select id="f-tema" class="select"></select>
+      <label class="sr-only" for="f-fuente">Fuente</label>
+      <select id="f-fuente" class="select"></select>
+      <label class="sr-only" for="f-q">Buscar</label>
+      <input id="f-q" class="text-input" type="search" placeholder="Buscar (ej. informalidad, salario, Brasil)…">
+      <button id="f-limpiar" class="tool-btn" type="button">Limpiar</button>
+      <button id="csv-todo" class="tool-btn" type="button" title="Descarga en CSV todas las series filtradas">CSV de la selección</button>
+    </div>
+  </div>
+
+  <main class="shell">
+    <p class="results-meta" id="resultados-meta">Cargando…</p>
+    <div id="comparacion" hidden style="margin-bottom:1rem"></div>
+    <div class="grid-2" id="resultados"></div>
+    <button class="btn btn-outline mas-btn" id="resultados-mas" type="button" hidden>Ver más series</button>
+
+    <h2 class="subhead" style="margin-top:2.4rem">Catálogo</h2>
+    <p class="results-meta" id="catalogo-nota"></p>
+    <div class="card"><div class="table-scroll" id="catalogo"></div></div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <div>
+        <span class="brand-word">OITra<b>F</b></span>
+        <p>Observatorio del Trabajo y del Futuro. Todas las series provienen de fuentes oficiales y se actualizan automáticamente; las elaboraciones propias se declaran como tales.</p>
+      </div>
+      <div>
+        <h4>Secciones</h4>
+        <ul>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="protestas.html">Observatorio de protestas sociales</a></li>
+          <li><a href="index.html#fuentes">Método y fuentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Fuentes de datos</h4>
+        <ul>
+          <li><a href="https://datos.gob.ar/series/api/" target="_blank" rel="noopener">datos.gob.ar</a> (INDEC, Secretaría de Trabajo)</li>
+          <li><a href="https://ilostat.ilo.org/es/" target="_blank" rel="noopener">OIT · ILOSTAT</a> · <a href="https://datos.bancomundial.org/" target="_blank" rel="noopener">Banco Mundial</a></li>
+          <li><a href="https://www.imf.org/external/datamapper/" target="_blank" rel="noopener">FMI</a> · <a href="https://data-explorer.oecd.org/" target="_blank" rel="noopener">OCDE</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a> · <a href="https://www.bls.gov/" target="_blank" rel="noopener">BLS</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/oitraf/indicadores.js"></script>
+</body>
+</html>

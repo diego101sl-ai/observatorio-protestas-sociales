@@ -12,9 +12,6 @@ Lector) cuyas credenciales viven en los secretos del repositorio:
   DASHBOARD_EMAIL     correo de la cuenta de solo lectura
   DASHBOARD_PASSWORD  su contraseña
 
-Alternativa sin usuario: DASHBOARD_TOKEN (el JUEGO_TOKEN del dashboard), que
-se envía en la cabecera X-Juego-Token al endpoint /api/juego/hechos.
-
 Si no hay credenciales, no toca el archivo existente y termina sin error.
 
 Qué se publica de cada hecho: título, resumen breve, medio, escala, sector,
@@ -33,7 +30,6 @@ import json
 import os
 import re
 import sys
-import unicodedata
 import urllib.error
 import urllib.request
 from collections import Counter
@@ -45,37 +41,8 @@ DIAS_VENTANA = int(os.environ.get("HECHOS_DIAS", "45"))
 MAX_HECHOS = int(os.environ.get("HECHOS_MAX", "1500"))
 UA = "OITraF-observatorio/1.0 (sincronización de cobertura)"
 
-MEDIOS = {
-    "Clarín": "Nacional", "Infobae": "Nacional", "La Nación": "Nacional", "Página 12": "Nacional",
-    "El Destape Web": "Nacional", "Telesur": "Latinoamericana", "O Globo": "Latinoamericana",
-    "La Jornada": "Latinoamericana", "El Diario de Hoy": "Latinoamericana", "Global Times": "Internacional",
-    "Xinhua": "Internacional", "Financial Times": "Internacional", "The Economist": "Internacional",
-    "The Wall Street Journal": "Internacional", "The Guardian": "Internacional",
-    "The Washington Post": "Internacional", "Al Jazeera": "Internacional", "Haaretz": "Internacional",
-    "Bloomberg": "Internacional", "Tehran Times": "Internacional", "El Diario de la República": "Provincial",
-    "El Chorrillero": "Provincial", "La Gaceta Digital": "Provincial", "El Corredor Noticias": "Provincial",
-}
 SECTORES = ["TRABAJADORES", "AGENDA POLÍTICA", "ENERGÍA", "FINANZAS", "INDUSTRIA", "AGRO"]
-
-
-def sin_acentos(s: str) -> str:
-    return "".join(c for c in unicodedata.normalize("NFD", s or "") if unicodedata.category(c) != "Mn").upper()
-
-
-def sector_de_eje(eje: str) -> str:
-    """Porta server/src/domain.ts::sectorDeEje del dashboard."""
-    e = sin_acentos(eje)
-    if re.search(r"\bAGRO|AGROPECUARI|\bCAMPO\b|\bRURAL|GANADER|\bSOJ|COSECH|SIEMBRA|PROTEINA", e):
-        return "AGRO"
-    if re.search(r"TRABAJ|LABORAL|SINDICA|GREMI|\bCGT\b|\bCTA\b|\bEMPLEO|PARITARIA|SALARI|JUBILAC|PREVISIONAL|MUNDO DEL TRABAJO", e):
-        return "TRABAJADORES"
-    if re.search(r"INDUSTRI|MANUFACTUR|FABRIL|SECTOR PRODUCTIV|SEMICONDUCTOR|TECNOLOG|INNOVAC|INTELIGENCIA ARTIFICIAL|AUTOMOTR", e):
-        return "INDUSTRIA"
-    if re.search(r"ENERG|PETROLE|\bGAS\b|COMBUSTIBLE|HIDROELECTRIC|NUCLEAR|ELECTRIC|\bLITIO|MINERIA|VACA MUERTA|COMMODIT", e):
-        return "ENERGÍA"
-    if re.search(r"FINANZ|MERCADO.{0,4}CAPITAL|MERCADOS? FINANCIER|\bDEUDA|RIESGO PAIS|\bTASAS|INFLACION|TIPO DE CAMBIO|RESERVAS|\bDOLAR|\bBONOS|BANCO CENTRAL|\bBCRA\b|\bFMI\b|CORPORAC|\bM&A\b|MERCADOS DE CAPITAL|ECONOM|COMERCI|\bFISCAL|\bPIB\b|ACTIVIDAD ECONOMICA|RECESION|CRECIMIENTO", e):
-        return "FINANZAS"
-    return "AGENDA POLÍTICA"
+ESCALAS = ["Internacional", "Latinoamericana", "Nacional", "Provincial"]
 
 
 def resumir(cuerpo: str, largo: int = 260) -> str:
@@ -110,9 +77,9 @@ def normalizar(h: dict) -> dict | None:
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", fecha):
         return None
     medio = (h.get("medio") or "").strip()
-    escala = (h.get("escala") or MEDIOS.get(medio) or "Nacional").strip()
+    escala = (h.get("escala") or "").strip()
     eje = (h.get("eje") or "").strip()
-    sector = (h.get("sector") or "").strip() or sector_de_eje(eje)
+    sector = (h.get("sector") or "").strip().upper()
     actores = h.get("actores") or []
     if isinstance(actores, str):
         try:
@@ -124,7 +91,7 @@ def normalizar(h: dict) -> dict | None:
         "titulo": (h.get("titulo") or "").strip(),
         "resumen": resumir(h.get("cuerpo") or ""),
         "medio": medio,
-        "escala": escala,
+        "escala": escala if escala in ESCALAS else "Nacional",
         "sector": sector if sector in SECTORES else "AGENDA POLÍTICA",
         "eje": eje,
         "fecha": fecha,
@@ -167,8 +134,8 @@ def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
         "origen": origen,
         "fuente": {
             "nombre": "Algoritmo Inteligente · Seguimiento de Medios",
-            "descripcion": "Relevamiento diario del equipo de OITraF: unidades de registro clasificadas por escala, sector, eje y actores, a partir de 24 medios nacionales, latinoamericanos e internacionales.",
-            "medios": list(MEDIOS.keys()),
+            "descripcion": "Relevamiento diario del equipo de OITraF: unidades de registro clasificadas por escala, sector, eje y actores, a partir de 24 medios nacionales, latinoamericanos, internacionales y provinciales.",
+            "medios": sorted({h["medio"] for h in hechos if h["medio"]}),
         },
         "ventana": {"desde": desde, "hasta": hasta, "dias": DIAS_VENTANA},
         "total_corpus": len(hechos_crudos),
@@ -192,24 +159,18 @@ def desde_dashboard() -> int:
     base = os.environ.get("DASHBOARD_URL", "").strip().rstrip("/")
     email = os.environ.get("DASHBOARD_EMAIL", "").strip()
     clave = os.environ.get("DASHBOARD_PASSWORD", "")
-    token = os.environ.get("DASHBOARD_TOKEN", "").strip()
-    if not base or not ((email and clave) or token):
-        print("[i] Sin credenciales del dashboard (DASHBOARD_URL + DASHBOARD_EMAIL/PASSWORD o DASHBOARD_TOKEN). "
+    if not base or not email or not clave:
+        print("[i] Sin credenciales del dashboard (DASHBOARD_URL, DASHBOARD_EMAIL y DASHBOARD_PASSWORD). "
               "No se modifica data/hechos.json.")
         return 0
     try:
-        if email and clave:
-            sesion = pedir(f"{base}/api/auth/login", headers={"Content-Type": "application/json"},
-                           data=json.dumps({"email": email, "password": clave}).encode())
-            jwt = sesion.get("token")
-            if not jwt:
-                raise RuntimeError("el login no devolvió token")
-            hechos = pedir(f"{base}/api/hechos", headers={"Authorization": f"Bearer {jwt}"})
-            origen = f"{base}/api/hechos (sesión {sesion.get('user', {}).get('rol', '?')})"
-        else:
-            r = pedir(f"{base}/api/juego/hechos", headers={"X-Juego-Token": token})
-            hechos = r.get("hechos") if isinstance(r, dict) else r
-            origen = f"{base}/api/juego/hechos (token compartido)"
+        sesion = pedir(f"{base}/api/auth/login", headers={"Content-Type": "application/json"},
+                       data=json.dumps({"email": email, "password": clave}).encode())
+        jwt = sesion.get("token")
+        if not jwt:
+            raise RuntimeError("el login no devolvió token")
+        hechos = pedir(f"{base}/api/hechos", headers={"Authorization": f"Bearer {jwt}"})
+        origen = f"{base}/api/hechos (sesión {sesion.get('user', {}).get('rol', '?')})"
         if not isinstance(hechos, list):
             raise RuntimeError(f"respuesta inesperada: {str(hechos)[:200]}")
     except urllib.error.HTTPError as e:

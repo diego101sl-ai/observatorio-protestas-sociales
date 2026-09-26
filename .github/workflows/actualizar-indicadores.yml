@@ -48,7 +48,6 @@ jobs:
           DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
           DASHBOARD_EMAIL: ${{ secrets.DASHBOARD_EMAIL }}
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
-          DASHBOARD_TOKEN: ${{ secrets.DASHBOARD_TOKEN }}
         run: python3 scripts/sincronizar_hechos.py
 
       - name: Publicar datos en la rama

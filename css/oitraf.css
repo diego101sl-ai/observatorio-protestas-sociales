@@ -224,11 +224,20 @@ button { font: inherit; }
    recta del corte original. Medidas derivadas de img/marca/isotipo.json. */
 .iso { position: relative; display: inline-block; aspect-ratio: 1175 / 1030; height: 48px; flex: none; }
 .iso img { position: absolute; display: block; max-width: none; }
-.iso-red { inset: 0; width: 100%; height: 100%; }
+.iso-circ { inset: 0; width: 100%; height: 100%; opacity: 0.5; animation: iso-circuito 7.2s ease-in-out infinite; }
+.iso-circ--rojo { color: #e5322d; animation-delay: 0s; }
+.iso-circ--amarillo { color: #f2c14e; animation-delay: -2.4s; }
+.iso-circ--azul { color: #ffffff; animation-delay: -4.8s; }
+/* cada circuito se enciende un tercio del ciclo: rojo, amarillo y azul, por turnos */
+@keyframes iso-circuito {
+  0%, 100% { opacity: 0.5; filter: none; }
+  10%, 30% { opacity: 1; filter: drop-shadow(0 0 2px currentColor); }
+  42% { opacity: 0.5; filter: none; }
+}
 .iso-clip { position: absolute; inset: 0; clip-path: polygon(0% 81.52%, 100% 39%, 100% 100%, 0% 100%); }
 .iso-gear { left: 17.76%; top: 17.43%; width: 71.83%; height: 81.94%; transform-origin: 50% 50%; animation: iso-girar 30s linear infinite; will-change: transform; }
 @keyframes iso-girar { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .iso-gear { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .iso-gear, .iso-circ { animation: none; } .iso-circ { opacity: 1; } }
 
 /* ============ Hero ============ */
 .hero {
@@ -249,6 +258,9 @@ button { font: inherit; }
   height: min(78%, 420px); opacity: 0.12; pointer-events: none; user-select: none;
 }
 .hero-iso .iso-gear { animation-duration: 60s; }
+.hero-iso .iso-circ { animation-duration: 14.4s; filter: none !important; }
+.hero-iso .iso-circ--amarillo { animation-delay: -4.8s; }
+.hero-iso .iso-circ--azul { animation-delay: -9.6s; }
 @media (max-width: 900px) { .hero-iso { display: none; } }
 .hero .kicker { color: var(--navy-sub); }
 .hero-title { font-size: clamp(2.1rem, 5.2vw, 4rem); margin-top: 0.8rem; }

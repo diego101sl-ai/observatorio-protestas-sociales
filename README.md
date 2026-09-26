@@ -84,7 +84,7 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 ├── index.html                 # portal OITraF
 ├── indicadores.html           # explorador de todas las series
 ├── protestas.html             # mapa de protestas (GDELT)
-├── img/marca/                 # logos oficiales OITraF (horizontal, blanco, vertical, isotipo, favicon)
+├── img/marca/                 # marca OITraF: isotipo coloreado en capas (red + engranaje) para la animación, logos horizontal/vertical, favicon
 ├── css/
 │   ├── oitraf.css             # identidad OITraF (marino + rojo), tokens claro/oscuro, paleta de gráficos validada
 │   └── style.css              # estilos del mapa de protestas
@@ -111,7 +111,7 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 
 ## Accesibilidad y visualización
 
-- Identidad OITraF: logos oficiales en `img/marca/` y tipografía Open Sans (equivalente libre de la del wordmark). Tema claro y oscuro (botón y preferencia del sistema), paleta categórica y rampa secuencial validadas para daltonismo y contraste en ambos modos.
+- Identidad OITraF: isotipo oficial coloreado (red neuronal fija y engranaje que gira detrás del corte, `img/marca/`, medidas en `isotipo.json`), wordmark en Open Sans (equivalente libre de la tipografía del logo). El giro se desactiva con `prefers-reduced-motion`. Tema claro y oscuro (botón y preferencia del sistema), paleta categórica y rampa secuencial validadas para daltonismo y contraste en ambos modos.
 - Cada gráfico tiene vista de tabla, tooltip con todas las series al pasar el puntero y navegación por teclado (flechas) en los de líneas; nunca hay dos ejes en un mismo gráfico.
 - Los textos de los hechos y las etiquetas de datos se insertan con `textContent`, nunca como HTML.
 

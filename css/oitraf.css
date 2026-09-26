@@ -191,15 +191,18 @@ button { font: inherit; }
   padding-block: 0.8rem;
   flex-wrap: wrap;
 }
-.brand { display: inline-flex; align-items: center; gap: 0.9rem; color: inherit; text-decoration: none; flex-wrap: wrap; }
-.brand-logo { height: 44px; width: auto; display: block; }
+.brand { display: inline-flex; align-items: center; gap: 0.7rem; color: inherit; text-decoration: none; flex-wrap: wrap; }
+.brand .iso { height: 46px; }
+.brand-word { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; letter-spacing: -0.02em; line-height: 1; color: #fff; }
 .brand-sub {
   display: block; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--navy-sub); max-width: 15rem; line-height: 1.4;
   padding-left: 0.9rem; border-left: 1px solid var(--navy-line);
 }
 @media (max-width: 520px) { .brand-sub { border-left: 0; padding-left: 0; max-width: none; } }
-.footer-logo { height: 40px; width: auto; display: block; margin-bottom: 0.6rem; }
+.footer .brand { margin-bottom: 0.6rem; }
+.footer .brand .iso { height: 40px; }
+.footer .brand-word { font-size: 1.45rem; }
 .nav { display: flex; gap: 0.15rem 1.1rem; flex-wrap: wrap; align-items: center; }
 .nav a {
   color: var(--navy-ink); text-decoration: none; font-size: 0.9rem; font-weight: 500;
@@ -213,6 +216,19 @@ button { font: inherit; }
   padding: 0.3rem 0.75rem; font-size: 0.8rem; cursor: pointer;
 }
 .theme-btn:hover { background: rgba(255, 255, 255, 0.08); }
+
+
+/* ============ Isotipo animado ============
+   Dos capas del logo oficial: la red neuronal (fija) y el engranaje completo,
+   reconstruido a partir del semiengranaje, que gira detrás de un recorte con la
+   recta del corte original. Medidas derivadas de img/marca/isotipo.json. */
+.iso { position: relative; display: inline-block; aspect-ratio: 1175 / 1030; height: 48px; flex: none; }
+.iso img { position: absolute; display: block; max-width: none; }
+.iso-red { inset: 0; width: 100%; height: 100%; }
+.iso-clip { position: absolute; inset: 0; clip-path: polygon(0% 81.52%, 100% 39%, 100% 100%, 0% 100%); }
+.iso-gear { left: 17.76%; top: 17.43%; width: 71.83%; height: 81.94%; transform-origin: 50% 50%; animation: iso-girar 30s linear infinite; will-change: transform; }
+@keyframes iso-girar { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .iso-gear { animation: none; } }
 
 /* ============ Hero ============ */
 .hero {
@@ -230,8 +246,9 @@ button { font: inherit; }
 .hero-body { position: relative; padding-block: 3rem 2.2rem; max-width: 62rem; }
 .hero-iso {
   position: absolute; right: clamp(-6rem, 2vw, 4rem); top: 50%; transform: translateY(-58%);
-  height: min(78%, 420px); width: auto; opacity: 0.1; pointer-events: none; user-select: none;
+  height: min(78%, 420px); opacity: 0.12; pointer-events: none; user-select: none;
 }
+.hero-iso .iso-gear { animation-duration: 60s; }
 @media (max-width: 900px) { .hero-iso { display: none; } }
 .hero .kicker { color: var(--navy-sub); }
 .hero-title { font-size: clamp(2.1rem, 5.2vw, 4rem); margin-top: 0.8rem; }

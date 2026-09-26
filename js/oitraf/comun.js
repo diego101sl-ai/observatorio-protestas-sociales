@@ -67,7 +67,8 @@ export function fmtNum(v, unidad = "", opciones = {}) {
   let dec = opciones.decimales;
   if (dec === undefined) {
     if (unidad === "" && Number.isInteger(v)) dec = 0;
-    else if (unidad === "%" || unidad === "p.p." || unidad === "índice" || unidad === "canastas") dec = 1;
+    else if (unidad === "canastas") dec = 2;
+    else if (unidad === "%" || unidad === "p.p." || unidad === "índice") dec = 1;
     else if (unidad === "USD/hora") dec = 2;
     else if (abs >= 1000) dec = 0;
     else if (abs >= 100) dec = 1;

@@ -232,7 +232,13 @@ export class Catalogo {
     const candidatas = this.filtrar(q);
     if (!candidatas.length) return null;
     const pref = q.prefer || PREFERENCIA;
+    // Una fuente preferida no gana si su último dato tiene dos o más años menos
+    // que el de otra candidata: la actualidad manda sobre la preferencia.
+    const anio = (s) => Number(String(s.ultimo?.[0] || "0").slice(0, 4));
+    const masReciente = Math.max(...candidatas.map(anio));
     candidatas.sort((a, b) => {
+      const va = anio(a) < masReciente - 1, vb = anio(b) < masReciente - 1;
+      if (va !== vb) return va ? 1 : -1;
       const pa = pref.indexOf(a.fuente), pb = pref.indexOf(b.fuente);
       if (pa !== pb) return (pa === -1 ? 99 : pa) - (pb === -1 ? 99 : pb);
       // misma fuente: preferir el dato más reciente, luego el más frecuente

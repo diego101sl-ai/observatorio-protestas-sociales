@@ -158,7 +158,7 @@ const MUNDO_PLACAS = [
   { geo: "WLD", volanta: "Mundo", prefer: ["wb"], imf: "WEOWORLD" },
   { geo: "LCN", volanta: "América Latina y el Caribe", prefer: ["wb"] },
   { geo: "USA", volanta: "Estados Unidos", prefer: ["bls", "oecd", "wb"], imf: "USA" },
-  { geo: "EA20", volanta: "Zona euro", prefer: ["eurostat"] },
+  { geo: "EA21", volanta: "Zona euro", prefer: ["eurostat"], alt: "EA20" },
   { geo: "EU27_2020", volanta: "Unión Europea", prefer: ["eurostat"] },
   { geo: "CHN", volanta: "China", prefer: ["wb"], imf: "CHN" },
   { geo: "IND", volanta: "India", prefer: ["wb"], imf: "IND" },
@@ -172,7 +172,7 @@ function renderMundo() {
   let n = 0;
   for (const cfg of MUNDO_PLACAS) {
     let s = cat.mejor({ tema: "desocupacion", geo: cfg.geo, prefer: cfg.prefer });
-    if (!s && cfg.alt) s = cat.mejor({ tema: "desocupacion", geo: cfg.alt, prefer: ["wb"] });
+    if (!s && cfg.alt) s = cat.mejor({ tema: "desocupacion", geo: cfg.alt, prefer: cfg.prefer.concat(["wb"]) });
     if (!s) continue;
     const imf = cfg.imf ? cat.mejor({ fuente: "imf", codigo: "LUR", geo: cfg.imf }) : null;
     const anio = new Date().getFullYear();
@@ -188,7 +188,7 @@ function renderMundo() {
 
   const lineas = [
     cat.mejor({ fuente: "bls", codigo: "LNS14000000", geo: "USA" }),
-    cat.mejor({ fuente: "eurostat", codigo: "une_rt_m.TOTAL", geo: "EA20" }),
+    cat.mejor({ fuente: "eurostat", codigo: "une_rt_m.TOTAL", geo: "EA21" }) || cat.mejor({ fuente: "eurostat", codigo: "une_rt_m.TOTAL", geo: "EA20" }),
     cat.mejor({ fuente: "oecd", geo: "OECD" }),
     cat.mejor({ fuente: "oecd", geo: "MEX" }) || cat.mejor({ fuente: "ilo", codigo: "UNE_DEAP_SEX_AGE_RT_M.AGE_YTHADULT_YGE15", geo: "MEX" }),
     cat.mejor({ fuente: "oecd", geo: "CHL" }) || cat.mejor({ fuente: "ilo", codigo: "UNE_DEAP_SEX_AGE_RT_M.AGE_YTHADULT_YGE15", geo: "CHL" }),

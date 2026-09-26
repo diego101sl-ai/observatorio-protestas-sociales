@@ -69,7 +69,7 @@ PAISES = {
     "EAS": "Asia oriental y Pacífico", "SAS": "Asia meridional", "SSF": "África subsahariana",
     "MEA": "Oriente Medio y Norte de África", "ECS": "Europa y Asia central", "NAC": "América del Norte",
     # códigos usados por Eurostat / OCDE / FMI
-    "EU27_2020": "Unión Europea (27)", "EA20": "Zona euro", "OECD": "OCDE", "WEOWORLD": "Mundo",
+    "EU27_2020": "Unión Europea (27)", "EA21": "Zona euro", "EA20": "Zona euro (20 países)", "OECD": "OCDE", "WEOWORLD": "Mundo",
     "G7": "G7", "G20": "G20",
 }
 LATAM = ["ARG", "BOL", "BRA", "CHL", "COL", "CRI", "CUB", "DOM", "ECU", "SLV", "GTM", "HND",
@@ -606,8 +606,8 @@ AR_SERIES = [
         "clave": "indigencia_personas", "tema": "pobreza", "nombre": "Indigencia (personas, EPH)",
         "descripcion": "Personas bajo la línea de indigencia como porcentaje de la población de 31 aglomerados urbanos. Semestral, INDEC.",
         "unidad": "%", "frecuencia": "semestral", "ids": [],
-        "buscar": "poblacion indigente pct total continua",
-        "incluir": ["indigen"], "excluir": ["hogar", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado", "gran ", "interior", "partidos"],
+        "buscar": "indigente continua",
+        "incluir": ["indigen", "continua"], "excluir": ["hogar", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado", "gran ", "interior", "partidos"],
         "publicador": "indec",
     },
     {
@@ -768,8 +768,8 @@ def descargar_eurostat() -> None:
     t0 = time.time()
     n = 0
     detalle = ""
-    geos = ["EU27_2020", "EA20", "DEU", "ESP", "FRA", "ITA"]
-    eu = {"DEU": "DE", "ESP": "ES", "FRA": "FR", "ITA": "IT", "EU27_2020": "EU27_2020", "EA20": "EA20"}
+    geos = ["EU27_2020", "EA21", "EA20", "DEU", "ESP", "FRA", "ITA"]
+    eu = {"DEU": "DE", "ESP": "ES", "FRA": "FR", "ITA": "IT", "EU27_2020": "EU27_2020", "EA21": "EA21", "EA20": "EA20"}
     inv = {v: k for k, v in eu.items()}
     base = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
     consultas = [
@@ -899,7 +899,7 @@ def descargar_oecd() -> None:
     t0 = time.time()
     n = 0
     detalle = ""
-    geos = ["CHL", "COL", "CRI", "MEX", "USA", "CAN", "JPN", "KOR", "DEU", "ESP", "FRA", "ITA", "GBR", "TUR", "AUS", "OECD", "EA20"]
+    geos = ["CHL", "COL", "CRI", "MEX", "USA", "CAN", "JPN", "KOR", "DEU", "ESP", "FRA", "ITA", "GBR", "TUR", "AUS", "OECD", "EA20", "EA21"]
     url = ("https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0/"
            + "+".join(geos) + "........?startPeriod=2010-01&dimensionAtObservation=AllDimensions&format=csvfilewithlabels")
     try:
@@ -920,13 +920,19 @@ def descargar_oecd() -> None:
                 continue
             geo = col("REF_AREA")
             v = numero(col("OBS_VALUE"))
+            periodo = col("TIME_PERIOD")
+            m = re.match(r"^(\d{4})-Q(\d)$", periodo)
+            frec = "trimestral" if m else ("mensual" if re.match(r"^\d{4}-\d{2}$", periodo) else "anual")
+            if m:
+                periodo = f"{m.group(1)}-T{m.group(2)}"
             if geo in PAISES and v is not None:
-                por_geo.setdefault(geo, []).append((col("TIME_PERIOD"), v))
-        for geo, puntos in por_geo.items():
-            agregar(fuente="oecd", codigo="UNE_LF_M", tema="desocupacion",
-                    nombre="Tasa de desocupación armonizada (mensual, desestacionalizada)",
+                por_geo.setdefault((geo, frec), []).append((periodo, v))
+        for (geo, frec), puntos in por_geo.items():
+            etiqueta = {"mensual": "mensual", "trimestral": "trimestral", "anual": "anual"}[frec]
+            agregar(fuente="oecd", codigo=f"UNE_LF_{frec[0].upper()}", tema="desocupacion",
+                    nombre=f"Tasa de desocupación armonizada ({etiqueta}, desestacionalizada)",
                     descripcion="Desocupados como porcentaje de la fuerza laboral, 15 años y más, definición armonizada de la OCDE.",
-                    unidad="%", frecuencia="mensual", geo=geo, puntos=puntos,
+                    unidad="%", frecuencia=frec, geo=geo, puntos=puntos,
                     url="https://data-explorer.oecd.org/vis?df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_LFS%40DF_IALFS_UNE_M&df[ag]=OECD.SDD.TPS",
                     ajuste="desestacionalizado")
             n += 1

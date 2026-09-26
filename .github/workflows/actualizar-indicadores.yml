@@ -1,0 +1,73 @@
+# Robot de OITraF: descarga los indicadores laborales de fuentes oficiales
+# (Banco Mundial, OIT, datos.gob.ar/INDEC, Eurostat, BLS, FMI, OCDE) y sincroniza
+# la cobertura de medios desde el dashboard Algoritmo Inteligente. Publica los
+# resultados en data/ de la rama en la que corre (de forma programada, main).
+
+name: Actualizar indicadores OITraF
+
+on:
+  schedule:
+    - cron: "17 6 * * *"    # todos los días, 06:17 UTC (03:17 en Argentina)
+  push:
+    paths:                   # al cambiar el robot, se prueba en la rama que recibe el push
+      - "scripts/actualizar_indicadores.py"
+      - "scripts/sincronizar_hechos.py"
+      - ".github/workflows/actualizar-indicadores.yml"
+  workflow_dispatch:
+    inputs:
+      fuentes:
+        description: "Fuentes a consultar (vacío = todas). Ej.: wb,ilo,datosar"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: indicadores-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Indicadores laborales (fuentes oficiales)
+        env:
+          FUENTES: ${{ github.event.inputs.fuentes }}
+        run: |
+          if [ -n "$FUENTES" ]; then
+            python3 scripts/actualizar_indicadores.py --solo "$FUENTES"
+          else
+            python3 scripts/actualizar_indicadores.py
+          fi
+
+      - name: Cobertura de medios (dashboard Algoritmo Inteligente)
+        env:
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+          DASHBOARD_EMAIL: ${{ secrets.DASHBOARD_EMAIL }}
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+        run: python3 scripts/sincronizar_hechos.py
+
+      - name: Publicar datos en la rama
+        env:
+          RAMA: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in data/indicadores.json data/indicadores data/hechos.json; do
+            [ -e "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "Actualizar indicadores laborales y cobertura de medios"
+            git pull --rebase origin "$RAMA"
+            git push origin "HEAD:$RAMA"
+          fi

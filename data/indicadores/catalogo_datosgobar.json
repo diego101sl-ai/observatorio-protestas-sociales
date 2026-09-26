@@ -1,0 +1,1127 @@
+{
+ "eph_desocupacion": [
+  {
+   "puntaje": 26,
+   "id": "42.3_EPH_PUNTUATAL_0_M_30",
+   "titulo": "eph_continua_desocupacion_total",
+   "descripcion": "Tasa de desocupación total. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "45.1_ECTDTN_0_A_41",
+   "titulo": "eph_continua_tasa_desempleo_total_neuquen",
+   "descripcion": "Tasa de desempleo total Neuquén. En porcentaje.",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "45.1_ECTDT_0_A_33",
+   "titulo": "eph_continua_tasa_desempleo_total",
+   "descripcion": "Tasa de desempleo total. En porcentaje.",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "45.2_ECTDTF_0_T_41",
+   "titulo": "eph_continua_tasa_desempleo_total_formosa",
+   "descripcion": "Tasa de desempleo total Formosa. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "45.2_ECTDTP_0_T_43",
+   "titulo": "eph_continua_tasa_desempleo_total_patagonia",
+   "descripcion": "Tasa de desempleo total patagonia. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "344.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "42.2_EPDT_0_M_30",
+   "titulo": "eph_puntual_desocupacion_total",
+   "descripcion": "Tasa de desocupación total. En porcentaje.",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "45.1_ECTDTP_0_A_43",
+   "titulo": "eph_continua_tasa_desempleo_total_patagonia",
+   "descripcion": "Tasa de desempleo total patagonia. En porcentaje.",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "eph_desocupacion__elegida": "42.3_EPH_PUNTUATAL_0_M_30",
+ "eph_actividad": [
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTATC_0_T_43",
+   "titulo": "eph_continua_tasa_actividad_total_concordia",
+   "descripcion": "Tasa de actividad total Concordia. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTATN_0_T_41",
+   "titulo": "eph_continua_tasa_actividad_total_neuquen",
+   "descripcion": "Tasa de actividad total Neuquén. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTATC_0_T_38",
+   "titulo": "eph_continua_tasa_actividad_total_caba",
+   "descripcion": "Tasa de actividad total CABA. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTAT_0_T_33",
+   "titulo": "eph_continua_tasa_actividad_total",
+   "descripcion": "Tasa de actividad total. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTATF_0_T_41",
+   "titulo": "eph_continua_tasa_actividad_total_formosa",
+   "descripcion": "Tasa de actividad total Formosa. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTATP_0_T_41",
+   "titulo": "eph_continua_tasa_actividad_total_posadas",
+   "descripcion": "Tasa de actividad total Posadas. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "43.2_ECTATS_0_T_39",
+   "titulo": "eph_continua_tasa_actividad_total_salta",
+   "descripcion": "Tasa de actividad total Salta. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "42.3_EPH_PUNTUATAL_0_M_27",
+   "titulo": "eph_continua_actividad_total",
+   "descripcion": "Tasa de actividad total. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "eph_actividad__elegida": "43.2_ECTAT_0_T_33",
+ "eph_empleo": [
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTETN_0_T_38",
+   "titulo": "eph_continua_tasa_empleo_total_neuquen",
+   "descripcion": "Tasa de empleo total Neuquén. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTET_0_T_30",
+   "titulo": "eph_continua_tasa_empleo_total",
+   "descripcion": "Tasa de empleo total. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTETP_0_T_38",
+   "titulo": "eph_continua_tasa_empleo_total_posadas",
+   "descripcion": "Tasa de empleo total Posadas. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTETJ_0_T_36",
+   "titulo": "eph_continua_tasa_empleo_total_jujuy",
+   "descripcion": "Tasa de empleo total Jujuy. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "42.3_EPH_PUNTUATAL_0_M_24",
+   "titulo": "eph_continua_empleo_total",
+   "descripcion": "Tasa de empleo total. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTETC_0_T_35",
+   "titulo": "eph_continua_tasa_empleo_total_caba",
+   "descripcion": "Tasa de empleo total CABA. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTETC_0_T_41",
+   "titulo": "eph_continua_tasa_empleo_total_corrientes",
+   "descripcion": "Tasa de empleo total Corrientes. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "44.2_ECTETC_0_T_40",
+   "titulo": "eph_continua_tasa_empleo_total_concordia",
+   "descripcion": "Tasa de empleo total Concordia. En porcentaje.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "eph_empleo__elegida": "44.2_ECTET_0_T_30",
+ "eph_subocupacion": [
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTST_0_T_36",
+   "titulo": "eph_continua_tasa_subocupacion_total",
+   "descripcion": "Tasa de subocupación total.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTP_0_T_44",
+   "titulo": "eph_continua_tasa_subocupacion_total_posadas",
+   "descripcion": "Tasa de subocupación total Posadas.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTF_0_T_44",
+   "titulo": "eph_continua_tasa_subocupacion_total_formosa",
+   "descripcion": "Tasa de subocupación total Formosa.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTC_0_T_46",
+   "titulo": "eph_continua_tasa_subocupacion_total_concordia",
+   "descripcion": "Tasa de subocupación total Concordia.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTN_0_T_44",
+   "titulo": "eph_continua_tasa_subocupacion_total_neuquen",
+   "descripcion": "Tasa de subocupación total Neuquén.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTS_0_T_42",
+   "titulo": "eph_continua_tasa_subocupacion_total_salta",
+   "descripcion": "Tasa de subocupación total Salta.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTC_0_T_47",
+   "titulo": "eph_continua_tasa_subocupacion_total_corrientes",
+   "descripcion": "Tasa de subocupación total Corrientes.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "46.2_ECTSTC_0_T_41",
+   "titulo": "eph_continua_tasa_subocupacion_total_caba",
+   "descripcion": "Tasa de subocupación total CABA.",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "eph_subocupacion__elegida": "46.2_ECTST_0_T_36",
+ "eph_informalidad": [
+  {
+   "puntaje": 24,
+   "id": "52.2_ASDJ_0_0_37",
+   "titulo": "asalariados_sin_descuento_jubilatorio",
+   "descripcion": "Tasa de asalariados sin descuento jubilatorio de la Encuesta Permanente de Hogares",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 10,
+   "id": "52.1_ASDJ_0_0_37",
+   "titulo": "asalariados_sin_descuento_jubilatorio",
+   "descripcion": "Tasa de asalariados sin descuento jubilatorio de la Encuesta Permanente de Hogares",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_ASALARIADOSTE_NOA_0_T_58",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_noroeste",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Noroeste",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_ASALARIADOSTE_0_T_58",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_nordeste",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Nordeste",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_ASALARIADOHAB_0_T_50",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_menos_500000_hab",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral. Aglomeradosde menos de 500.000 habitantes .",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_ASALARIADOGBA_0_T_53",
+   "titulo": "asalariados_sin_descuento_jubilatorio_aglomerados_gba",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral. Gran Buenos Aires",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_ASALARIADOANA_0_T_58",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_pampeana",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Pampeana.",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_ASALARIADOUYO_0_T_54",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_cuyo",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.. Region Cuyo",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "eph_informalidad__elegida": "52.2_ASDJ_0_0_37",
+ "sipa_registrados": [
+  {
+   "puntaje": -999,
+   "id": "151.1_TL_ESTADAD_2012_M_20",
+   "titulo": "total_estacionalidad",
+   "descripcion": "Total de trabajadores. Con estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "151.1_TL_SIN_TAC_2012_M_15",
+   "titulo": "total_sin_estac",
+   "descripcion": "Total de trabajadores. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "189.1_TOTAL_JUBIINO_0_0_58",
+   "titulo": "jubilaciones_pensiones_sipa",
+   "descripcion": "Total de Jubilaciones y Pensiones de SIPA. ANSES-Transparencia. Mensuales",
+   "frecuencia": "R/P1M",
+   "fin": "2026-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "189.1_TOTAL_JUBIINO_2_0_0_58",
+   "titulo": "total_jubilaciones_pensiones_sipa_datos_abiertos",
+   "descripcion": "Total de Jubilaciones y Pensiones de SIPA. ANSES-Abiertos. Mensuales",
+   "frecuencia": "R/P1M",
+   "fin": "2025-09-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "151.1_AARIADOTAC_2012_M_25",
+   "titulo": "asalariados_pub_sin_estac",
+   "descripcion": "Asalariados. Sector público. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "151.1_IPENDIEDAD_2012_M_39",
+   "titulo": "independientes_autonomos_estacionalidad",
+   "descripcion": "Independientes autónomos. Con estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "151.1_AARIADOTAC_2012_M_40",
+   "titulo": "asalariados_casas_particulares_sin_estac",
+   "descripcion": "Asalariados. Casas particulares. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "151.1_IPENDIETAC_2012_M_43",
+   "titulo": "independientes_monotributo_social_sin_estac",
+   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "sipa_registrados__elegida": "151.1_TL_SIN_TAC_2012_M_15",
+ "sipa_privados": [
+  {
+   "puntaje": 26,
+   "id": "152.1_TL_SIN_EST_2009_M_13",
+   "titulo": "total_sin_est",
+   "descripcion": "Asalariados. Sector privado. Total. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "152.1_TL_ESTEST_2009_M_9",
+   "titulo": "total_est",
+   "descripcion": "Asalariados. Sector privado. Total. Con estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "153.1_RNERACIDIO_2009_M_21",
+   "titulo": "asalariados_priv_remuneracion_promedio",
+   "descripcion": "Asalariados. Sector privado. Remuneracion promedio.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "153.1_RNERACIANA_2009_M_20",
+   "titulo": "asalariados_priv_remuneracion_mediana",
+   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "151.1_AARIADOTAC_2012_M_26",
+   "titulo": "asalariados_priv_sin_estac",
+   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "151.1_AARIADODAD_2012_M_31",
+   "titulo": "asalariados_priv_estacionalidad",
+   "descripcion": "Asalariados. Sector privado. Con estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "152.1_ENANZA_EST_2009_M_17",
+   "titulo": "ensenanza_sin_est",
+   "descripcion": "Asalariados. Sector privado. Enseñanza. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "152.1_CTRUCCIEST_2009_M_16",
+   "titulo": "construccion_est",
+   "descripcion": "Asalariados. Sector privado. Construcción. Con estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "sipa_privados__elegida": "152.1_TL_SIN_EST_2009_M_13",
+ "ripte": [
+  {
+   "puntaje": 24,
+   "id": "158.1_REPTE_0_0_5",
+   "titulo": "ripte",
+   "descripcion": "Remuneración imponible promedio de los trabajadores estables (RIPTE)",
+   "frecuencia": "R/P1M",
+   "fin": "2026-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "153.1_RNERACIDIO_2009_M_21",
+   "titulo": "asalariados_priv_remuneracion_promedio",
+   "descripcion": "Asalariados. Sector privado. Remuneracion promedio.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "399.1_PROMEDIO_PADO_M_PAQU_0_18_89",
+   "titulo": "promedio_ponderado",
+   "descripcion": "Promedio ponderado",
+   "frecuencia": "R/P1M",
+   "fin": "2025-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "310.1_REMUNERACIDOS_0_M_32",
+   "titulo": "remuneracion_media_real_ocupados",
+   "descripcion": "Remuneración media real Ocupados",
+   "frecuencia": "R/P1M",
+   "fin": "2025-03-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "367.2_TEMPERATURDIO__20",
+   "titulo": "temperatura_promedio",
+   "descripcion": "Temperatura Promedio",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "67.2_C_E_0_T_12",
+   "titulo": "construccion",
+   "descripcion": "Remuneracion total en pesos. Construccion",
+   "frecuencia": "R/P3M",
+   "fin": "2015-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "71.1_M_E_0_A_8",
+   "titulo": "misiones",
+   "descripcion": "Remuneracion total sector privado. Misiones",
+   "frecuencia": "R/P1Y",
+   "fin": "2014-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "71.1_C_E_0_A_10",
+   "titulo": "corrientes",
+   "descripcion": "Remuneracion total sector privado. Corrientes",
+   "frecuencia": "R/P1Y",
+   "fin": "2014-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "ripte__elegida": "158.1_REPTE_0_0_5",
+ "smvm": [
+  {
+   "puntaje": 24,
+   "id": "57.1_SMVMM_0_M_34",
+   "titulo": "salario_minimo_vital_movil_mensual",
+   "descripcion": "Salario mínimo, vital y móvil desde 1988. Mensual. Pesos corrientes.",
+   "frecuencia": "R/P1M",
+   "fin": "2027-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "57.1_SMVMD_0_M_33",
+   "titulo": "salario_minimo_vital_movil_diario",
+   "descripcion": "Salario mínimo, vital y móvil desde 1988. Diario. Pesos corrientes.",
+   "frecuencia": "R/P1M",
+   "fin": "2027-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "57.1_SMVMH_0_M_31",
+   "titulo": "salario_minimo_vital_movil_hora",
+   "descripcion": "Salario mínimo, vital y móvil desde 1988. Horario. Pesos corrientes.",
+   "frecuencia": "R/P1M",
+   "fin": "2027-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "58.1_MP_0_M_13",
+   "titulo": "mensual_pesos",
+   "descripcion": "Haber mínimo jubilatorio en pesos desde 1971",
+   "frecuencia": "R/P1M",
+   "fin": "2026-09-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "AGRO_0350",
+   "titulo": "focos_tamanio_minimo",
+   "descripcion": "Tamaño mínimo del foco de incendio",
+   "frecuencia": "R/P1M",
+   "fin": "2017-12-01",
+   "publicador": "Área de Incendios Forestales - Dirección Nacional de Desarrollo Foresto Industrial"
+  },
+  {
+   "puntaje": -999,
+   "id": "302.3_SERV_TELEFTES_0_S_40",
+   "titulo": "serv_telef_movil_datos_accesos_bamtbytes",
+   "descripcion": "Servicio de telefonía móvil. Datos y accesos en bambytes",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "355.2_NOMINAL_AL_A__9",
+   "titulo": "nominal_a",
+   "descripcion": "Salario nominal",
+   "frecuencia": "R/P1M",
+   "fin": "1990-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "302.1_SERV_TELEFTES_0_A_40",
+   "titulo": "serv_telef_movil_datos_accesos_bamtbytes",
+   "descripcion": "Servicio de telefonía móvil. Datos y accesos en bambytes",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "smvm__elegida": "57.1_SMVMM_0_M_34",
+ "ipc_nivel_general": [
+  {
+   "puntaje": 24,
+   "id": "195.1_NIVEL_GENERAL_0_0_13",
+   "titulo": "nivel_general",
+   "descripcion": "Nivel de precios del nivel general",
+   "frecuencia": "R/P1M",
+   "fin": "2026-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "99.3_IR_2008_0_9",
+   "titulo": "ipc_resto",
+   "descripcion": "Índice de precios al consumidor IPC resto. Mensual",
+   "frecuencia": "R/P1M",
+   "fin": "2013-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "99.2_IR_2008_0_9",
+   "titulo": "ipc_resto",
+   "descripcion": "Índice de precios al consumidor IPC resto. Trimestral",
+   "frecuencia": "R/P3M",
+   "fin": "2013-10-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "99.1_IR_2008_0_9",
+   "titulo": "ipc_resto",
+   "descripcion": "Índice de precios al consumidor IPC resto. Anual",
+   "frecuencia": "R/P1Y",
+   "fin": "2013-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "96.3_INGV_2008_M_20",
+   "titulo": "ipc_nivel_general_md",
+   "descripcion": "IPC Nivel General. Variación % mensual",
+   "frecuencia": "R/P1M",
+   "fin": "2013-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "105.1_I2L_2016_M_18",
+   "titulo": "ipc_2016_lavandina",
+   "descripcion": "IPC-GBA. Precios. Lavandina. Mensual",
+   "frecuencia": "R/P1M",
+   "fin": "2026-08-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "105.1_I2N_2016_M_14",
+   "titulo": "ipc_2016_nalga",
+   "descripcion": "IPC-GBA. Precios. Nalga. Mensual",
+   "frecuencia": "R/P1M",
+   "fin": "2026-08-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "105.1_I2A_2016_M_15",
+   "titulo": "ipc_2016_azucar",
+   "descripcion": "IPC-GBA. Precios. Azúcar. Mensual",
+   "frecuencia": "R/P1M",
+   "fin": "2026-08-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "ipc_nivel_general__elegida": "148.3_INIVELNAL_DICI_M_26",
+ "cbt": [
+  {
+   "puntaje": 26,
+   "id": "444.1_CANASTA_BATAL_0_0_20_94",
+   "titulo": "canasta_basica_total",
+   "descripcion": "Canasta Básica Total",
+   "frecuencia": "R/P1M",
+   "fin": "2025-02-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "150.1_CSTA_BATAL_0_D_20",
+   "titulo": "canasta_basica_total",
+   "descripcion": "Canasta básica total desde 2016. Pesos corrientes.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-08-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 26,
+   "id": "364.3_TOTALTAL__5",
+   "titulo": "total",
+   "descripcion": "Total",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotCuyo_0_0_26_47",
+   "titulo": "cuyo",
+   "descripcion": "Canasta Básica Total. Cuyo",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotNoreste_0_0_26_47",
+   "titulo": "noreste",
+   "descripcion": "Canasta Básica Total. Noreste",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotNoroeste_0_0_26_47",
+   "titulo": "noroeste",
+   "descripcion": "Canasta Básica Total. Noroeste",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotPatagonia_0_0_26_47",
+   "titulo": "patagonia",
+   "descripcion": "Canasta Básica Total. Patagonia",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotPampeana_0_0_26_47",
+   "titulo": "pampeana",
+   "descripcion": "Canasta Básica Total. Pampeana",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "cbt__elegida": "150.1_CSTA_BATAL_0_D_20",
+ "cba": [
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIAPatagonia_0_0_26_47",
+   "titulo": "patagonia",
+   "descripcion": "Canasta Básica Alimentaria. Patagonia",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIANoroeste_0_0_26_47",
+   "titulo": "noroeste",
+   "descripcion": "Canasta Básica Alimentaria. Noroeste",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIA_0_0_26_47",
+   "titulo": "canasta_basica_alimentaria",
+   "descripcion": "Canasta Básica Alimentaria",
+   "frecuencia": "R/P1M",
+   "fin": "2025-02-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIAPampeana_0_0_26_47",
+   "titulo": "pampeana",
+   "descripcion": "Canasta Básica Alimentaria. Pampeana",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIACuyo_0_0_26_47",
+   "titulo": "cuyo",
+   "descripcion": "Canasta Básica Alimentaria. Cuyo",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIANoreste_0_0_26_47",
+   "titulo": "noreste",
+   "descripcion": "Canasta Básica Alimentaria. Noreste",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_BARIAGBA_0_0_26_47",
+   "titulo": "gran_buenos_aires",
+   "descripcion": "Canasta Básica Alimentaria. Gran Buenos Aires",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "150.1_CSTA_BARIA_0_D_26",
+   "titulo": "canasta_basica_alimentaria",
+   "descripcion": "Canasta básica alimentaria desde 2016. Pesos corrientes.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-08-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "cba__elegida": "150.1_CSTA_BARIA_0_D_26",
+ "pobreza_personas": [
+  {
+   "puntaje": 26,
+   "id": "64.2_POBLACION_NUA_0_0_34_74",
+   "titulo": "poblacion_pobre_pct_total_continua",
+   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. TOTAL. EPH continua.",
+   "frecuencia": "R/P6M",
+   "fin": "2025-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "64.2_POBLACION_NUA_0_0_54_70",
+   "titulo": "poblacion_pobre_pct_aglomerados_interior_pais_continua",
+   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Aglomerados del Interior del País. EPH continua.",
+   "frecuencia": "R/P6M",
+   "fin": "2025-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "344.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "342.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "343.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "344.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "341.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "341.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "pobreza_personas__elegida": "64.2_POBLACION_NUA_0_0_34_74",
+ "indigencia_personas": [
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALAANA_0_T_60",
+   "titulo": "tasa_asalarizacion_aglomerados_interior_pais_region_pampeana",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Pampeana.",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALASTE_0_T_60",
+   "titulo": "tasa_asalarizacion_aglomerados_interior_pais_region_nordeste",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Nordeste",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALANIA_0_T_56",
+   "titulo": "tasa_asalarizacion_aglomerados_int_pais_region_patagonia",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Patagonia .",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALASTE_NOA_0_T_60",
+   "titulo": "tasa_asalarizacion_aglomerados_interior_pais_region_noroeste",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Noroeste",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALATAL_0_T_36",
+   "titulo": "tasa_asalarizacion_aglomerados_total",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Total Aglomerados .",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "63.2_HOGARES_PONUA_0_0_38_52",
+   "titulo": "hogares_pobres_pct_rio_cuarto_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Río Cuarto. EPH continua.",
+   "frecuencia": "R/P6M",
+   "fin": "2025-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "63.2_HOGARES_PONUA_0_0_32_37",
+   "titulo": "hogares_pobres_pct_caba_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Ciudad de Buenos Aires. EPH continua.",
+   "frecuencia": "R/P6M",
+   "fin": "2025-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "63.2_HOGARES_PONUA_0_0_41_76",
+   "titulo": "hogares_pobres_pct_gran_la_plata_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran La Plata. EPH continua.",
+   "frecuencia": "R/P6M",
+   "fin": "2025-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "indigencia_personas__elegida": null,
+ "emae": [
+  {
+   "puntaje": 24,
+   "id": "143.3_NO_PR_2004_A_31",
+   "titulo": "emae_desestacionalizada",
+   "descripcion": "EMAE desestacionalizado. Base 2004",
+   "frecuencia": "R/P1M",
+   "fin": "2026-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "143.3_ICE_SER_VM_2004_A_34",
+   "titulo": "emae_desestacionalizada_vm",
+   "descripcion": "EMAE desestacionalizado. Base 2004. Variación % mensual",
+   "frecuencia": "R/P1M",
+   "fin": "2026-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "309.1_INDICE_DE_ADO_0_M_45",
+   "titulo": "indice_actividad_ibc_br_desest",
+   "descripcion": "Índice de actividad (IBC-Br) Desestacionalizado",
+   "frecuencia": "R/P1M",
+   "fin": "2025-03-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 10,
+   "id": "143.2_NO_PR_2004_A_31",
+   "titulo": "emae_desestacionalizada",
+   "descripcion": "EMAE desestacionalizado. Base 2004",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 10,
+   "id": "143.1_NO_PR_2004_A_31",
+   "titulo": "emae_desestacionalizada",
+   "descripcion": "EMAE desestacionalizado. Base 2004",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 10,
+   "id": "143.2_ICE_SER_VM_2004_A_34",
+   "titulo": "emae_desestacionalizada_vm",
+   "descripcion": "EMAE desestacionalizado. Base 2004. Variación % mensual",
+   "frecuencia": "R/P3M",
+   "fin": "2026-04-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 10,
+   "id": "143.1_ICE_SER_VM_2004_A_34",
+   "titulo": "emae_desestacionalizada_vm",
+   "descripcion": "EMAE desestacionalizado. Base 2004. Variación % mensual",
+   "frecuencia": "R/P1Y",
+   "fin": "2025-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "309.1_PRODUCCIONADO_0_M_40",
+   "titulo": "produccion_industrial_desestacionalizado",
+   "descripcion": "Producción industrial Desestacionalizado",
+   "frecuencia": "R/P1M",
+   "fin": "2022-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  }
+ ],
+ "emae__elegida": "143.3_NO_PR_2004_A_31"
+}

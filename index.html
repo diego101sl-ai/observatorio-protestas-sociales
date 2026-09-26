@@ -3,168 +3,252 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Observatorio de datos que monitorea la cobertura mediática de protestas sociales en todo el mundo, con datos abiertos de GDELT.">
-  <meta name="theme-color" content="#13293f">
-  <title>Observatorio de Protestas Sociales</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23122a42' stroke-width='9'/%3E%3Ccircle cx='32' cy='32' r='11' fill='%231a7183'/%3E%3C/svg%3E">
+  <meta name="description" content="OITraF, Observatorio del Trabajo y del Futuro: indicadores del mercado laboral de Argentina, América Latina y el mundo con fuentes oficiales, cobertura diaria de 24 medios y seguimiento de protestas sociales.">
+  <meta name="theme-color" content="#071b3d">
+  <title>OITraF · Observatorio del Trabajo y del Futuro</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23071b3d'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23ffffff' stroke-width='6' stroke-dasharray='9 5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5322d'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
-  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/oitraf.css">
 </head>
 <body>
-  <a class="skip-link" href="#map">Saltar al mapa</a>
+  <a class="skip-link" href="#argentina">Saltar a los indicadores</a>
 
-  <header class="hero hero--nophoto">
-    <div class="hero-media" aria-hidden="true">
-      <!-- Foto de portada: sube tu fotografía con derechos a img/hero.jpg
-           (marcha, asamblea, calle). js/app.js la detecta y aplica el duotono solo;
-           mientras no exista, se muestra este fondo gráfico de respaldo. -->
-      <div class="hero-tint"></div>
-      <div class="hero-fallback"><div class="hero-rings"></div></div>
-    </div>
-
-    <div class="shell topbar-inner">
-      <div class="brand">
-        <svg class="brand-mark" width="38" height="38" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-          <circle cx="20" cy="20" r="16.5" fill="none" stroke="#E9EFF5" stroke-width="2.5"/>
-          <circle cx="20" cy="20" r="10" fill="none" stroke="#4EA8B8" stroke-width="1.7" opacity="0.7"/>
-          <circle cx="20" cy="20" r="4.6" fill="#4EA8B8"/>
+  <header class="masthead">
+    <div class="shell masthead-inner">
+      <a class="brand" href="index.html" aria-label="OITraF, portada">
+        <svg class="brand-mark" width="40" height="40" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <circle cx="32" cy="32" r="18" fill="none" stroke="#ffffff" stroke-width="5" stroke-dasharray="9.4 5"/>
+          <circle cx="32" cy="32" r="9" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.7"/>
+          <circle cx="32" cy="32" r="4" fill="#e5322d"/>
         </svg>
-        <h1>Observatorio de Protestas Sociales</h1>
-      </div>
-      <button id="theme-toggle" class="theme-btn" type="button" aria-label="Cambiar tema">
+        <span>
+          <span class="brand-word">OITra<b>F</b></span>
+          <span class="brand-sub">Observatorio del Trabajo y del Futuro</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#argentina">Argentina</a>
+        <a href="#latam">América Latina</a>
+        <a href="#mundo">Mundo</a>
+        <a href="#cobertura">Cobertura de medios</a>
+        <a href="#protestas">Protestas</a>
+        <a href="indicadores.html">Todos los indicadores</a>
+        <a href="#fuentes">Fuentes</a>
+      </nav>
+      <button id="theme-toggle" class="theme-btn" type="button" aria-label="Cambiar tema claro u oscuro">
         <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 1.4 A5.6 5.6 0 0 1 7 12.6 Z" fill="currentColor"/></svg>
         Tema
       </button>
     </div>
-
-    <div class="shell hero-body">
-      <p class="hero-kicker"><span class="live-dot" aria-hidden="true"></span>Observatorio en directo · actualización horaria</p>
-      <p class="hero-headline">Protestas sociales en el mundo<span class="hero-dot">.</span></p>
-      <p class="hero-lede sr-only">Marchas, concentraciones y asambleas: eventos de protesta detectados automáticamente
-        en la prensa mundial con datos abiertos de <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>.</p>
-    </div>
-
-    <div class="shell hero-stats" aria-label="Resumen">
-      <div class="stats-band">
-        <div class="stat-tile">
-          <span class="stat-label">Focos detectados</span>
-          <span class="stat-value" id="stat-locations">—</span>
-          <span class="stat-note">lugares con eventos de protesta</span>
-        </div>
-        <div class="stat-tile">
-          <span class="stat-label">Eventos de protesta</span>
-          <span class="stat-value" id="stat-mentions">—</span>
-          <span class="stat-note">eventos registrados en el periodo</span>
-        </div>
-        <div class="stat-tile stat-tile--peak">
-          <span class="stat-label">Foco más activo</span>
-          <span class="stat-value stat-value--text" id="stat-top">—</span>
-          <span class="stat-note" id="stat-top-note">&nbsp;</span>
-        </div>
-      </div>
-    </div>
   </header>
 
-  <section id="ticker" class="ticker" aria-label="Cobertura en directo" hidden>
-    <span class="ticker-label"><span class="live-dot" aria-hidden="true"></span>Cobertura</span>
-    <div class="ticker-viewport">
-      <div class="ticker-track" id="ticker-track"></div>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="shell hero-body">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span>Observatorio · datos oficiales · actualización diaria</p>
+      <h1 id="hero-title" class="display hero-title">El mundo del trabajo,<br>en datos <em>verificables</em></h1>
+      <p class="hero-lede">Indicadores del mercado laboral de Argentina, América Latina y el mundo, tomados de institutos de estadística y organismos multilaterales, con fuente y fecha de corte en cada dato. Y la cobertura diaria de 24 medios relevada por el equipo de OITraF.</p>
+      <div class="hero-actions">
+        <a class="btn btn-red" href="#argentina">Ver indicadores</a>
+        <a class="btn btn-ghost" href="indicadores.html">Explorar todas las series</a>
+        <a class="btn btn-ghost" href="protestas.html">Mapa de protestas</a>
+      </div>
     </div>
-    <button id="ticker-pause" class="ticker-btn" type="button" aria-pressed="false" aria-label="Pausar el movimiento de titulares">
-      <svg class="ico-pause" width="10" height="12" viewBox="0 0 10 12" aria-hidden="true" focusable="false"><rect x="0.5" y="0.5" width="3.2" height="11" fill="currentColor"/><rect x="6.3" y="0.5" width="3.2" height="11" fill="currentColor"/></svg>
-      <svg class="ico-play" width="10" height="12" viewBox="0 0 10 12" aria-hidden="true" focusable="false"><path d="M0.5 0.5 L9.5 6 L0.5 11.5 Z" fill="currentColor"/></svg>
-    </button>
-  </section>
-
-  <section class="filters" aria-label="Filtros">
-    <div class="shell filters-inner">
-      <div class="filter-group" id="source-group" role="group" aria-label="Fuente de datos" hidden>
-        <span class="filter-label" aria-hidden="true">Fuente</span>
-        <button class="chip is-active" data-source="gdelt" type="button" aria-pressed="true" title="Eventos detectados automáticamente en la prensa mundial">GDELT</button>
-        <button class="chip" data-source="acled" type="button" title="Eventos verificados a mano por ACLED (publicación semanal)">ACLED</button>
-      </div>
-      <div class="filter-group" role="group" aria-label="Periodo">
-        <span class="filter-label" aria-hidden="true">Periodo</span>
-        <button class="chip" data-days="1" type="button">24 h</button>
-        <button class="chip is-active" data-days="3" type="button" aria-pressed="true">3 días</button>
-        <button class="chip" data-days="7" type="button">7 días</button>
-      </div>
-      <input id="keyword" class="text-input" type="search" placeholder="Filtrar por tema o lugar (ej. pensiones, Chile)…" aria-label="Palabra clave">
-      <button id="refresh" class="primary-btn" type="button">Actualizar</button>
+    <div class="stats-band" aria-label="Resumen del observatorio">
+      <div class="stat-tile"><span class="stat-label">Series oficiales</span><span class="stat-value num" id="stat-series">—</span><span class="stat-note">indicadores con fuente y período</span></div>
+      <div class="stat-tile"><span class="stat-label">Fuentes</span><span class="stat-value num" id="stat-fuentes">—</span><span class="stat-note">gobiernos y organismos multilaterales</span></div>
+      <div class="stat-tile"><span class="stat-label">Geografías</span><span class="stat-value num" id="stat-geos">—</span><span class="stat-note">países y regiones</span></div>
+      <div class="stat-tile"><span class="stat-label">Unidades de registro</span><span class="stat-value num" id="stat-ur-hero">—</span><span class="stat-note">cobertura de medios, últimas semanas</span></div>
+      <div class="stat-tile"><span class="stat-label">Última actualización</span><span class="stat-value" id="stat-fecha">—</span><span class="stat-note">robot de datos</span></div>
     </div>
   </section>
 
-  <div class="shell">
-    <div id="status" class="status" role="status" hidden></div>
-  </div>
-
-  <main class="shell layout">
-    <section class="map-panel" aria-label="Mapa de protestas">
-      <div id="map" role="application" aria-label="Mapa interactivo de focos de protesta"></div>
-      <div class="map-legend" id="legend" aria-hidden="true"></div>
-      <button id="table-toggle" class="ghost-btn map-table-btn" type="button" aria-expanded="false">Ver como tabla</button>
+  <main>
+    <section id="argentina" class="section" aria-labelledby="h-ar">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Escala nacional</p>
+            <h2 id="h-ar" class="display">Argentina</h2>
+            <p class="lede">Los indicadores oficiales del INDEC y de la Secretaría de Trabajo publicados en datos.gob.ar, más las elaboraciones de OITraF sobre esas mismas series (salario real, canasta del hogar, poder de compra del salario mínimo). El número manda; el período de referencia se explicita siempre.</p>
+          </div>
+          <p class="aside" id="nota-ar"></p>
+        </div>
+        <div class="placas" id="placas-ar"></div>
+      </div>
     </section>
 
-    <aside class="sidebar">
-      <section class="panel" aria-label="Focos principales">
-        <h2>Focos principales</h2>
-        <ol id="top-locations" class="top-list"></ol>
-      </section>
-    </aside>
+    <section id="latam" class="section section-band" aria-labelledby="h-latam">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Escala latinoamericana</p>
+            <h2 id="h-latam" class="display">América Latina</h2>
+            <p class="lede">Desocupación, actividad e informalidad de veinte países según la OIT y el Banco Mundial. Las series de corto plazo salen de las encuestas de hogares de cada país; las anuales, de las estimaciones modeladas de la OIT. Cada barra lleva su período y su fuente porque los universos no son idénticos.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><div><h3>Desocupación por país</h3><p class="sub">Último dato disponible. Argentina resaltada.</p></div></div>
+            <div id="chart-latam-barras"></div>
+            <p class="card-foot">Fuentes: OIT · ILOSTAT (trimestral o mensual) y Banco Mundial (anual, estimación modelada OIT) cuando no hay dato de corto plazo.</p>
+          </div>
+          <div class="card">
+            <div class="card-head"><div><h3>Evolución anual de la desocupación</h3><p class="sub">Región y cinco economías, desde 2005.</p></div></div>
+            <div id="chart-latam-linea"></div>
+            <p class="card-foot">Fuente: Banco Mundial, Indicadores del Desarrollo Mundial (estimación modelada OIT, SL.UEM.TOTL.ZS).</p>
+          </div>
+        </div>
+        <h3 class="subhead">Tabla comparada</h3>
+        <div class="card">
+          <div class="table-scroll" id="tabla-latam"></div>
+          <p class="card-foot">Desocupación: OIT/ILOSTAT o Banco Mundial según disponibilidad. Juvenil, actividad, informalidad y empleo vulnerable: Banco Mundial (estimaciones modeladas y datos armonizados OIT). Cada celda indica su período.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mundo" class="section" aria-labelledby="h-mundo">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Escala internacional</p>
+            <h2 id="h-mundo" class="display">Mundo</h2>
+            <p class="lede">Las economías de referencia con sus propios institutos de estadística (BLS, Eurostat, OCDE) y los agregados globales del Banco Mundial y del FMI. Definiciones armonizadas donde existen; donde no, se indica la fuente.</p>
+          </div>
+        </div>
+        <div class="placas" id="placas-mundo"></div>
+        <div class="grid-2" style="margin-top:1rem">
+          <div class="card">
+            <div class="card-head"><div><h3>Desocupación mensual, economías de referencia</h3><p class="sub">Series desestacionalizadas desde 2019.</p></div></div>
+            <div id="chart-mundo-linea"></div>
+            <p class="card-foot">Fuentes: BLS (Estados Unidos), Eurostat (zona euro), OCDE (armonizada). Cada serie indica su fuente en la leyenda.</p>
+          </div>
+          <div class="card">
+            <div class="card-head"><div><h3>Empleo vulnerable por región</h3><p class="sub">Cuenta propia y familiares no remunerados sobre el empleo total. América Latina resaltada.</p></div></div>
+            <div id="chart-mundo-vuln"></div>
+            <p class="card-foot">Fuente: Banco Mundial (estimación modelada OIT, SL.EMP.VULN.ZS).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cobertura" class="section section-band" aria-labelledby="h-cob">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Seguimiento de medios</p>
+            <h2 id="h-cob" class="display">Cobertura de medios</h2>
+            <p class="lede">El equipo de OITraF releva cada día unos 300 hechos de 24 medios nacionales, latinoamericanos, internacionales y provinciales, y los clasifica por escala, sector, eje y actores en el dashboard Algoritmo Inteligente. Acá se publica el extracto de las últimas semanas.</p>
+          </div>
+          <p class="aside" id="cobertura-sync"></p>
+        </div>
+        <div class="aviso" id="cobertura-aviso" hidden></div>
+        <div class="cobertura-grid">
+          <div>
+            <div class="stats-band" style="border-radius:6px;overflow:hidden;margin-bottom:1rem">
+              <div class="stat-tile"><span class="stat-label">Unidades de registro</span><span class="stat-value num" id="stat-ur">—</span></div>
+              <div class="stat-tile"><span class="stat-label">Medios</span><span class="stat-value num" id="stat-medios">—</span></div>
+              <div class="stat-tile"><span class="stat-label">Ventana</span><span class="stat-value" id="stat-ventana" style="font-size:1.2rem;padding-top:.4rem">—</span></div>
+            </div>
+            <div class="filters">
+              <div class="filter-group" role="group" aria-label="Escala"><span class="filter-label">Escala</span><span id="chips-escala" class="filter-group"></span></div>
+              <div class="filter-group" role="group" aria-label="Sector"><span class="filter-label">Sector</span><span id="chips-sector" class="filter-group"></span></div>
+            </div>
+            <div class="card">
+              <div class="card-head"><div><h3 id="cobertura-count">Unidades de registro</h3><p class="sub">Hechos más recientes del relevamiento, con enlace a la nota original.</p></div></div>
+              <ul class="hechos" id="hechos"></ul>
+              <button class="btn btn-outline mas-btn" id="hechos-mas" type="button" hidden>Ver más</button>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-head"><div><h3>Unidades de registro por día</h3><p class="sub">Según los filtros elegidos.</p></div></div>
+              <div id="chart-ur-dia"></div>
+            </div>
+            <div class="card" style="margin-top:1rem">
+              <div class="card-head"><div><h3>Por sector</h3><p class="sub">Los seis sectores de estudio del observatorio.</p></div></div>
+              <div id="chart-ur-sector"></div>
+            </div>
+            <div class="card" style="margin-top:1rem">
+              <div class="card-head"><div><h3>Medios relevados</h3><p class="sub">Unidades de registro por medio en la ventana.</p></div></div>
+              <ul class="medios-lista" id="medios-lista"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="protestas" class="section" aria-labelledby="h-prot">
+      <div class="shell">
+        <div class="protestas-card">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Observatorio de protestas sociales</p>
+            <h3 id="h-prot">Protestas en el mundo, en directo</h3>
+            <p>Mapa mundial de eventos de protesta detectados en la prensa de 65 idiomas con datos abiertos de GDELT, actualizado cada hora, con la cobertura traducida al español. Un programa de OITraF.</p>
+            <div class="hero-actions"><a class="btn btn-red" href="protestas.html">Abrir el mapa</a></div>
+          </div>
+          <div id="protestas-stats">
+            <div class="mini-stats">
+              <div class="mini-stat"><span class="v num" id="prot-eventos">—</span><span class="l">eventos</span></div>
+              <div class="mini-stat"><span class="v num" id="prot-focos">—</span><span class="l">focos</span></div>
+              <div class="mini-stat"><span class="v" id="prot-top" style="font-size:1.15rem;line-height:1.15">—</span><span class="l">foco más activo</span></div>
+            </div>
+            <p class="kicker" id="prot-fecha" style="margin-top:.7rem"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fuentes" class="section section-band" aria-labelledby="h-fuentes">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Método y fuentes</p>
+            <h2 id="h-fuentes" class="display">Registro del observatorio</h2>
+            <p class="lede">Dato verificable, fuente visible y período explícito en cada placa. Las series miden universos distintos y publicarlas como si midieran lo mismo es el error más caro que puede cometer un observatorio: por eso cada número lleva su definición.</p>
+          </div>
+          <p class="aside" id="fuentes-gen"></p>
+        </div>
+        <div class="metodo">
+          <div class="card"><h3>Solo fuentes oficiales</h3><p>Institutos de estadística y ministerios (INDEC, Secretaría de Trabajo, BLS, Eurostat) y organismos multilaterales (OIT, Banco Mundial, FMI, OCDE). Ninguna cifra sale de una consultora ni de una nota de prensa.</p></div>
+          <div class="card"><h3>Actualización automática</h3><p>Un robot descarga las series todos los días desde las APIs oficiales y publica los archivos que lee esta página. Si una fuente no responde, se conserva el último dato y se indica.</p></div>
+          <div class="card"><h3>Elaboraciones señaladas</h3><p>Cuando OITraF calcula un indicador (salario real, canasta del hogar, salario mínimo en canastas) se declara como elaboración propia y se enlaza la serie oficial de la que sale.</p></div>
+          <div class="card"><h3>Datos abiertos</h3><p>Todas las series pueden descargarse en CSV desde el explorador de indicadores, con su fuente y su enlace de origen. El código del robot y de la web es público.</p></div>
+        </div>
+        <h3 class="subhead">Fuentes consultadas</h3>
+        <div class="card"><div class="table-scroll" id="tabla-fuentes"></div></div>
+      </div>
+    </section>
   </main>
-
-  <section class="coverage-section" aria-label="Cobertura reciente">
-    <div class="shell">
-      <div class="panel">
-        <h2>Cobertura reciente</h2>
-        <ul id="articles" class="article-list article-list--grande"></ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="chart-section" aria-label="Evolución diaria">
-    <div class="shell">
-      <div class="panel chart-panel">
-        <h2>Evolución diaria <span class="chart-sub">barras azul verdoso: periodo seleccionado · barra roja: pico</span></h2>
-        <div id="chart"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="table-view" class="table-view" hidden aria-label="Datos en tabla">
-    <div class="shell">
-      <h2>Focos de protesta (tabla)</h2>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr><th scope="col">#</th><th scope="col">Lugar</th><th scope="col">Eventos</th><th scope="col">Lat</th><th scope="col">Lon</th></tr>
-          </thead>
-          <tbody id="table-body"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
 
   <footer class="footer">
     <div class="shell footer-inner">
-      <div class="footer-brand">
-        <svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-          <circle cx="20" cy="20" r="16.5" fill="none" stroke="#9FB4C6" stroke-width="2.6"/>
-          <circle cx="20" cy="20" r="4.8" fill="#4EA8B8"/>
-        </svg>
-        <span>Observatorio de Protestas Sociales</span>
+      <div>
+        <span class="brand-word">OITra<b>F</b></span>
+        <p>Observatorio del Trabajo y del Futuro. Investigación social y noticias sobre el trabajo y el empleo en Argentina, América Latina y el mundo.</p>
       </div>
-      <p><span id="updated"></span>Los eventos provienen del proyecto <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>
-         (detección automática en la prensa mundial, código CAMEO 14 «protesta»), no de un recuento verificado a mano.
-         Fuente futura adicional: <a href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>.
-         Mapa © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>.</p>
+      <div>
+        <h4>Secciones</h4>
+        <ul>
+          <li><a href="indicadores.html">Explorador de indicadores</a></li>
+          <li><a href="protestas.html">Observatorio de protestas sociales</a></li>
+          <li><a href="#cobertura">Cobertura de medios</a></li>
+          <li><a href="#fuentes">Método y fuentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Fuentes de datos</h4>
+        <ul>
+          <li><a href="https://www.indec.gob.ar/" target="_blank" rel="noopener">INDEC</a> · <a href="https://datos.gob.ar/series/api/" target="_blank" rel="noopener">datos.gob.ar</a></li>
+          <li><a href="https://ilostat.ilo.org/es/" target="_blank" rel="noopener">OIT · ILOSTAT</a> · <a href="https://datos.bancomundial.org/" target="_blank" rel="noopener">Banco Mundial</a></li>
+          <li><a href="https://www.imf.org/external/datamapper/" target="_blank" rel="noopener">FMI</a> · <a href="https://data-explorer.oecd.org/" target="_blank" rel="noopener">OCDE</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a> · <a href="https://www.bls.gov/" target="_blank" rel="noopener">BLS</a></li>
+          <li><a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> (protestas)</li>
+        </ul>
+      </div>
     </div>
   </footer>
 
-  <script src="vendor/leaflet/leaflet.js"></script>
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/oitraf/portada.js"></script>
 </body>
 </html>

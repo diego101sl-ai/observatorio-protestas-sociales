@@ -8,6 +8,11 @@ name: Actualizar indicadores OITraF
 on:
   schedule:
     - cron: "17 6 * * *"    # todos los días, 06:17 UTC (03:17 en Argentina)
+  push:
+    paths:                   # al cambiar el robot, se prueba en la rama que recibe el push
+      - "scripts/actualizar_indicadores.py"
+      - "scripts/sincronizar_hechos.py"
+      - ".github/workflows/actualizar-indicadores.yml"
   workflow_dispatch:
     inputs:
       fuentes:

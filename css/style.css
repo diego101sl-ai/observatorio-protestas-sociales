@@ -263,10 +263,10 @@ a:hover { color: var(--accent-strong); }
    recta del corte original. Medidas derivadas de img/marca/isotipo.json. */
 .iso { position: relative; display: inline-block; aspect-ratio: 1175 / 1030; height: 48px; flex: none; }
 .iso img { position: absolute; display: block; max-width: none; }
-.iso-circ { inset: 0; width: 100%; height: 100%; opacity: 0.5; animation: iso-circuito 7.2s ease-in-out infinite; }
+.iso-circ { inset: 0; width: 100%; height: 100%; opacity: 0.5; animation: iso-circuito 3.6s ease-in-out infinite; }
 .iso-circ--rojo { color: #e5322d; animation-delay: 0s; }
-.iso-circ--amarillo { color: #f2c14e; animation-delay: -2.4s; }
-.iso-circ--azul { color: #ffffff; animation-delay: -4.8s; }
+.iso-circ--amarillo { color: #f2c14e; animation-delay: -1.2s; }
+.iso-circ--azul { color: #ffffff; animation-delay: -2.4s; }
 /* cada circuito se enciende un tercio del ciclo: rojo, amarillo y azul, por turnos */
 @keyframes iso-circuito {
   0%, 100% { opacity: 0.5; filter: none; }

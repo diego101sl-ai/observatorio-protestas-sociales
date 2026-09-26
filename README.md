@@ -30,7 +30,7 @@ Si una fuente no responde, las series de esa fuente se conservan de la corrida a
 |---|---|---|---|---|
 | `wb` | [Banco Mundial · WDI](https://datos.bancomundial.org/) (incluye estimaciones modeladas de la OIT) | multilateral | desocupación total y juvenil, actividad (total, mujeres, varones), empleo, empleo vulnerable, informalidad, cuenta propia, asalariados, jóvenes que no estudian ni trabajan, productividad, fuerza laboral, empleo por sector, inflación, PIB, pobreza, Gini | anual · 39 países y 14 agregados |
 | `ilo` | [OIT · ILOSTAT](https://ilostat.ilo.org/es/) | multilateral | desocupación (trimestral y mensual), desocupación juvenil, actividad, empleo, subocupación horaria | trimestral y mensual · América Latina y economías de referencia |
-| `datosar` | [datos.gob.ar · Series de Tiempo](https://datos.gob.ar/series/api/) (INDEC, Secretaría de Trabajo, Ministerio de Economía) | gobierno | EPH: desocupación, actividad, empleo, subocupación, asalariados sin descuento jubilatorio, pobreza e indigencia · SIPA: trabajadores registrados y asalariados privados · RIPTE · índice de salarios · salario mínimo · IPC nacional · canastas básicas · EMAE | trimestral, semestral y mensual |
+| `datosar` | [datos.gob.ar · Series de Tiempo](https://datos.gob.ar/series/api/) (INDEC, Secretaría de Trabajo, Ministerio de Economía) | gobierno | EPH: desocupación, actividad, empleo, subocupación, asalariados sin descuento jubilatorio, pobreza e indigencia · SIPA: trabajadores registrados y asalariados privados · RIPTE · salario mínimo · IPC nacional · canastas básicas · EMAE | trimestral, semestral y mensual |
 | `eurostat` | [Eurostat](https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table) | multilateral | desocupación total y juvenil desestacionalizada (UE27, zona euro, Alemania, España, Francia, Italia) | mensual |
 | `bls` | [Bureau of Labor Statistics](https://www.bls.gov/data/) | gobierno | Estados Unidos: desocupación, actividad, empleo/población, desocupación de 16 a 19 años, nóminas no agrícolas, salario horario | mensual |
 | `imf` | [FMI · WEO](https://www.imf.org/external/datamapper/) | multilateral | desocupación, crecimiento e inflación con proyecciones | anual |
@@ -38,7 +38,7 @@ Si una fuente no responde, las series de esa fuente se conservan de la corrida a
 
 Elaboraciones de OITraF calculadas en el navegador a partir de esas series (`js/oitraf/comun.js`, `derivarSeries`): inflación mensual e interanual (del índice IPC), variación interanual real del RIPTE y del salario mínimo (deflactadas por IPC), Canasta Básica Total del hogar de cuatro integrantes (CBT × 3,09) y salario mínimo medido en canastas del hogar.
 
-Las series argentinas se localizan en el catálogo oficial por búsqueda de texto con reglas de inclusión, exclusión, frecuencia y publicador (`AR_SERIES` en el script). Tras la primera corrida conviene revisar `data/indicadores/catalogo_datosgobar.json` y fijar los `ids` definitivos en cada entrada para que la elección no dependa de la búsqueda.
+Las series argentinas se localizan en el catálogo oficial por búsqueda de texto con reglas de inclusión, exclusión, frecuencia y publicador (`AR_SERIES` en el script). Los `ids` de las series principales ya están fijados en cada entrada; la búsqueda queda como respaldo y sus candidatas se guardan en `data/indicadores/catalogo_datosgobar.json` para revisar cambios del catálogo.
 
 ### 2. Cobertura de medios · `scripts/sincronizar_hechos.py`
 

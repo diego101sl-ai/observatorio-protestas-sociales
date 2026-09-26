@@ -234,10 +234,15 @@ def agregar(*, fuente: str, codigo: str, tema: str, nombre: str, descripcion: st
             continue
         limpios[str(p)] = float(v)
     puntos = sorted(limpios.items())
+    if not proyeccion_desde:
+        # Un valor ya legislado o programado para meses futuros (p. ej. el salario
+        # mínimo) se conserva en la serie solo si ya empezó a regir.
+        puntos = [(p, v) for p, v in puntos if not _es_futuro(p)]
     if not puntos:
         return
-    ultimo = puntos[-1]
-    anterior = puntos[-2] if len(puntos) > 1 else None
+    observados = [(p, v) for p, v in puntos if not proyeccion_desde or p[:4] < proyeccion_desde] or puntos
+    ultimo = observados[-1]
+    anterior = observados[-2] if len(observados) > 1 else None
     # Variación interanual (para mensual/trimestral) o respecto del dato previo.
     interanual = None
     pasos = {"mensual": 12, "trimestral": 4, "semestral": 2, "anual": 1}.get(frecuencia)
@@ -264,6 +269,25 @@ def agregar(*, fuente: str, codigo: str, tema: str, nombre: str, descripcion: st
         "ajuste": ajuste,
         "serie": [[p, round(v, 4)] for p, v in puntos],
     })
+
+
+def _inicio_periodo(p: str) -> dt.date | None:
+    m = re.match(r"^(\d{4})(?:-(\d{2})|-T(\d)|-S(\d))?$", str(p))
+    if not m:
+        return None
+    anio = int(m.group(1))
+    if m.group(2):
+        return dt.date(anio, int(m.group(2)), 1)
+    if m.group(3):
+        return dt.date(anio, (int(m.group(3)) - 1) * 3 + 1, 1)
+    if m.group(4):
+        return dt.date(anio, 1 if m.group(4) == "1" else 7, 1)
+    return dt.date(anio, 1, 1)
+
+
+def _es_futuro(p: str) -> bool:
+    ini = _inicio_periodo(p)
+    return bool(ini and ini > HOY)
 
 
 def registrar(fuente: str, ok: bool, detalle: str = "", n: int = 0, t0: float = 0.0) -> None:
@@ -477,15 +501,15 @@ AR_SERIES = [
     {
         "clave": "eph_desocupacion", "tema": "desocupacion", "nombre": "Tasa de desocupación (EPH)",
         "descripcion": "Desocupados como porcentaje de la población económicamente activa. Total de 31 aglomerados urbanos, INDEC.",
-        "unidad": "%", "frecuencia": "trimestral", "ids": [],
+        "unidad": "%", "frecuencia": "trimestral", "ids": ["42.3_EPH_PUNTUATAL_0_M_30"],
         "buscar": "tasa de desocupación total aglomerados",
-        "incluir": ["desocupaci"], "excluir": ["mujer", "varon", "jefe", "años", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran "],
+        "incluir": ["desocupaci"], "excluir": ["mujer", "varon", "jefe", "años", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran ", "concordia", "neuquen", "neuquén", "caba", "formosa", "posadas", "salta", "jujuy", "corrientes", "interior"],
         "publicador": "indec",
     },
     {
         "clave": "eph_actividad", "tema": "actividad", "nombre": "Tasa de actividad (EPH)",
         "descripcion": "Población económicamente activa como porcentaje de la población total. Total de 31 aglomerados urbanos, INDEC.",
-        "unidad": "%", "frecuencia": "trimestral", "ids": [],
+        "unidad": "%", "frecuencia": "trimestral", "ids": ["43.2_ECTAT_0_T_33", "42.3_EPH_PUNTUATAL_0_M_27"],
         "buscar": "tasa de actividad total aglomerados",
         "incluir": ["actividad"], "excluir": ["mujer", "varon", "jefe", "años", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran ", "economica", "económica", "emae", "industrial", "construc"],
         "publicador": "indec",
@@ -493,7 +517,7 @@ AR_SERIES = [
     {
         "clave": "eph_empleo", "tema": "empleo", "nombre": "Tasa de empleo (EPH)",
         "descripcion": "Ocupados como porcentaje de la población total. Total de 31 aglomerados urbanos, INDEC.",
-        "unidad": "%", "frecuencia": "trimestral", "ids": [],
+        "unidad": "%", "frecuencia": "trimestral", "ids": ["44.2_ECTET_0_T_30", "42.3_EPH_PUNTUATAL_0_M_24"],
         "buscar": "tasa de empleo total aglomerados",
         "incluir": ["empleo"], "excluir": ["mujer", "varon", "jefe", "años", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran ", "registrad", "privado", "publico", "público", "sub", "no registrado", "demanda", "expectativ", "índice", "indice"],
         "publicador": "indec",
@@ -501,7 +525,7 @@ AR_SERIES = [
     {
         "clave": "eph_subocupacion", "tema": "subocupacion", "nombre": "Tasa de subocupación (EPH)",
         "descripcion": "Ocupados que trabajan menos de 35 horas semanales por causas involuntarias y desean trabajar más, como porcentaje de la PEA. Total de 31 aglomerados urbanos, INDEC.",
-        "unidad": "%", "frecuencia": "trimestral", "ids": [],
+        "unidad": "%", "frecuencia": "trimestral", "ids": ["46.2_ECTST_0_T_36"],
         "buscar": "tasa de subocupación total aglomerados",
         "incluir": ["subocupaci"], "excluir": ["demandante", "no demandante", "mujer", "varon", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran "],
         "publicador": "indec",
@@ -509,7 +533,7 @@ AR_SERIES = [
     {
         "clave": "eph_informalidad", "tema": "informalidad", "nombre": "Asalariados sin descuento jubilatorio (EPH)",
         "descripcion": "Asalariados a los que no se les descuenta aporte jubilatorio, como porcentaje del total de asalariados. Indicador oficial de informalidad laboral, INDEC.",
-        "unidad": "%", "frecuencia": "trimestral", "ids": [],
+        "unidad": "%", "frecuencia": "trimestral", "ids": ["52.2_ASDJ_0_0_37"],
         "buscar": "asalariados sin descuento jubilatorio",
         "incluir": ["descuento jubilatorio"], "excluir": ["con descuento", "mujer", "varon", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region"],
         "publicador": "indec",
@@ -517,7 +541,7 @@ AR_SERIES = [
     {
         "clave": "sipa_registrados", "tema": "empleo_registrado", "nombre": "Trabajadores registrados (SIPA)",
         "descripcion": "Total de trabajadores con aportes al Sistema Integrado Previsional Argentino, todas las modalidades. Secretaría de Trabajo, Empleo y Seguridad Social.",
-        "unidad": "personas", "frecuencia": "mensual", "ids": [],
+        "unidad": "personas", "frecuencia": "mensual", "ids": ["151.1_TL_SIN_TAC_2012_M_15"],
         "buscar": "trabajadores registrados total SIPA",
         "incluir": ["registrad"], "excluir": ["variaci", "índice", "indice", "%", "mujer", "varon", "provincia", "rama"],
         "publicador": "trabajo",
@@ -525,7 +549,7 @@ AR_SERIES = [
     {
         "clave": "sipa_privados", "tema": "empleo_registrado", "nombre": "Asalariados registrados del sector privado (SIPA)",
         "descripcion": "Asalariados registrados en empresas privadas, sin estacionalidad. Secretaría de Trabajo, Empleo y Seguridad Social.",
-        "unidad": "personas", "frecuencia": "mensual", "ids": [],
+        "unidad": "personas", "frecuencia": "mensual", "ids": ["152.1_TL_SIN_EST_2009_M_13"],
         "buscar": "asalariados registrados sector privado desestacionalizado",
         "incluir": ["privado"], "excluir": ["variaci", "índice", "indice", "%", "mujer", "varon", "provincia", "rama", "casas"],
         "publicador": "trabajo",
@@ -533,23 +557,15 @@ AR_SERIES = [
     {
         "clave": "ripte", "tema": "salarios", "nombre": "RIPTE",
         "descripcion": "Remuneración Imponible Promedio de los Trabajadores Estables, en pesos corrientes. Secretaría de Trabajo, Empleo y Seguridad Social.",
-        "unidad": "ARS", "frecuencia": "mensual", "ids": [],
+        "unidad": "ARS", "frecuencia": "mensual", "ids": ["158.1_REPTE_0_0_5"],
         "buscar": "RIPTE remuneración imponible promedio",
         "incluir": ["ripte"], "excluir": ["variaci", "%", "índice", "indice"],
         "publicador": "",
     },
     {
-        "clave": "indice_salarios", "tema": "salarios", "nombre": "Índice de salarios (nivel general)",
-        "descripcion": "Índice de salarios total, nivel general (registrado privado, público y no registrado). Base octubre 2016 = 100, INDEC.",
-        "unidad": "índice", "frecuencia": "mensual", "ids": [],
-        "buscar": "índice de salarios nivel general",
-        "incluir": ["salarios"], "excluir": ["variaci", "%", "privado", "publico", "público", "no registrado", "registrado"],
-        "publicador": "indec",
-    },
-    {
         "clave": "smvm", "tema": "salario_minimo", "nombre": "Salario Mínimo, Vital y Móvil",
         "descripcion": "Salario mínimo mensual fijado por el Consejo Nacional del Empleo, la Productividad y el Salario Mínimo, Vital y Móvil (o por resolución de la Secretaría de Trabajo), en pesos corrientes.",
-        "unidad": "ARS", "frecuencia": "mensual", "ids": [],
+        "unidad": "ARS", "frecuencia": "mensual", "ids": ["57.1_SMVMM_0_M_34"],
         "buscar": "salario mínimo vital y móvil",
         "incluir": ["salario m"], "excluir": ["variaci", "%", "hora", "diario", "jornal"],
         "publicador": "",
@@ -565,7 +581,7 @@ AR_SERIES = [
     {
         "clave": "cbt", "tema": "canasta", "nombre": "Canasta Básica Total (adulto equivalente)",
         "descripcion": "Valor mensual de la Canasta Básica Total por adulto equivalente, GBA, en pesos corrientes. Línea de pobreza, INDEC.",
-        "unidad": "ARS", "frecuencia": "mensual", "ids": [],
+        "unidad": "ARS", "frecuencia": "mensual", "ids": ["150.1_CSTA_BATAL_0_D_20"],
         "buscar": "canasta básica total adulto equivalente",
         "incluir": ["total"], "excluir": ["alimentaria", "variaci", "%", "hogar", "familia"],
         "publicador": "indec",
@@ -573,7 +589,7 @@ AR_SERIES = [
     {
         "clave": "cba", "tema": "canasta", "nombre": "Canasta Básica Alimentaria (adulto equivalente)",
         "descripcion": "Valor mensual de la Canasta Básica Alimentaria por adulto equivalente, GBA, en pesos corrientes. Línea de indigencia, INDEC.",
-        "unidad": "ARS", "frecuencia": "mensual", "ids": [],
+        "unidad": "ARS", "frecuencia": "mensual", "ids": ["150.1_CSTA_BARIA_0_D_26"],
         "buscar": "canasta básica alimentaria adulto equivalente",
         "incluir": ["alimentaria"], "excluir": ["variaci", "%", "hogar", "familia"],
         "publicador": "indec",
@@ -581,7 +597,7 @@ AR_SERIES = [
     {
         "clave": "pobreza_personas", "tema": "pobreza", "nombre": "Pobreza (personas, EPH)",
         "descripcion": "Personas bajo la línea de pobreza como porcentaje de la población de 31 aglomerados urbanos. Semestral, INDEC.",
-        "unidad": "%", "frecuencia": "semestral", "ids": [],
+        "unidad": "%", "frecuencia": "semestral", "ids": ["64.2_POBLACION_NUA_0_0_34_74"], "desfase_semestres": 1,
         "buscar": "pobreza personas total aglomerados",
         "incluir": ["pobreza"], "excluir": ["hogar", "indigen", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran "],
         "publicador": "indec",
@@ -590,14 +606,14 @@ AR_SERIES = [
         "clave": "indigencia_personas", "tema": "pobreza", "nombre": "Indigencia (personas, EPH)",
         "descripcion": "Personas bajo la línea de indigencia como porcentaje de la población de 31 aglomerados urbanos. Semestral, INDEC.",
         "unidad": "%", "frecuencia": "semestral", "ids": [],
-        "buscar": "indigencia personas total aglomerados",
-        "incluir": ["indigen"], "excluir": ["hogar", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado de", "gran "],
+        "buscar": "poblacion indigente pct total continua",
+        "incluir": ["indigen"], "excluir": ["hogar", "gba", "cuyo", "noa", "nea", "pampeana", "patag", "region", "aglomerado", "gran ", "interior", "partidos"],
         "publicador": "indec",
     },
     {
         "clave": "emae", "tema": "actividad_economica", "nombre": "EMAE (desestacionalizado)",
         "descripcion": "Estimador Mensual de Actividad Económica, serie desestacionalizada. Base 2004 = 100, INDEC.",
-        "unidad": "índice", "frecuencia": "mensual", "ids": [],
+        "unidad": "índice", "frecuencia": "mensual", "ids": ["143.3_NO_PR_2004_A_31"],
         "buscar": "EMAE desestacionalizado",
         "incluir": ["desestacionaliz"], "excluir": ["variaci", "%", "tendencia", "sector", "rama"],
         "publicador": "indec",
@@ -629,8 +645,8 @@ def _puntuar_candidata(c: dict, spec: dict) -> int:
     fin = campo.get("time_index_end") or ""
     if fin >= f"{ANIO - 1}":
         p += 6  # serie viva
-    elif fin < f"{ANIO - 3}":
-        p -= 10  # serie discontinuada
+    elif fin < f"{ANIO - 2}":
+        return -999  # serie discontinuada: no sirve para un observatorio en curso
     if "total" in solo_titulo:
         p += 2
     return p
@@ -678,19 +694,32 @@ def descargar_datosar() -> None:
                 if v is None:
                     continue
                 fecha = str(fila[0])[:10]
-                anio, mes = fecha[:4], fecha[5:7]
+                anio, mes = int(fecha[:4]), int(fecha[5:7])
                 if spec["frecuencia"] == "trimestral":
-                    periodo = f"{anio}-T{(int(mes) - 1) // 3 + 1}"
+                    periodo = f"{anio}-T{(mes - 1) // 3 + 1}"
                 elif spec["frecuencia"] == "semestral":
-                    periodo = f"{anio}-S{1 if int(mes) <= 6 else 2}"
+                    # Algunas series semestrales vienen fechadas al cierre del período:
+                    # desfase_semestres=1 corre la etiqueta un semestre hacia atrás.
+                    sem = 1 if mes <= 6 else 2
+                    for _ in range(int(spec.get("desfase_semestres", 0))):
+                        sem -= 1
+                        if sem == 0:
+                            sem, anio = 2, anio - 1
+                    periodo = f"{anio}-S{sem}"
                 elif spec["frecuencia"] == "anual":
-                    periodo = anio
+                    periodo = str(anio)
                 else:
-                    periodo = f"{anio}-{mes}"
+                    periodo = f"{anio}-{mes:02d}"
                 puntos.append((periodo, v))
             if not puntos:
                 errores.append(f"{spec['clave']} {sid}: sin datos")
                 continue
+            maximo = max(v for _, v in puntos)
+            unidades_meta = sin_acentos(str(campo.get("units") or ""))
+            if spec["unidad"] == "%" and maximo <= 1.0:
+                puntos = [(p_, v * 100) for p_, v in puntos]  # proporción → porcentaje
+            if spec["unidad"] == "personas" and (maximo < 50000 or "miles" in unidades_meta):
+                puntos = [(p_, v * 1000) for p_, v in puntos]  # miles → personas
             elegida = sid
             agregar(fuente="datosar", codigo=spec["clave"], tema=spec["tema"], nombre=spec["nombre"],
                     descripcion=spec["descripcion"], unidad=spec["unidad"], frecuencia=spec["frecuencia"],

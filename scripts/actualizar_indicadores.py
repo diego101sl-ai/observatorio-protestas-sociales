@@ -313,8 +313,6 @@ WB_INDICADORES = [
      "Personas ocupadas como porcentaje de la población de 15 años y más. Estimación modelada de la OIT.", "%"),
     ("SL.EMP.VULN.ZS", "empleo_vulnerable", "Empleo vulnerable",
      "Trabajadores por cuenta propia y familiares no remunerados como porcentaje del empleo total. Estimación modelada de la OIT.", "%"),
-    ("SL.ISV.IFRM.ZS", "informalidad", "Empleo informal",
-     "Empleo informal como porcentaje del empleo total. Datos armonizados de la OIT.", "%"),
     ("SL.EMP.SELF.ZS", "cuenta_propia", "Trabajo por cuenta propia",
      "Trabajadores independientes (empleadores, cuenta propia, cooperativistas y familiares) como porcentaje del empleo total.", "%"),
     ("SL.EMP.WORK.ZS", "asalariados", "Asalariados",
@@ -349,7 +347,7 @@ def descargar_wb() -> None:
     errores = []
     for codigo, tema, nombre, descripcion, unidad in WB_INDICADORES:
         url = (f"https://api.worldbank.org/v2/country/{';'.join(geos)}/indicator/{codigo}"
-               f"?format=json&per_page=20000&date=1991:{ANIO}")
+               f"?format=json&per_page=20000&date=2000:{ANIO}")
         try:
             cuerpo = http_json(url)
         except Exception as e:  # noqa: BLE001
@@ -380,7 +378,10 @@ def descargar_wb() -> None:
 # 2) OIT · ILOSTAT (corto plazo: trimestral y mensual)
 # ---------------------------------------------------------------------------
 ILO_INDICADORES = [
-    # id, tema, nombre, descripcion, filtros (sex, classif1), frecuencia
+    # id (o lista de ids alternativos), tema, nombre, descripcion, filtros (sex, classif1), frecuencia
+    ("EMP_NIFL_SEX_RT_A", "informalidad", "Empleo informal (OIT)",
+     "Empleo informal como porcentaje del empleo total, definición armonizada de la OIT sobre las encuestas de hogares de cada país.",
+     {"sex": "SEX_T"}, "anual"),
     ("UNE_DEAP_SEX_AGE_RT_Q", "desocupacion", "Tasa de desocupación (trimestral)",
      "Desocupados como porcentaje de la fuerza laboral, total de 15 años y más. Encuestas de hogares de cada país compiladas por la OIT.",
      {"sex": "SEX_T", "classif1": "AGE_YTHADULT_YGE15"}, "trimestral"),
@@ -396,7 +397,7 @@ ILO_INDICADORES = [
     ("EMP_DWAP_SEX_AGE_RT_Q", "empleo", "Tasa de empleo (trimestral)",
      "Ocupados como porcentaje de la población en edad de trabajar (15 años y más).",
      {"sex": "SEX_T", "classif1": "AGE_YTHADULT_YGE15"}, "trimestral"),
-    ("TRU_DEMP_SEX_AGE_RT_Q", "subocupacion", "Subocupación horaria (trimestral)",
+    (["TRU_DEMP_SEX_AGE_RT_Q", "TRU_DEMP_SEX_AGE_RT_A"], "subocupacion", "Subocupación horaria",
      "Ocupados que trabajan menos horas de las que quieren y están disponibles para trabajar más, como porcentaje del empleo.",
      {"sex": "SEX_T", "classif1": "AGE_YTHADULT_YGE15"}, "trimestral"),
 ]
@@ -418,16 +419,27 @@ def descargar_ilo() -> None:
     t0 = time.time()
     n = 0
     errores = []
-    for iid, tema, nombre, descripcion, filtros, frecuencia in ILO_INDICADORES:
-        params = {"id": iid, "ref_area": "+".join(ILO_GEOS), "timefrom": "2010", "format": ".csv", **filtros}
-        url = "https://rplumber.ilo.org/data/indicator/?" + urllib.parse.urlencode(params, safe="+")
+    for ids, tema, nombre, descripcion, filtros, frecuencia in ILO_INDICADORES:
         filas: list[dict] = []
-        try:
-            filas = http_csv(url, timeout=180)
-        except Exception as e:  # noqa: BLE001
-            errores.append(f"{iid}/{filtros.get('classif1')}: {e}")
+        iid = ""
+        for iid in ([ids] if isinstance(ids, str) else ids):
+            params = {"id": iid, "ref_area": "+".join(ILO_GEOS), "timefrom": "2010", "format": ".csv", **filtros}
+            url = "https://rplumber.ilo.org/data/indicator/?" + urllib.parse.urlencode(params, safe="+")
+            try:
+                filas = http_csv(url, timeout=180)
+            except Exception as e:  # noqa: BLE001
+                errores.append(f"{iid}/{filtros.get('classif1', '')}: {e}")
+                filas = []
+            if filas:
+                break
         if not filas:
             continue
+        if iid.endswith("_A"):
+            frecuencia = "anual"
+        elif iid.endswith("_M"):
+            frecuencia = "mensual"
+        elif iid.endswith("_Q"):
+            frecuencia = "trimestral"
         por_geo: dict[str, list[tuple[str, float]]] = {}
         for f in filas:
             geo = (f.get("ref_area") or f.get("REF_AREA") or "").strip()
@@ -626,6 +638,7 @@ def _puntuar_candidata(c: dict, spec: dict) -> int:
 
 def descargar_datosar() -> None:
     t0 = time.time()
+    CARPETA.mkdir(parents=True, exist_ok=True)
     n = 0
     errores = []
     catalogo: dict[str, list] = {}
@@ -827,9 +840,10 @@ def descargar_imf() -> None:
     t0 = time.time()
     n = 0
     detalle = ""
-    geos = LATAM + MUNDO + ["WEOWORLD"]
     for codigo, tema, nombre, descripcion, unidad in IMF_INDICADORES:
-        url = f"https://www.imf.org/external/datamapper/api/v1/{codigo}/" + "/".join(geos)
+        # Sin lista de países en la ruta: la API devuelve todos y se filtra acá
+        # (con la lista, un código desconocido hace fallar toda la consulta).
+        url = f"https://www.imf.org/external/datamapper/api/v1/{codigo}"
         try:
             r = http_json(url)
             valores = (r.get("values") or {}).get(codigo) or {}

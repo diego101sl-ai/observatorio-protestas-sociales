@@ -1,4 +1,4 @@
-# OITraF · Observatorio del Trabajo y del Futuro
+# OITraF · Observatorio Internacional del Trabajo del Futuro
 
 Sitio web del **OITraF** con los indicadores del mercado laboral de Argentina, América Latina y el mundo tomados de **fuentes oficiales** (institutos de estadística, ministerios y organismos multilaterales), la **cobertura diaria de 24 medios** relevada por el equipo en el dashboard *Algoritmo Inteligente · Seguimiento de Medios*, y el **observatorio de protestas sociales** (mapa mundial con datos de GDELT).
 

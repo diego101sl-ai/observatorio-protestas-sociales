@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OITraF · Observatorio del Trabajo y del Futuro — portal
+   OITraF · Observatorio Internacional del Trabajo del Futuro — portal
    Identidad: azul marino profundo + rojo de acento + blanco.
    Titulares condensados en mayúsculas (Anton), texto en Inter,
    metadatos en monoespaciada (JetBrains Mono). El número manda.
@@ -195,7 +195,7 @@ button { font: inherit; }
 .brand-logo { height: 44px; width: auto; display: block; }
 .brand-sub {
   display: block; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--navy-sub); max-width: 12rem; line-height: 1.4;
+  text-transform: uppercase; color: var(--navy-sub); max-width: 15rem; line-height: 1.4;
   padding-left: 0.9rem; border-left: 1px solid var(--navy-line);
 }
 @media (max-width: 520px) { .brand-sub { border-left: 0; padding-left: 0; max-width: none; } }

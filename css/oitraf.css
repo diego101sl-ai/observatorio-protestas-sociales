@@ -9,8 +9,9 @@
 :root {
   color-scheme: light;
 
-  --font-display: "Anton", "Arial Narrow", Impact, "Franklin Gothic Medium", sans-serif;
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Tipografía de la marca: sans humanista negrita (Open Sans, equivalente libre del wordmark) */
+  --font-display: "Open Sans", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --font-sans: "Open Sans", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   --page: #f2f5f9;
@@ -170,10 +171,9 @@ button { font: inherit; }
 .kicker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex: none; }
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.005em;
-  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
   margin: 0;
 }
 .display em { font-style: normal; color: var(--red); }
@@ -191,14 +191,15 @@ button { font: inherit; }
   padding-block: 0.8rem;
   flex-wrap: wrap;
 }
-.brand { display: inline-flex; align-items: center; gap: 0.7rem; color: inherit; text-decoration: none; }
-.brand-mark { flex: none; }
-.brand-word { font-family: var(--font-display); font-size: 1.55rem; letter-spacing: 0.02em; line-height: 1; }
-.brand-word b { font-weight: 400; color: var(--red); }
+.brand { display: inline-flex; align-items: center; gap: 0.9rem; color: inherit; text-decoration: none; flex-wrap: wrap; }
+.brand-logo { height: 44px; width: auto; display: block; }
 .brand-sub {
   display: block; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--navy-sub); margin-top: 0.25rem;
+  text-transform: uppercase; color: var(--navy-sub); max-width: 12rem; line-height: 1.4;
+  padding-left: 0.9rem; border-left: 1px solid var(--navy-line);
 }
+@media (max-width: 520px) { .brand-sub { border-left: 0; padding-left: 0; max-width: none; } }
+.footer-logo { height: 40px; width: auto; display: block; margin-bottom: 0.6rem; }
 .nav { display: flex; gap: 0.15rem 1.1rem; flex-wrap: wrap; align-items: center; }
 .nav a {
   color: var(--navy-ink); text-decoration: none; font-size: 0.9rem; font-weight: 500;
@@ -227,8 +228,13 @@ button { font: inherit; }
     radial-gradient(60% 80% at 100% 0%, rgba(229, 50, 45, 0.18), transparent 60%);
 }
 .hero-body { position: relative; padding-block: 3rem 2.2rem; max-width: 62rem; }
+.hero-iso {
+  position: absolute; right: clamp(-6rem, 2vw, 4rem); top: 50%; transform: translateY(-58%);
+  height: min(78%, 420px); width: auto; opacity: 0.1; pointer-events: none; user-select: none;
+}
+@media (max-width: 900px) { .hero-iso { display: none; } }
 .hero .kicker { color: var(--navy-sub); }
-.hero-title { font-size: clamp(2.6rem, 7vw, 5.4rem); margin-top: 0.8rem; }
+.hero-title { font-size: clamp(2.1rem, 5.2vw, 4rem); margin-top: 0.8rem; }
 .hero-lede {
   font-size: clamp(1rem, 1.6vw, 1.2rem); font-style: italic; color: #d9e3f2;
   max-width: 48rem; margin: 1.1rem 0 0;
@@ -259,7 +265,7 @@ button { font: inherit; }
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy-sub);
 }
 .stat-value {
-  display: block; font-family: var(--font-display); font-size: 2rem; line-height: 1.05;
+  display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1.1;
   margin-top: 0.3rem; font-variant-numeric: tabular-nums;
 }
 .stat-note { display: block; font-size: 0.78rem; color: #c5d2e6; margin-top: 0.15rem; }
@@ -268,11 +274,11 @@ button { font: inherit; }
 .section { padding-block: 3rem 1rem; }
 .section + .section { border-top: 1px solid var(--hairline); }
 .section-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.8rem 2rem; margin-bottom: 1.4rem; }
-.section-head h2 { font-size: clamp(1.9rem, 4vw, 2.9rem); }
+.section-head h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
 .section-head .lede { max-width: 46rem; color: var(--text-secondary); margin: 0.5rem 0 0; }
 .section-head .aside { font-size: 0.85rem; color: var(--text-muted); max-width: 26rem; }
 .section-band { background: var(--surface-2); }
-.subhead { font-family: var(--font-display); text-transform: uppercase; font-weight: 400; font-size: 1.35rem; letter-spacing: 0.01em; margin: 1.6rem 0 0.8rem; }
+.subhead { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; margin: 1.6rem 0 0.8rem; }
 
 /* ============ Placas (stat tiles editoriales) ============ */
 .placas {
@@ -293,8 +299,8 @@ button { font: inherit; }
 }
 .placa-volanta { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
 .placa-num {
-  font-family: var(--font-display); font-size: clamp(2.2rem, 3.4vw, 2.9rem); line-height: 1;
-  font-variant-numeric: tabular-nums; color: var(--text-primary); margin-top: 0.15rem;
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 2.8vw, 2.4rem); line-height: 1.05;
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--text-primary); margin-top: 0.15rem;
 }
 .placa-num small { font-size: 0.5em; color: var(--text-secondary); margin-left: 0.15em; }
 .placa-titulo { font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
@@ -419,12 +425,12 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 /* ============ Protestas (resumen) ============ */
 .protestas-card { display: grid; gap: 1.2rem; grid-template-columns: 1fr; align-items: center; background: var(--navy); color: #fff; border-radius: var(--radius); padding: 1.6rem; }
 @media (min-width: 860px) { .protestas-card { grid-template-columns: 1.3fr 1fr; } }
-.protestas-card h3 { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: 1.9rem; margin: 0.3rem 0 0.4rem; line-height: 1; }
+.protestas-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; margin: 0.3rem 0 0.4rem; line-height: 1.1; letter-spacing: -0.01em; }
 .protestas-card p { color: #d3ddec; margin: 0; }
 .protestas-card .kicker { color: var(--navy-sub); }
 .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
 .mini-stat { background: rgba(255, 255, 255, 0.07); border-radius: 4px; padding: 0.7rem 0.8rem; }
-.mini-stat .v { display: block; font-family: var(--font-display); font-size: 1.7rem; line-height: 1; }
+.mini-stat .v { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.05; }
 .mini-stat .l { display: block; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy-sub); margin-top: 0.3rem; }
 
 /* ============ Fuentes ============ */
@@ -440,7 +446,7 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 .explorer-controls { position: sticky; top: 0; z-index: 20; background: var(--page); padding-block: 0.8rem; border-bottom: 1px solid var(--hairline); }
 .results-meta { font-size: 0.85rem; color: var(--text-muted); margin: 0.6rem 0 1rem; }
 .serie-card .valor-actual { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.3rem; }
-.serie-card .valor-actual .v { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; }
+.serie-card .valor-actual .v { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1.05; letter-spacing: -0.02em; }
 .serie-card .valor-actual .p { font-size: 0.8rem; color: var(--text-muted); }
 .badge { display: inline-block; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--hairline); border-radius: 3px; padding: 0.05rem 0.4rem; color: var(--text-muted); }
 .badge--gob { border-color: rgba(31, 95, 191, 0.4); color: var(--accent); }

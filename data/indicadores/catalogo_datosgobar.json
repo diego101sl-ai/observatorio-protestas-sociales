@@ -977,72 +977,72 @@
  "indigencia_personas": [
   {
    "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_34_74",
-   "titulo": "poblacion_pobre_pct_total_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. TOTAL. EPH continua.",
+   "id": "303.1_TASA_ASALAANA_0_T_60",
+   "titulo": "tasa_asalarizacion_aglomerados_interior_pais_region_pampeana",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Pampeana.",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALASTE_0_T_60",
+   "titulo": "tasa_asalarizacion_aglomerados_interior_pais_region_nordeste",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Nordeste",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALANIA_0_T_56",
+   "titulo": "tasa_asalarizacion_aglomerados_int_pais_region_patagonia",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Patagonia .",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALASTE_NOA_0_T_60",
+   "titulo": "tasa_asalarizacion_aglomerados_interior_pais_region_noroeste",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Region Noroeste",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "303.1_TASA_ASALATAL_0_T_36",
+   "titulo": "tasa_asalarizacion_aglomerados_total",
+   "descripcion": "Evolución de la tasa de asalarizacion. EPH Continua. Trimestral.Total Aglomerados .",
+   "frecuencia": "R/P3M",
+   "fin": "2020-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "63.2_HOGARES_PONUA_0_0_38_52",
+   "titulo": "hogares_pobres_pct_rio_cuarto_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Río Cuarto. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2025-07-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_47_89",
-   "titulo": "poblacion_pobre_pct_ushuaia_rio_grande_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Ushuaia - Río Grande. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_32_37",
+   "titulo": "hogares_pobres_pct_caba_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Ciudad de Buenos Aires. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2025-07-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_38_9",
-   "titulo": "poblacion_pobre_pct_concordia_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Concordia. EPH continua.",
-   "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_44_4",
-   "titulo": "poblacion_pobre_pct_mar_plata_batan_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Mar del Plata - Batán. EPH continua.",
-   "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_42_23",
-   "titulo": "poblacion_pobre_pct_gran_santa_fe_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Gran Santa Fe. EPH continua.",
-   "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_45_58",
-   "titulo": "poblacion_pobre_pct_gran_resistencia_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Gran Resistencia. EPH continua.",
-   "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_37_68",
-   "titulo": "poblacion_pobre_pct_la_rioja_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. La Rioja. EPH continua.",
-   "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "64.2_POBLACION_NUA_0_0_47_23",
-   "titulo": "poblacion_pobre_pct_bahia_blanca_cerri_continua",
-   "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Bahía Blanca - Cerri. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_41_76",
+   "titulo": "hogares_pobres_pct_gran_la_plata_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran La Plata. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2025-07-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

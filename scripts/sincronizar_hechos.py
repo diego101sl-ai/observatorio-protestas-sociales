@@ -22,6 +22,8 @@ Uso:
   python3 scripts/sincronizar_hechos.py               # sincroniza desde el dashboard
   python3 scripts/sincronizar_hechos.py --semilla X   # genera data/hechos.json desde un
                                                       # JSON exportado {"hechos": [...]}
+  python3 scripts/sincronizar_hechos.py --markdown X  # idem desde la exportación Markdown del
+                                                      # dashboard (Relevamiento_AlgoritmoInteligente_*.md)
 """
 from __future__ import annotations
 
@@ -38,13 +40,44 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "data" / "hechos.json"
 DIAS_VENTANA = int(os.environ.get("HECHOS_DIAS", "45"))
-MAX_HECHOS = int(os.environ.get("HECHOS_MAX", "1500"))
+MAX_HECHOS = int(os.environ.get("HECHOS_MAX", "4000"))
 # Sectores que se publican en la web (el resto del relevamiento se reserva a suscriptores).
 SECTORES_PUBLICOS = [s.strip().upper() for s in os.environ.get("HECHOS_SECTORES", "TRABAJADORES,AGRO,INDUSTRIA").split(",") if s.strip()]
 UA = "OITraF-observatorio/1.0 (sincronización de cobertura)"
 
 SECTORES = ["TRABAJADORES", "AGENDA POLÍTICA", "ENERGÍA", "FINANZAS", "INDUSTRIA", "AGRO"]
 ESCALAS = ["Internacional", "Latinoamericana", "Nacional", "Provincial"]
+
+
+# Sector de estudio a partir del eje granular de la exportación. El dashboard
+# publica el sector ya resuelto por API; la exportación Markdown solo trae el eje,
+# así que se resuelve acá por palabras clave (en mayúsculas y sin acentos).
+def _sin_acentos(s: str) -> str:
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFD", s or "") if unicodedata.category(c) != "Mn").upper()
+
+
+CLAVES_SECTOR = [
+    ("TRABAJADORES", ["TRABAJ", "LABORAL", "SINDIC", "GREMI", " CGT", "CGT ", " CTA", "EMPLEO", "PARITARIA", "SALARI",
+                      "JUBILA", "PREVISIONAL", "MEDIDA DE FUERZA", "PARO ", "HUELGA", "DESPIDO", "DOCENTE", "OBRER",
+                      "MUNDO DEL TRABAJO", "CONVENIO", "REFORMA LABORAL", "PLATAFORMA"]),
+    ("AGRO", ["AGRO", "CAMPO", "RURAL", "GANADER", "SOJA", "COSECHA", "SIEMBRA", "AGRICOL", "PESCA"]),
+    ("INDUSTRIA", ["INDUSTRI", "MANUFACTUR", "FABRIL", "PRODUCTIV", "SEMICONDUCTOR", "TECNOLOG", "INNOVAC",
+                   "INTELIGENCIA ARTIFICIAL", "AUTOMOTR", "PYME", "ACERO", "SIDERUR"]),
+    ("ENERGÍA", ["ENERG", "PETROL", " GAS", "COMBUSTIBLE", "NUCLEAR", "LITIO", "MINER", "VACA MUERTA", "ELECTRIC"]),
+    ("FINANZAS", ["FINANZ", "DEUDA", "RIESGO PAIS", "INFLACI", "DOLAR", "TIPO DE CAMBIO", "RESERVAS", "BONOS", "BCRA",
+                  " FMI", "FISCAL", "ECONOM", "COMERCI", "PIB", "MERCADO", "BANCO"]),
+]
+
+
+def sector_de_eje(eje: str) -> str:
+    e = " " + _sin_acentos(eje) + " "
+    if e.strip() in SECTORES or e.strip() == "AGENDA POLITICA":
+        return "AGENDA POLÍTICA" if e.strip() == "AGENDA POLITICA" else e.strip()
+    for sector, claves in CLAVES_SECTOR:
+        if any(_sin_acentos(k) in e for k in claves):
+            return sector
+    return "AGENDA POLÍTICA"
 
 
 def resumir(cuerpo: str, largo: int = 260) -> str:
@@ -81,7 +114,7 @@ def normalizar(h: dict) -> dict | None:
     medio = (h.get("medio") or "").strip()
     escala = (h.get("escala") or "").strip()
     eje = (h.get("eje") or "").strip()
-    sector = (h.get("sector") or "").strip().upper()
+    sector = (h.get("sector") or "").strip().upper() or sector_de_eje(eje)
     actores = h.get("actores") or []
     if isinstance(actores, str):
         try:
@@ -189,6 +222,58 @@ def desde_dashboard() -> int:
     return 0
 
 
+def leer_markdown(ruta: str) -> list[dict]:
+    """Parsea la exportación Markdown del dashboard: un bloque «## UR n · título»
+    por hecho, una línea de metadatos (**Medio** · fecha · escala · eje · Actores: …),
+    el cuerpo y las líneas «- Link:» / «- Link X:»."""
+    texto = Path(ruta).read_text(encoding="utf-8", errors="replace")
+    bloques = re.split(r"^## UR ", texto, flags=re.M)[1:]
+    meta_re = re.compile(r"^\*\*(.+?)\*\* · (\d{4}-\d{2}-\d{2}) · ([^·\n]+?) · ([^\n]*?)(?: · Actores: (.*))?$")
+    hechos = []
+    for b in bloques:
+        lineas = b.strip().split("\n")
+        cab = lineas[0]
+        m = re.match(r"^(\d+) · (.*)$", cab)
+        if not m:
+            continue
+        hid, titulo = int(m.group(1)), m.group(2).strip()
+        medio = fecha = escala = eje = ""
+        actores: list[str] = []
+        cuerpo: list[str] = []
+        links: list[dict] = []
+        for ln in lineas[1:]:
+            t = ln.strip()
+            if not t or t == "---":
+                continue
+            mm = meta_re.match(t) if not medio else None
+            if mm:
+                medio, fecha, escala, eje = mm.group(1).strip(), mm.group(2), mm.group(3).strip(), mm.group(4).strip()
+                if mm.group(5):
+                    actores = [a.strip() for a in mm.group(5).split(";") if a.strip()]
+                continue
+            ml = re.match(r"^- Link( X)?: (https?://\S+)$", t)
+            if ml:
+                links.append({"url": ml.group(2), "tipo": "x" if ml.group(1) else "nota"})
+                continue
+            cuerpo.append(t)
+        if not medio:
+            continue
+        hechos.append({
+            "id": hid, "titulo": titulo, "cuerpo": "\n".join(cuerpo), "medio": medio, "escala": escala,
+            "fecha": fecha, "eje": eje, "actores": actores, "links": links,
+            "genero": "Opinión" if titulo.upper().startswith("OPINI") else "Nota",
+        })
+    return hechos
+
+
+def desde_markdown(ruta: str) -> int:
+    hechos = leer_markdown(ruta)
+    nombre = re.sub(r"^[0-9a-f]{8}-", "", Path(ruta).name)
+    print(f"[i] {len(hechos)} hechos leídos de {nombre}")
+    escribir(hechos, "exportacion", f"exportación Markdown del dashboard ({nombre})")
+    return 0
+
+
 def desde_semilla(ruta: str) -> int:
     d = json.loads(Path(ruta).read_text(encoding="utf-8"))
     hechos = d.get("hechos") if isinstance(d, dict) else d
@@ -197,6 +282,8 @@ def desde_semilla(ruta: str) -> int:
 
 
 if __name__ == "__main__":
+    if "--markdown" in sys.argv:
+        sys.exit(desde_markdown(sys.argv[sys.argv.index("--markdown") + 1]))
     if "--semilla" in sys.argv:
         sys.exit(desde_semilla(sys.argv[sys.argv.index("--semilla") + 1]))
     sys.exit(desde_dashboard())

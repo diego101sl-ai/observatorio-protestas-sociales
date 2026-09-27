@@ -52,9 +52,12 @@ Secretos del repositorio (**Settings → Secrets and variables → Actions**):
 | `DASHBOARD_EMAIL` | correo de la cuenta de solo lectura (rol Lector) |
 | `DASHBOARD_PASSWORD` | su contraseña |
 
-Sin credenciales, el paso no modifica el archivo existente y la web muestra un aviso en la sección de cobertura. Variables opcionales: `HECHOS_DIAS` (ventana, 45 por defecto), `HECHOS_MAX` (tope de hechos, 1500) y `HECHOS_SECTORES` (sectores que se publican en la web; por defecto `TRABAJADORES,AGRO,INDUSTRIA`, el resto del relevamiento queda reservado a suscriptores).
+Sin credenciales, el paso no modifica el archivo existente y la web muestra un aviso en la sección de cobertura. Variables opcionales: `HECHOS_DIAS` (ventana, 45 por defecto), `HECHOS_MAX` (tope de hechos, 4000) y `HECHOS_SECTORES` (sectores que se publican en la web; por defecto `TRABAJADORES,AGRO,INDUSTRIA`, el resto del relevamiento queda reservado a suscriptores).
 
-También puede generarse una muestra desde una exportación JSON del dashboard: `python3 scripts/sincronizar_hechos.py --semilla exportacion.json` (la web la marca como «muestra»).
+También puede cargarse una exportación del dashboard sin credenciales:
+
+- `python3 scripts/sincronizar_hechos.py --markdown Relevamiento_AlgoritmoInteligente_AAAA-MM-DD.md` importa la exportación Markdown del dashboard (una sección `## UR` por hecho, con línea de metadatos, resumen y enlaces). El sector se toma del campo exportado o, si falta, se infiere del eje; la web lo marca como «exportación».
+- `python3 scripts/sincronizar_hechos.py --semilla exportacion.json` genera una muestra desde una exportación JSON (la web la marca como «muestra»).
 
 ### 3. Protestas · `scripts/actualizar_datos.py`
 

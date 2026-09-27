@@ -431,18 +431,18 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_AARIADOTAC_2012_M_40",
-   "titulo": "asalariados_casas_particulares_sin_estac",
-   "descripcion": "Asalariados. Casas particulares. Sin estacionalidad.",
+   "id": "151.1_AARIADODAD_2012_M_45",
+   "titulo": "asalariados_casas_particulares_estacionalidad",
+   "descripcion": "Asalariados. Casas particulares. Con estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIETAC_2012_M_43",
-   "titulo": "independientes_monotributo_social_sin_estac",
-   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
+   "id": "151.1_AARIADOTAC_2012_M_40",
+   "titulo": "asalariados_casas_particulares_sin_estac",
+   "descripcion": "Asalariados. Casas particulares. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -479,18 +479,18 @@
   },
   {
    "puntaje": 24,
-   "id": "153.1_RNERACIANA_2009_M_20",
-   "titulo": "asalariados_priv_remuneracion_mediana",
-   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
+   "id": "151.1_AARIADOTAC_2012_M_26",
+   "titulo": "asalariados_priv_sin_estac",
+   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": 24,
-   "id": "151.1_AARIADOTAC_2012_M_26",
-   "titulo": "asalariados_priv_sin_estac",
-   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
+   "id": "153.1_RNERACIANA_2009_M_20",
+   "titulo": "asalariados_priv_remuneracion_mediana",
+   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

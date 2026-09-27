@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="OITraF, Observatorio Internacional del Trabajo del Futuro: indicadores del mercado laboral de Argentina, América Latina y el mundo con fuentes oficiales, cobertura diaria de 24 medios y seguimiento de protestas sociales.">
   <meta name="theme-color" content="#071b3d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="copyright" content="© OITraF · Observatorio Internacional del Trabajo del Futuro. Elaboraciones propias bajo CC BY 4.0; los datos oficiales conservan la licencia de su organismo.">
+  <meta name="author" content="OITraF · Observatorio Internacional del Trabajo del Futuro">
+  <link rel="canonical" href="https://diego101sl-ai.github.io/observatorio-protestas-sociales/">
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.es">
+  <meta property="og:site_name" content="OITraF">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OITraF · Observatorio Internacional del Trabajo del Futuro">
+  <meta property="og:description" content="Indicadores del mercado laboral de Argentina, América Latina y el mundo con fuentes oficiales, cobertura diaria de 24 medios y seguimiento de protestas sociales.">
+  <meta property="og:url" content="https://diego101sl-ai.github.io/observatorio-protestas-sociales/">
+  <meta property="og:image" content="https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf","name":"OITraF","alternateName":"Observatorio Internacional del Trabajo del Futuro","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/","logo":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png","sameAs":["https://www.instagram.com/oitraf1/"]},{"@type":"Dataset","name":"OITraF · Observatorio Internacional del Trabajo del Futuro","description":"Indicadores del mercado laboral de Argentina, América Latina y el mundo con fuentes oficiales, cobertura diaria de 24 medios y seguimiento de protestas sociales.","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/","inLanguage":"es","creator":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"publisher":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"license":"https://creativecommons.org/licenses/by/4.0/","isAccessibleForFree":true,"copyrightHolder":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"}}]}</script>
   <title>OITraF · Observatorio Internacional del Trabajo del Futuro</title>
   <link rel="icon" type="image/png" href="img/marca/favicon-64.png">
   <link rel="apple-touch-icon" href="img/marca/oitraf-isotipo-color.png">
@@ -212,6 +226,13 @@
           <div class="card"><h3>Elaboraciones señaladas</h3><p>Cuando OITraF calcula un indicador (salario real, canasta del hogar, salario mínimo en canastas) se declara como elaboración propia y se enlaza la serie oficial de la que sale.</p></div>
           <div class="card"><h3>Datos abiertos</h3><p>Todas las series pueden descargarse en CSV desde el explorador de indicadores, con su fuente y su enlace de origen. El código del robot y de la web es público.</p></div>
         </div>
+        <h3 class="subhead">Cómo citar y licencia</h3>
+        <div class="card cita">
+          <p class="cita-intro">Las elaboraciones propias de OITraF (indicadores derivados, cobertura de medios, textos y visualizaciones) se publican bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license" target="_blank">Creative Commons Atribución 4.0</a>. Podés reutilizarlas con una sola condición: citar a OITraF con enlace. Los datos oficiales conservan la licencia del organismo que los publica y se citan con su propia fuente.</p>
+          <blockquote id="cita-texto" class="cita-bloque"></blockquote>
+          <div class="card-tools"><button id="cita-copiar" class="tool-btn" type="button">Copiar cita</button><a class="tool-btn" href="https://github.com/diego101sl-ai/observatorio-protestas-sociales/blob/main/LICENCIA.md" target="_blank" rel="noopener">Condiciones de uso</a></div>
+          <p class="card-foot">Al copiar un fragmento de texto del sitio, el portapapeles incorpora automáticamente la fuente, la URL y la fecha de consulta. Las descargas en CSV llevan la atribución en su encabezado y la fuente de cada dato; los gráficos, la marca OITraF.</p>
+        </div>
         <h3 class="subhead">Fuentes consultadas</h3>
         <div class="card"><div class="table-scroll" id="tabla-fuentes"></div></div>
       </div>
@@ -243,8 +264,12 @@
         </ul>
       </div>
     </div>
+    <div class="shell">
+      <p class="legal">© <span id="anio-legal"></span> OITraF. Las elaboraciones propias se publican bajo <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license" target="_blank">CC BY 4.0</a>: podés reutilizarlas citando a OITraF con enlace. Los datos oficiales conservan la licencia de su organismo. Al copiar texto del sitio se agrega la fuente automáticamente. <a href="https://github.com/diego101sl-ai/observatorio-protestas-sociales/blob/main/LICENCIA.md" target="_blank" rel="noopener">Licencia y condiciones de uso</a>.</p>
+    </div>
   </footer>
 
   <script type="module" src="js/oitraf/portada.js"></script>
+  <script type="module" src="js/oitraf/proteccion.js"></script>
 </body>
 </html>

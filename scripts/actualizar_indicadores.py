@@ -966,6 +966,8 @@ def escribir() -> None:
     series.sort(key=lambda s: (s["escala"], s["geo_nombre"], s["tema"], s["fuente"], s["codigo"]))
     salida = {
         "generado": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "publicado_por": "OITraF · Observatorio Internacional del Trabajo del Futuro",
+        "licencia": "Compilación y elaboraciones de OITraF bajo CC BY 4.0 (citar a OITraF con enlace). Cada serie conserva la licencia del organismo indicado en 'fuente' y 'url'.",
         "temas": TEMAS,
         "fuentes": FUENTES,
         "geos": {g: {"nombre": nombre_geo(g), "escala": escala_de(g)} for g in sorted({s["geo"] for s in series})},

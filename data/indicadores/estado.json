@@ -1,54 +1,54 @@
 {
- "generado": "2026-09-26T20:31:55Z",
+ "generado": "2026-09-27T16:55:34Z",
  "estado": {
   "wb": {
    "ok": true,
    "series": 962,
    "detalle": "",
-   "segundos": 8.0,
-   "consultado": "2026-09-26T20:30:55Z"
+   "segundos": 8.5,
+   "consultado": "2026-09-27T16:54:25Z"
   },
   "ilo": {
    "ok": true,
    "series": 155,
    "detalle": "TRU_DEMP_SEX_AGE_RT_Q/AGE_YTHADULT_YGE15: HTTP Error 400: Bad Request; TRU_DEMP_SEX_AGE_RT_A/AGE_YTHADULT_YGE15: HTTP Error 400: Bad Request",
-   "segundos": 14.3,
-   "consultado": "2026-09-26T20:31:09Z"
+   "segundos": 13.3,
+   "consultado": "2026-09-27T16:54:39Z"
   },
   "datosar": {
    "ok": true,
    "series": 14,
    "detalle": "",
-   "segundos": 12.0,
-   "consultado": "2026-09-26T20:31:21Z"
+   "segundos": 23.8,
+   "consultado": "2026-09-27T16:55:02Z"
   },
   "eurostat": {
    "ok": true,
    "series": 12,
    "detalle": "",
-   "segundos": 1.9,
-   "consultado": "2026-09-26T20:31:23Z"
+   "segundos": 1.1,
+   "consultado": "2026-09-27T16:55:04Z"
   },
   "bls": {
    "ok": true,
    "series": 6,
    "detalle": "",
-   "segundos": 0.8,
-   "consultado": "2026-09-26T20:31:24Z"
+   "segundos": 0.5,
+   "consultado": "2026-09-27T16:55:04Z"
   },
   "imf": {
    "ok": true,
    "series": 114,
    "detalle": "",
-   "segundos": 26.4,
-   "consultado": "2026-09-26T20:31:50Z"
+   "segundos": 28.3,
+   "consultado": "2026-09-27T16:55:32Z"
   },
   "oecd": {
    "ok": true,
    "series": 48,
    "detalle": "",
-   "segundos": 4.2,
-   "consultado": "2026-09-26T20:31:54Z"
+   "segundos": 1.3,
+   "consultado": "2026-09-27T16:55:34Z"
   }
  },
  "total_series": 1311

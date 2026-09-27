@@ -275,6 +275,10 @@ function renderCobertura() {
     aviso.hidden = false;
     vaciar(aviso);
     aviso.append(el("b", {}, "Muestra del relevamiento. "), `Datos de ${fmtFechaCorta(d.ventana.desde)} a ${fmtFechaCorta(d.ventana.hasta)} tomados de una exportación del dashboard; la sincronización diaria se activa con las credenciales del dashboard.`);
+  } else if (d.modo === "exportacion") {
+    aviso.hidden = false;
+    vaciar(aviso);
+    aviso.append(el("b", {}, "Exportación del dashboard. "), `Relevamiento del ${fmtFechaCorta(d.ventana.desde)} al ${fmtFechaCorta(d.ventana.hasta)} importado desde la base Algoritmo Inteligente; la sincronización automática diaria se activa con las credenciales del dashboard.`);
   } else {
     aviso.hidden = true;
   }

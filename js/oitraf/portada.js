@@ -5,12 +5,12 @@
  */
 import {
   initTema, fetchJson, el, vaciar, fmtNum, fmtCompacto, fmtPeriodo, fmtPeriodoCorto, fmtDelta,
-  fmtFechaLarga, fmtFechaCorta, nombreFuente, FUENTE_CORTA, SECTOR_COLOR, SECTORES, ESCALAS, LATAM,
+  fmtFechaLarga, fmtFechaCorta, nombreFuente, FUENTE_CORTA, SECTOR_COLOR, SECTORES_PUBLICOS, NOMBRE_SECTOR, ESCALAS, LATAM,
   Catalogo, derivarSeries, primeraOracion,
 } from "./comun.js";
 import { lineChart, barChart, columnChart, sparkline, tabla } from "./graficos.js";
 
-const state = { cat: null, hechos: null, protestas: null, escala: "Todas", sector: "Todos", mostrar: 20 };
+const state = { cat: null, hechos: null, protestas: null, escala: "Todas", sector: "TRABAJADORES", mostrar: 20 };
 
 function $(id) { return document.getElementById(id); }
 
@@ -233,16 +233,30 @@ function montarTabla(chartEl, columnas, filas) {
 // ---------------------------------------------------------------------------
 function hechosFiltrados() {
   const h = state.hechos?.hechos || [];
-  return h.filter((x) => (state.escala === "Todas" || x.escala === state.escala) && (state.sector === "Todos" || x.sector === state.sector));
+  return h.filter((x) => (state.escala === "Todas" || x.escala === state.escala) && x.sector === state.sector);
 }
 
 function chipRow(cont, opciones, actual, onPick) {
   vaciar(cont);
   for (const o of opciones) {
-    const b = el("button", { class: `chip${o.valor === actual ? " is-active" : ""}`, type: "button", "aria-pressed": String(o.valor === actual) }, o.etiqueta);
+    const b = el("button", { class: `chip${o.valor === actual ? " is-active" : ""}`, type: "button", "aria-pressed": String(o.valor === actual), dataset: { valor: o.valor } }, o.etiqueta);
     b.addEventListener("click", () => onPick(o.valor));
     cont.append(b);
   }
+}
+
+function marcarChips(cont, actual) {
+  cont.querySelectorAll(".chip").forEach((b) => { const on = b.dataset.valor === actual; b.classList.toggle("is-active", on); b.setAttribute("aria-pressed", String(on)); });
+}
+
+/** Deja en memoria solo los sectores públicos y recalcula los totales (por si el JSON trajera otros). */
+function recortarCobertura(d) {
+  if (!d || !d.hechos) return d;
+  const hechos = d.hechos.filter((h) => SECTORES_PUBLICOS.includes(h.sector));
+  const cuenta = (clave) => { const m = {}; for (const h of hechos) m[h[clave]] = (m[h[clave]] || 0) + 1; return m; };
+  const porDia = new Map((d.resumen?.por_dia || []).map(([k]) => [k, 0]));
+  for (const h of hechos) porDia.set(h.fecha, (porDia.get(h.fecha) || 0) + 1);
+  return { ...d, hechos, total: hechos.length, resumen: { por_escala: cuenta("escala"), por_sector: cuenta("sector"), por_medio: Object.fromEntries(Object.entries(cuenta("medio")).sort((a, b) => b[1] - a[1])), por_dia: [...porDia.entries()].sort(), medios: new Set(hechos.map((h) => h.medio)).size } };
 }
 
 function renderCobertura() {
@@ -271,7 +285,8 @@ function renderCobertura() {
 
   const escalas = ["Todas", ...ESCALAS.filter((e) => d.resumen.por_escala[e])];
   chipRow($("chips-escala"), escalas.map((e) => ({ valor: e, etiqueta: e === "Todas" ? "Todas las escalas" : e })), state.escala, (v) => { state.escala = v; state.mostrar = 20; renderCoberturaDinamica(); });
-  chipRow($("chips-sector"), [{ valor: "Todos", etiqueta: "Todos los sectores" }, ...SECTORES.map((s) => ({ valor: s, etiqueta: s.charAt(0) + s.slice(1).toLowerCase() }))], state.sector, (v) => { state.sector = v; state.mostrar = 20; renderCoberturaDinamica(); });
+  if (!d.resumen.por_sector[state.sector]) state.sector = SECTORES_PUBLICOS.find((s) => d.resumen.por_sector[s]) || state.sector;
+  chipRow($("chips-sector"), SECTORES_PUBLICOS.map((s) => ({ valor: s, etiqueta: `${NOMBRE_SECTOR[s]}${d.resumen.por_sector[s] ? ` · ${d.resumen.por_sector[s]}` : ""}` })), state.sector, (v) => { state.sector = v; state.mostrar = 20; renderCoberturaDinamica(); });
 
   const medios = $("medios-lista");
   vaciar(medios);
@@ -282,8 +297,8 @@ function renderCobertura() {
 function renderCoberturaDinamica() {
   const d = state.hechos;
   const lista = hechosFiltrados();
-  $("chips-escala").querySelectorAll(".chip").forEach((b) => { const on = b.textContent === (state.escala === "Todas" ? "Todas las escalas" : state.escala); b.classList.toggle("is-active", on); b.setAttribute("aria-pressed", String(on)); });
-  $("chips-sector").querySelectorAll(".chip").forEach((b) => { const on = b.textContent.toUpperCase() === (state.sector === "Todos" ? "TODOS LOS SECTORES" : state.sector); b.classList.toggle("is-active", on); b.setAttribute("aria-pressed", String(on)); });
+  marcarChips($("chips-escala"), state.escala);
+  marcarChips($("chips-sector"), state.sector);
 
   // columnas por día
   const porDia = new Map(d.resumen.por_dia.map(([k]) => [k, 0]));
@@ -293,11 +308,11 @@ function renderCoberturaDinamica() {
 
   // barras por sector (dentro de la escala elegida)
   const base = (d.hechos || []).filter((x) => state.escala === "Todas" || x.escala === state.escala);
-  const porSector = SECTORES.map((s) => ({ etiqueta: s.charAt(0) + s.slice(1).toLowerCase(), valor: base.filter((x) => x.sector === s).length, color: SECTOR_COLOR[s], destacado: false }))
+  const porSector = SECTORES_PUBLICOS.map((s) => ({ etiqueta: NOMBRE_SECTOR[s], valor: base.filter((x) => x.sector === s).length, color: SECTOR_COLOR[s], destacado: false }))
     .filter((i) => i.valor > 0).sort((a, b) => b.valor - a.valor);
   barChart($("chart-ur-sector"), { items: porSector, unidad: "", aria: "Unidades de registro por sector" });
 
-  $("cobertura-count").textContent = `${lista.length.toLocaleString("es-AR")} unidades de registro${state.escala !== "Todas" ? ` · ${state.escala}` : ""}${state.sector !== "Todos" ? ` · ${state.sector.toLowerCase()}` : ""}`;
+  $("cobertura-count").textContent = `${lista.length.toLocaleString("es-AR")} unidades de registro · ${NOMBRE_SECTOR[state.sector] || state.sector}${state.escala !== "Todas" ? ` · ${state.escala}` : ""}`;
   const ul = $("hechos");
   vaciar(ul);
   for (const h of lista.slice(0, state.mostrar)) {
@@ -306,7 +321,7 @@ function renderCoberturaDinamica() {
     ul.append(el("li", { class: "hecho" },
       el("div", { class: "hecho-meta" },
         el("span", {}, h.medio), el("span", {}, fmtFechaCorta(h.fecha)), el("span", { class: "escala-tag" }, h.escala),
-        el("span", { class: "sector-chip", style: { "--sector": SECTOR_COLOR[h.sector] || "var(--mark-muted)" } }, h.sector.charAt(0) + h.sector.slice(1).toLowerCase())),
+        el("span", { class: "sector-chip", style: { "--sector": SECTOR_COLOR[h.sector] || "var(--mark-muted)" } }, NOMBRE_SECTOR[h.sector] || h.sector)),
       el("h4", { class: "hecho-titulo" }, titulo),
       h.resumen ? el("p", { class: "hecho-resumen" }, h.resumen) : null,
       (h.links || []).length > 1 ? el("div", { class: "hecho-links" }, h.links.slice(1, 4).map((u, i) => el("a", { href: u, target: "_blank", rel: "noopener" }, `enlace ${i + 2}`))) : null));
@@ -365,7 +380,7 @@ function renderFuentes() {
   filas.push([
     el("span", {}, el("a", { href: "#cobertura" }, "Algoritmo Inteligente · Seguimiento de Medios"), el("br"), el("span", { class: "periodo" }, "Equipo de OITraF")),
     el("span", { class: "badge" }, "Relevamiento propio"),
-    "Unidades de registro de 24 medios (5 nacionales, 4 latinoamericanos, 11 internacionales y 4 provinciales), clasificadas por escala, sector, eje y actores.",
+    "Unidades de registro de 24 medios (5 nacionales, 4 latinoamericanos, 11 internacionales y 4 provinciales), clasificadas por escala, sector, eje y actores. En la web se publica el recorte de trabajo, agro e industria; el relevamiento completo se distribuye a suscriptores.",
     el("span", { class: `estado ${state.hechos ? "estado--ok" : ""}` }, state.hechos ? (state.hechos.modo === "semilla" ? "muestra" : `${state.hechos.total} UR`) : "pendiente"),
   ]);
   filas.push([
@@ -403,7 +418,7 @@ async function main() {
     fetchJson("data/protests.json"),
   ]);
   state.cat = derivarSeries(new Catalogo(ind));
-  state.hechos = hechos;
+  state.hechos = recortarCobertura(hechos);
   state.protestas = prot;
   const pasos = [renderHero, renderArgentina, renderLatam, renderMundo, renderCobertura, renderProtestas, renderFuentes];
   for (const paso of pasos) {

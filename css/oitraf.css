@@ -451,6 +451,36 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 .medios-lista li { font-size: 0.74rem; border: 1px solid var(--hairline); border-radius: 3px; padding: 0.1rem 0.45rem; color: var(--text-secondary); }
 .medios-lista li b { font-weight: 600; color: var(--text-primary); }
 
+/* ============ Formularios ============ */
+.form-card h3 { margin: 0 0 0.3rem; font-size: 1.05rem; font-weight: 700; }
+.form-card .sub { margin: 0 0 1rem; font-size: 0.88rem; color: var(--text-secondary); }
+.form-grid { display: grid; gap: 0.8rem 1rem; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } .field--ancho { grid-column: 1 / -1; } }
+.field { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.84rem; color: var(--text-secondary); margin: 0; padding: 0; border: 0; min-width: 0; }
+.field > span, .field > legend { font-weight: 600; color: var(--text-primary); }
+.field b { color: var(--red); font-weight: 700; }
+.field input, .field select, .field textarea {
+  border: 1px solid var(--hairline); background: var(--surface-1); color: var(--text-primary);
+  border-radius: 4px; padding: 0.55rem 0.7rem; font: inherit; font-size: 0.92rem; width: 100%;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.field textarea { resize: vertical; min-height: 6rem; }
+fieldset.field { padding-top: 0.2rem; }
+fieldset.field legend { margin-bottom: 0.4rem; padding: 0; }
+.check { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; }
+.check input, .field .check input { margin-top: 0.2rem; flex: none; width: auto; accent-color: var(--red); }
+.form-grid > * { min-width: 0; }
+fieldset.field { min-inline-size: 0; }
+fieldset.field .check + .check { margin-top: 0.35rem; }
+.trampa { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form-acciones { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+.form-alt { font-size: 0.84rem; color: var(--text-secondary); }
+.form-msg { margin: 0.8rem 0 0; padding: 0.6rem 0.8rem; border-radius: 4px; font-size: 0.86rem; }
+.form-msg--ok { background: rgba(12, 163, 12, 0.1); color: var(--text-primary); border: 1px solid rgba(12, 163, 12, 0.35); }
+.form-msg--info { background: var(--surface-2); color: var(--text-primary); border: 1px solid var(--hairline); }
+.form-msg--error { background: rgba(208, 59, 59, 0.08); color: var(--text-primary); border: 1px solid rgba(208, 59, 59, 0.35); }
+.form-card { position: relative; }
+
 /* ============ Protestas (resumen) ============ */
 .protestas-card { display: grid; gap: 1.2rem; grid-template-columns: 1fr; align-items: center; background: var(--navy); color: #fff; border-radius: var(--radius); padding: 1.6rem; }
 @media (min-width: 860px) { .protestas-card { grid-template-columns: 1.3fr 1fr; } }

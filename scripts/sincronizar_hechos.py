@@ -39,6 +39,8 @@ RAIZ = Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "data" / "hechos.json"
 DIAS_VENTANA = int(os.environ.get("HECHOS_DIAS", "45"))
 MAX_HECHOS = int(os.environ.get("HECHOS_MAX", "1500"))
+# Sectores que se publican en la web (el resto del relevamiento se reserva a suscriptores).
+SECTORES_PUBLICOS = [s.strip().upper() for s in os.environ.get("HECHOS_SECTORES", "TRABAJADORES,AGRO,INDUSTRIA").split(",") if s.strip()]
 UA = "OITraF-observatorio/1.0 (sincronización de cobertura)"
 
 SECTORES = ["TRABAJADORES", "AGENDA POLÍTICA", "ENERGÍA", "FINANZAS", "INDUSTRIA", "AGRO"]
@@ -121,6 +123,7 @@ def resumen(hechos: list[dict], desde: str, hasta: str) -> dict:
 
 def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
     hechos = [x for x in (normalizar(h) for h in hechos_crudos) if x and x["titulo"]]
+    hechos = [x for x in hechos if x["sector"] in SECTORES_PUBLICOS]
     hechos.sort(key=lambda h: (h["fecha"], str(h.get("id") or "")), reverse=True)
     if not hechos:
         print("[!] No hay hechos válidos para publicar; se conserva el archivo anterior.")
@@ -136,9 +139,10 @@ def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
         "origen": origen,
         "fuente": {
             "nombre": "Algoritmo Inteligente · Seguimiento de Medios",
-            "descripcion": "Relevamiento diario del equipo de OITraF: unidades de registro clasificadas por escala, sector, eje y actores, a partir de 24 medios nacionales, latinoamericanos, internacionales y provinciales.",
+            "descripcion": "Relevamiento diario del equipo de OITraF: unidades de registro clasificadas por escala, sector, eje y actores, a partir de 24 medios nacionales, latinoamericanos, internacionales y provinciales. En la web se publica el recorte de trabajo, agro e industria; el relevamiento completo se distribuye a suscriptores.",
             "medios": sorted({h["medio"] for h in hechos if h["medio"]}),
         },
+        "sectores_publicados": SECTORES_PUBLICOS,
         "ventana": {"desde": desde, "hasta": hasta, "dias": DIAS_VENTANA},
         "total_corpus": len(hechos_crudos),
         "total": len(ventana),

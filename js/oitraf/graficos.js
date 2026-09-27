@@ -42,6 +42,11 @@ function fmtTick(v, unidad) {
   return v.toLocaleString("es-AR", { maximumFractionDigits: unidad === "%" ? 1 : 2 });
 }
 
+/** Marca discreta de autoría en la esquina inferior derecha del gráfico. */
+function marcaAgua(svg, W, H) {
+  svg.append(texto(W - 4, H - 3, "OITraF", { class: "marca-agua", "text-anchor": "end", "aria-hidden": "true" }));
+}
+
 function observar(contenedor, dibujar) {
   let ancho = 0;
   const ro = new ResizeObserver((entradas) => {
@@ -197,6 +202,7 @@ export function lineChart(contenedor, spec) {
       if (ev.key === "ArrowLeft") { ev.preventDefault(); mostrar(Math.max(0, actual - 1)); }
       if (ev.key === "ArrowRight") { ev.preventDefault(); mostrar(Math.min(xs.length - 1, actual + 1)); }
     });
+    marcaAgua(svg, W, H);
     contenedor.append(svg);
     contenedor.append(tt);
   };
@@ -273,6 +279,7 @@ export function barChart(contenedor, spec) {
       g.addEventListener("blur", () => tt.classList.remove("is-visible"));
       svg.append(g);
     });
+    marcaAgua(svg, W, H);
     contenedor.append(svg);
     contenedor.append(tt);
   };
@@ -336,6 +343,7 @@ export function columnChart(contenedor, spec) {
       g.addEventListener("blur", () => tt.classList.remove("is-visible"));
       svg.append(g);
     });
+    marcaAgua(svg, W, H);
     contenedor.append(svg);
     contenedor.append(tt);
   };

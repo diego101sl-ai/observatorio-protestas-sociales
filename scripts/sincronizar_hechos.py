@@ -130,6 +130,8 @@ def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
     ventana = [h for h in hechos if h["fecha"] >= desde][:MAX_HECHOS]
     salida = {
         "generado": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "publicado_por": "OITraF · Observatorio Internacional del Trabajo del Futuro",
+        "licencia": "Selección, clasificación y redacción de las unidades de registro bajo CC BY 4.0 (citar a OITraF con enlace). Los enlaces remiten a las notas de cada medio, cuyos textos pertenecen a sus autores.",
         "modo": modo,  # "dashboard" (sincronización real) o "semilla" (muestra)
         "origen": origen,
         "fuente": {

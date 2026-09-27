@@ -123,6 +123,15 @@ Mapa interactivo que monitorea los **eventos de protesta social en todo el mundo
 
 **ACLED (opcional)**: base académica de eventos verificados a mano. Crear cuenta en <https://acleddata.com/> y cargar los secretos `ACLED_USERNAME` y `ACLED_PASSWORD`; el robot guarda `data/acled.json` y la web muestra un selector GDELT/ACLED.
 
+## Seguridad y autoría
+
+- **Política de seguridad de contenido** (`Content-Security-Policy` por `<meta>`, ya que GitHub Pages no permite cabeceras HTTP propias): solo scripts propios, estilos propios y de Google Fonts, imágenes propias (más las teselas de CARTO en el mapa); sin `eval`, sin objetos embebidos, sin envío de formularios a terceros. Referrer restringido y protección contra incrustación en marcos ajenos.
+- **Atribución automática al copiar** (`js/oitraf/proteccion.js`): todo fragmento de más de 60 caracteres copiado desde el sitio llega al portapapeles con la fuente, la URL, la fecha de consulta y la licencia, en texto plano y en HTML con enlace. No se bloquean la selección ni el clic derecho, por accesibilidad.
+- **Marca en gráficos y descargas**: los gráficos llevan la marca OITraF; los CSV, dos líneas de atribución en el encabezado más la columna `fuente` de cada dato; los JSON del robot, los campos `publicado_por` y `licencia`.
+- **Licencia y cita**: `LICENCIA.md` (CC BY 4.0 para las elaboraciones propias; los datos oficiales conservan la suya), bloque «Cómo citar» en la portada con cita sugerida copiable, metadatos `copyright`, `rel="license"`, Open Graph y JSON-LD (schema.org) que declaran a OITraF como autor.
+- **Rastreadores**: `robots.txt` permite la indexación y desautoriza a los rastreadores de entrenamiento de IA; `sitemap.xml` con las tres páginas.
+- Recomendado en GitHub: activar **Enforce HTTPS** en Pages y proteger la rama `main` (Settings → Branches) para que solo el equipo y los robots puedan publicar.
+
 ## Licencias de los datos
 
 Banco Mundial, OIT, datos.gob.ar y Eurostat publican bajo CC BY 4.0; BLS es dominio público; FMI y OCDE permiten el uso con atribución; GDELT es de uso libre con atribución. Cada placa y cada serie enlazan al organismo que publica el dato.

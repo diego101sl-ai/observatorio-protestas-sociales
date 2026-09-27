@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Observatorio de protestas sociales de OITraF: eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT.">
   <meta name="theme-color" content="#13293f">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://*.cartocdn.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="copyright" content="© OITraF · Observatorio Internacional del Trabajo del Futuro. Elaboraciones propias bajo CC BY 4.0; los datos oficiales conservan la licencia de su organismo.">
+  <meta name="author" content="OITraF · Observatorio Internacional del Trabajo del Futuro">
+  <link rel="canonical" href="https://diego101sl-ai.github.io/observatorio-protestas-sociales/protestas.html">
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.es">
+  <meta property="og:site_name" content="OITraF">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Observatorio de Protestas Sociales · OITraF">
+  <meta property="og:description" content="Eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT, actualizados cada hora.">
+  <meta property="og:url" content="https://diego101sl-ai.github.io/observatorio-protestas-sociales/protestas.html">
+  <meta property="og:image" content="https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf","name":"OITraF","alternateName":"Observatorio Internacional del Trabajo del Futuro","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/","logo":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png","sameAs":["https://www.instagram.com/oitraf1/"]},{"@type":"WebPage","name":"Observatorio de Protestas Sociales · OITraF","description":"Eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT, actualizados cada hora.","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/protestas.html","inLanguage":"es","creator":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"publisher":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"license":"https://creativecommons.org/licenses/by/4.0/","isAccessibleForFree":true,"copyrightHolder":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"}}]}</script>
   <title>Observatorio de Protestas Sociales · OITraF</title>
   <link rel="icon" type="image/png" href="img/marca/favicon-64.png">
   <link rel="apple-touch-icon" href="img/marca/oitraf-isotipo-color.png">
@@ -157,9 +171,13 @@
          Fuente futura adicional: <a href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>.
          Mapa © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>.</p>
     </div>
+    <div class="shell">
+      <p class="legal">© <span id="anio-legal"></span> OITraF. Las elaboraciones propias se publican bajo <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license" target="_blank">CC BY 4.0</a>: podés reutilizarlas citando a OITraF con enlace. Los datos oficiales conservan la licencia de su organismo. Al copiar texto del sitio se agrega la fuente automáticamente. <a href="https://github.com/diego101sl-ai/observatorio-protestas-sociales/blob/main/LICENCIA.md" target="_blank" rel="noopener">Licencia y condiciones de uso</a>.</p>
+    </div>
   </footer>
 
   <script src="vendor/leaflet/leaflet.js"></script>
   <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/oitraf/proteccion.js"></script>
 </body>
 </html>

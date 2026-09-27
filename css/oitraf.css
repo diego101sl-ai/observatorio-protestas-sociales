@@ -489,6 +489,11 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 .footer h4 { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy-sub); margin: 0 0 0.5rem; }
 .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
 .footer p { margin: 0.4rem 0 0; }
+.footer .legal { margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid var(--navy-line); font-size: 0.78rem; color: var(--navy-sub); }
+.footer .legal a { color: #dbe5f3; }
+.cita-intro { margin: 0 0 0.8rem; font-size: 0.92rem; color: var(--text-secondary); }
+.cita-bloque { margin: 0 0 0.8rem; padding: 0.8rem 1rem; border-left: 3px solid var(--red); background: var(--surface-2); font-size: 0.9rem; line-height: 1.5; word-break: break-word; }
+.chart .marca-agua { font-family: var(--font-display); font-weight: 800; font-size: 10px; fill: var(--text-muted); opacity: 0.55; letter-spacing: 0.02em; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

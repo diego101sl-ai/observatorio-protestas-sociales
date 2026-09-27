@@ -367,7 +367,11 @@ export function descargarCSV(nombre, filas) {
     const s = v === null || v === undefined ? "" : String(v);
     return /[",;\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const csv = filas.map((f) => f.map(esc).join(";")).join("\n");
+  const cabecera = [
+    `# Fuente: OITraF · Observatorio Internacional del Trabajo del Futuro · ${location.href.split("#")[0]}`,
+    `# Descargado el ${new Date().toISOString().slice(0, 10)}. Elaboraciones propias bajo CC BY 4.0 (citar a OITraF con enlace); los datos oficiales conservan la licencia del organismo indicado en la columna «fuente».`,
+  ].join("\n");
+  const csv = cabecera + "\n" + filas.map((f) => f.map(esc).join(";")).join("\n");
   const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);

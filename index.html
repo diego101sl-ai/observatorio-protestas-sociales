@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="OITraF, Observatorio Internacional del Trabajo del Futuro: indicadores del mercado laboral de Argentina, América Latina y el mundo con fuentes oficiales, cobertura diaria de 24 medios y seguimiento de protestas sociales.">
   <meta name="theme-color" content="#071b3d">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io https://api.web3forms.com">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="copyright" content="© OITraF · Observatorio Internacional del Trabajo del Futuro. Elaboraciones propias bajo CC BY 4.0; los datos oficiales conservan la licencia de su organismo.">
   <meta name="author" content="OITraF · Observatorio Internacional del Trabajo del Futuro">
@@ -42,6 +42,8 @@
         <a href="#latam">América Latina</a>
         <a href="#mundo">Mundo</a>
         <a href="#cobertura">Cobertura de medios</a>
+        <a href="#suscripcion">Suscribite</a>
+        <a href="#contacto">Estudios a medida</a>
         <a href="#protestas">Protestas</a>
         <a href="indicadores.html">Todos los indicadores</a>
         <a href="#fuentes">Fuentes</a>
@@ -62,7 +64,7 @@
       <div class="hero-actions">
         <a class="btn btn-red" href="#argentina">Ver indicadores</a>
         <a class="btn btn-ghost" href="indicadores.html">Explorar todas las series</a>
-        <a class="btn btn-ghost" href="protestas.html">Mapa de protestas</a>
+        <a class="btn btn-ghost" href="#suscripcion">Recibir informes</a>
       </div>
     </div>
     <div class="stats-band" aria-label="Resumen del observatorio">
@@ -149,7 +151,7 @@
           <div>
             <p class="kicker"><span class="dot" aria-hidden="true"></span>Seguimiento de medios</p>
             <h2 id="h-cob" class="display">Cobertura de medios</h2>
-            <p class="lede">El equipo de OITraF releva cada día unos 300 hechos de 24 medios nacionales, latinoamericanos, internacionales y provinciales, y los clasifica por escala, sector, eje y actores en el dashboard Algoritmo Inteligente. Acá se publica el extracto de las últimas semanas.</p>
+            <p class="lede">El equipo de OITraF releva cada día unos 300 hechos de 24 medios nacionales, latinoamericanos, internacionales y provinciales, y los clasifica por escala, sector, eje y actores en el dashboard Algoritmo Inteligente. Acá se publica el recorte del mundo del trabajo de las últimas semanas, con las pestañas de agro e industria por su relación con las fuentes y los tipos de trabajo. El relevamiento completo, los informes y las ediciones especiales se distribuyen a <a href="#suscripcion">suscriptores</a>.</p>
           </div>
           <p class="aside" id="cobertura-sync"></p>
         </div>
@@ -163,7 +165,7 @@
             </div>
             <div class="filters">
               <div class="filter-group" role="group" aria-label="Escala"><span class="filter-label">Escala</span><span id="chips-escala" class="filter-group"></span></div>
-              <div class="filter-group" role="group" aria-label="Sector"><span class="filter-label">Sector</span><span id="chips-sector" class="filter-group"></span></div>
+              <div class="filter-group" role="group" aria-label="Tema"><span class="filter-label">Tema</span><span id="chips-sector" class="filter-group"></span></div>
             </div>
             <div class="card">
               <div class="card-head"><div><h3 id="cobertura-count">Unidades de registro</h3><p class="sub">Hechos más recientes del relevamiento, con enlace a la nota original.</p></div></div>
@@ -177,7 +179,7 @@
               <div id="chart-ur-dia"></div>
             </div>
             <div class="card" style="margin-top:1rem">
-              <div class="card-head"><div><h3>Por sector</h3><p class="sub">Los seis sectores de estudio del observatorio.</p></div></div>
+              <div class="card-head"><div><h3>Por tema</h3><p class="sub">Trabajo, agro e industria en la escala elegida.</p></div></div>
               <div id="chart-ur-sector"></div>
             </div>
             <div class="card" style="margin-top:1rem">
@@ -185,6 +187,64 @@
               <ul class="medios-lista" id="medios-lista"></ul>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="suscripcion" class="section" aria-labelledby="h-sus">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Suscripción</p>
+            <h2 id="h-sus" class="display">Recibí más que los indicadores</h2>
+            <p class="lede">En la web publicamos los indicadores del mundo del trabajo. Quienes se suscriben reciben además el relevamiento completo de medios, los informes periódicos y las ediciones especiales del observatorio.</p>
+          </div>
+        </div>
+        <div class="grid-2 formularios">
+          <form id="form-suscripcion" class="card form-card" novalidate>
+            <h3>Suscribite a OITraF</h3>
+            <p class="sub">Informes, ediciones especiales y relevamiento completo, por correo. Sin costo.</p>
+            <div class="form-grid">
+              <label class="field"><span>Nombre</span><input type="text" name="nombre" autocomplete="name"></label>
+              <label class="field"><span>Correo electrónico <b>*</b></span><input type="email" name="correo" required autocomplete="email" placeholder="nombre@organizacion.org"></label>
+              <label class="field field--ancho"><span>Organización</span><input type="text" name="organizacion" autocomplete="organization" placeholder="Sindicato, universidad, medio, organismo…"></label>
+              <fieldset class="field field--ancho">
+                <legend>Qué te interesa recibir</legend>
+                <label class="check"><input type="checkbox" name="interes" value="Informes periódicos" checked> Informes periódicos</label>
+                <label class="check"><input type="checkbox" name="interes" value="Ediciones especiales" checked> Ediciones especiales</label>
+                <label class="check"><input type="checkbox" name="interes" value="Relevamiento completo de medios"> Relevamiento completo de medios</label>
+                <label class="check"><input type="checkbox" name="interes" value="Indicadores comentados"> Indicadores comentados</label>
+              </fieldset>
+              <label class="check field--ancho"><input type="checkbox" name="consentimiento" value="sí" required> Acepto que OITraF use estos datos solo para enviarme sus publicaciones. Puedo darme de baja cuando quiera. <b>*</b></label>
+              <input type="text" name="_trampa" tabindex="-1" autocomplete="off" class="trampa" aria-hidden="true">
+            </div>
+            <div class="form-acciones"><button class="btn btn-red" type="submit">Suscribirme</button></div>
+            <p class="form-msg" role="status" hidden></p>
+          </form>
+          <form id="form-contacto" class="card form-card" novalidate>
+            <h3 id="contacto">Estudios a medida para sindicatos, gobiernos y organizaciones</h3>
+            <p class="sub">Elaboramos diagnósticos y análisis del mercado laboral para tu organización, sector o territorio: salarios, empleo, informalidad, negociación colectiva, conflictividad y cobertura mediática, con fuentes oficiales y el relevamiento propio de OITraF.</p>
+            <div class="form-grid">
+              <label class="field"><span>Nombre <b>*</b></span><input type="text" name="nombre" required autocomplete="name"></label>
+              <label class="field"><span>Correo electrónico <b>*</b></span><input type="email" name="correo" required autocomplete="email"></label>
+              <label class="field"><span>Organización <b>*</b></span><input type="text" name="organizacion" required autocomplete="organization"></label>
+              <label class="field"><span>Tipo de organización</span>
+                <select name="tipo">
+                  <option>Sindicato u organización gremial</option>
+                  <option>Gobierno u organismo público</option>
+                  <option>Universidad o centro de estudios</option>
+                  <option>Medio de comunicación</option>
+                  <option>Empresa o cámara</option>
+                  <option>Organización social</option>
+                  <option>Otro</option>
+                </select></label>
+              <label class="field field--ancho"><span>Qué necesitás <b>*</b></span><textarea name="mensaje" rows="4" required placeholder="Contanos el tema, el sector o el territorio, y para cuándo lo necesitás."></textarea></label>
+              <label class="check field--ancho"><input type="checkbox" name="consentimiento" value="sí" required> Acepto que OITraF use estos datos para responder a mi consulta. <b>*</b></label>
+              <input type="text" name="_trampa" tabindex="-1" autocomplete="off" class="trampa" aria-hidden="true">
+            </div>
+            <div class="form-acciones"><button class="btn btn-red" type="submit">Enviar consulta</button><span class="form-alt">o escribinos a <a data-correo href="#">correo de OITraF</a></span></div>
+            <p class="form-msg" role="status" hidden></p>
+          </form>
         </div>
       </div>
     </section>
@@ -251,6 +311,8 @@
           <li><a href="indicadores.html">Explorador de indicadores</a></li>
           <li><a href="protestas.html">Observatorio de protestas sociales</a></li>
           <li><a href="#cobertura">Cobertura de medios</a></li>
+          <li><a href="#suscripcion">Suscripción e informes</a></li>
+          <li><a href="#contacto">Estudios a medida</a></li>
           <li><a href="#fuentes">Método y fuentes</a></li>
         </ul>
       </div>
@@ -271,5 +333,6 @@
 
   <script type="module" src="js/oitraf/portada.js"></script>
   <script type="module" src="js/oitraf/proteccion.js"></script>
+  <script type="module" src="js/oitraf/formularios.js"></script>
 </body>
 </html>

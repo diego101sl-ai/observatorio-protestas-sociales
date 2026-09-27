@@ -52,7 +52,7 @@ Secretos del repositorio (**Settings → Secrets and variables → Actions**):
 | `DASHBOARD_EMAIL` | correo de la cuenta de solo lectura (rol Lector) |
 | `DASHBOARD_PASSWORD` | su contraseña |
 
-Sin credenciales, el paso no modifica el archivo existente y la web muestra un aviso en la sección de cobertura. Variables opcionales: `HECHOS_DIAS` (ventana, 45 por defecto) y `HECHOS_MAX` (tope de hechos, 1500).
+Sin credenciales, el paso no modifica el archivo existente y la web muestra un aviso en la sección de cobertura. Variables opcionales: `HECHOS_DIAS` (ventana, 45 por defecto), `HECHOS_MAX` (tope de hechos, 1500) y `HECHOS_SECTORES` (sectores que se publican en la web; por defecto `TRABAJADORES,AGRO,INDUSTRIA`, el resto del relevamiento queda reservado a suscriptores).
 
 También puede generarse una muestra desde una exportación JSON del dashboard: `python3 scripts/sincronizar_hechos.py --semilla exportacion.json` (la web la marca como «muestra»).
 
@@ -122,6 +122,16 @@ Mapa interactivo que monitorea los **eventos de protesta social en todo el mundo
 ⚠️ GDELT detecta eventos automáticamente en las noticias: es excelente para tendencias y focos, pero no es un recuento verificado a mano.
 
 **ACLED (opcional)**: base académica de eventos verificados a mano. Crear cuenta en <https://acleddata.com/> y cargar los secretos `ACLED_USERNAME` y `ACLED_PASSWORD`; el robot guarda `data/acled.json` y la web muestra un selector GDELT/ACLED.
+
+## Suscripción y contacto
+
+La portada tiene un formulario de **suscripción** (informes, ediciones especiales y relevamiento completo) y otro de **contacto para estudios a medida** (sindicatos, gobiernos, universidades, medios y organizaciones). Como el sitio es estático, los envíos van a un servicio de formularios que se configura en `js/oitraf/config.js`:
+
+1. Crear una cuenta en [Formspree](https://formspree.io) o [Web3Forms](https://web3forms.com) con el correo institucional y un formulario para cada uso.
+2. Pegar la URL de envío (y la clave, en Web3Forms) en `CONTACTO.suscripcion` y `CONTACTO.contacto`.
+3. Publicar. Mientras la URL esté vacía o el servicio falle, el formulario abre el programa de correo del visitante con el mensaje redactado hacia `CONTACTO.email`.
+
+Ambos formularios exigen consentimiento para el uso de los datos, llevan un campo trampa contra robots y la política de seguridad de contenido solo autoriza esos dos dominios de envío. La lista de suscriptores queda en el servicio elegido (o en el correo); para enviar boletines conviene volcarla a una herramienta de correo masivo.
 
 ## Seguridad y autoría
 

@@ -203,6 +203,9 @@ export const SECTOR_COLOR = {
   "AGRO": "var(--series-5)",
 };
 export const SECTORES = Object.keys(SECTOR_COLOR);
+/** Sectores que se muestran en la web pública (el resto del relevamiento va a suscriptores). */
+export const SECTORES_PUBLICOS = ["TRABAJADORES", "AGRO", "INDUSTRIA"];
+export const NOMBRE_SECTOR = { TRABAJADORES: "Trabajo", AGRO: "Agro", INDUSTRIA: "Industria", FINANZAS: "Finanzas", "ENERGÍA": "Energía", "AGENDA POLÍTICA": "Agenda política" };
 export const ESCALAS = ["Internacional", "Latinoamericana", "Nacional", "Provincial"];
 
 export const LATAM = ["ARG", "BOL", "BRA", "CHL", "COL", "CRI", "CUB", "DOM", "ECU", "SLV", "GTM", "HND",

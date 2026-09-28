@@ -65,9 +65,9 @@
   },
   {
    "puntaje": -999,
-   "id": "45.1_ECTDTP_0_A_43",
-   "titulo": "eph_continua_tasa_desempleo_total_patagonia",
-   "descripcion": "Tasa de desempleo total patagonia. En porcentaje.",
+   "id": "45.1_ECTDTP_0_A_41",
+   "titulo": "eph_continua_tasa_desempleo_total_posadas",
+   "descripcion": "Tasa de desempleo total Posadas. En porcentaje.",
    "frecuencia": "R/P1Y",
    "fin": "2025-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -113,18 +113,18 @@
   },
   {
    "puntaje": 26,
-   "id": "43.2_ECTATF_0_T_41",
-   "titulo": "eph_continua_tasa_actividad_total_formosa",
-   "descripcion": "Tasa de actividad total Formosa. En porcentaje.",
+   "id": "43.2_ECTATP_0_T_41",
+   "titulo": "eph_continua_tasa_actividad_total_posadas",
+   "descripcion": "Tasa de actividad total Posadas. En porcentaje.",
    "frecuencia": "R/P3M",
    "fin": "2026-04-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": 26,
-   "id": "43.2_ECTATP_0_T_41",
-   "titulo": "eph_continua_tasa_actividad_total_posadas",
-   "descripcion": "Tasa de actividad total Posadas. En porcentaje.",
+   "id": "43.2_ECTATF_0_T_41",
+   "titulo": "eph_continua_tasa_actividad_total_formosa",
+   "descripcion": "Tasa de actividad total Formosa. En porcentaje.",
    "frecuencia": "R/P3M",
    "fin": "2026-04-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -290,9 +290,9 @@
   },
   {
    "puntaje": 26,
-   "id": "46.2_ECTSTC_0_T_41",
-   "titulo": "eph_continua_tasa_subocupacion_total_caba",
-   "descripcion": "Tasa de subocupación total CABA.",
+   "id": "46.2_ECTSTJ_0_T_42",
+   "titulo": "eph_continua_tasa_subocupacion_total_jujuy",
+   "descripcion": "Tasa de subocupación total Jujuy.",
    "frecuencia": "R/P3M",
    "fin": "2026-04-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -347,18 +347,18 @@
   },
   {
    "puntaje": -999,
-   "id": "303.1_ASALARIADOGBA_0_T_53",
-   "titulo": "asalariados_sin_descuento_jubilatorio_aglomerados_gba",
-   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral. Gran Buenos Aires",
+   "id": "303.1_ASALARIADOANA_0_T_58",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_pampeana",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Pampeana.",
    "frecuencia": "R/P3M",
    "fin": "2020-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "303.1_ASALARIADOANA_0_T_58",
-   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_pampeana",
-   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Pampeana.",
+   "id": "303.1_ASALARIADOGBA_0_T_53",
+   "titulo": "asalariados_sin_descuento_jubilatorio_aglomerados_gba",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral. Gran Buenos Aires",
    "frecuencia": "R/P3M",
    "fin": "2020-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -440,9 +440,9 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_AARIADOTAC_2012_M_40",
-   "titulo": "asalariados_casas_particulares_sin_estac",
-   "descripcion": "Asalariados. Casas particulares. Sin estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_43",
+   "titulo": "independientes_monotributo_social_sin_estac",
+   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -515,9 +515,9 @@
   },
   {
    "puntaje": 24,
-   "id": "152.1_CTRUCCIEST_2009_M_16",
-   "titulo": "construccion_est",
-   "descripcion": "Asalariados. Sector privado. Construcción. Con estacionalidad.",
+   "id": "152.1_IRMEDIAEST_2009_M_29",
+   "titulo": "intermediacion_financiera_est",
+   "descripcion": "Asalariados. Sector privado. Intermediación financiera. Con estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -906,7 +906,7 @@
    "titulo": "poblacion_pobre_pct_total_continua",
    "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. TOTAL. EPH continua.",
    "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
+   "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
@@ -915,7 +915,7 @@
    "titulo": "poblacion_pobre_pct_aglomerados_interior_pais_continua",
    "descripcion": "Población con ingresos debajo de línea de pobreza (%) desde 2003. Aglomerados del Interior del País. EPH continua.",
    "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
+   "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
@@ -1022,20 +1022,20 @@
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_38_52",
-   "titulo": "hogares_pobres_pct_rio_cuarto_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Río Cuarto. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_43_38",
+   "titulo": "hogares_pobres_pct_santa_rosa_toay_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Santa Rosa - Toay. EPH continua.",
    "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
+   "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_32_37",
-   "titulo": "hogares_pobres_pct_caba_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Ciudad de Buenos Aires. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_38_52",
+   "titulo": "hogares_pobres_pct_rio_cuarto_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Río Cuarto. EPH continua.",
    "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
+   "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
@@ -1044,7 +1044,7 @@
    "titulo": "hogares_pobres_pct_gran_la_plata_continua",
    "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran La Plata. EPH continua.",
    "frecuencia": "R/P6M",
-   "fin": "2025-07-01",
+   "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],

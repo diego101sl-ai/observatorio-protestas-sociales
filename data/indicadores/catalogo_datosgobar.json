@@ -479,18 +479,18 @@
   },
   {
    "puntaje": 24,
-   "id": "153.1_RNERACIANA_2009_M_20",
-   "titulo": "asalariados_priv_remuneracion_mediana",
-   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
+   "id": "151.1_AARIADOTAC_2012_M_26",
+   "titulo": "asalariados_priv_sin_estac",
+   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": 24,
-   "id": "151.1_AARIADOTAC_2012_M_26",
-   "titulo": "asalariados_priv_sin_estac",
-   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
+   "id": "153.1_RNERACIANA_2009_M_20",
+   "titulo": "asalariados_priv_remuneracion_mediana",
+   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -740,9 +740,9 @@
   },
   {
    "puntaje": -999,
-   "id": "193.2_ESTACIONALLES_2021_0_12_84",
-   "titulo": "estacionales",
-   "descripcion": "Nivel de precios de estacionales",
+   "id": "105.1_I2A_2016_M_15",
+   "titulo": "ipc_2016_azucar",
+   "descripcion": "IPC-GBA. Precios. Azúcar. Mensual",
    "frecuencia": "R/P1M",
    "fin": "2026-08-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -1022,6 +1022,15 @@
   },
   {
    "puntaje": -999,
+   "id": "63.2_HOGARES_PONUA_0_0_38_89",
+   "titulo": "hogares_pobres_pct_corrientes_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Corrientes. EPH continua.",
+   "frecuencia": "R/P6M",
+   "fin": "2026-01-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
    "id": "63.2_HOGARES_PONUA_0_0_40_30",
    "titulo": "hogares_pobres_pct_gran_mendoza_continua",
    "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran Mendoza. EPH continua.",
@@ -1034,15 +1043,6 @@
    "id": "63.2_HOGARES_PONUA_0_0_32_37",
    "titulo": "hogares_pobres_pct_caba_continua",
    "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Ciudad de Buenos Aires. EPH continua.",
-   "frecuencia": "R/P6M",
-   "fin": "2026-01-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_44_29",
-   "titulo": "hogares_pobres_pct_region_patagonia_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Región Patagonia. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

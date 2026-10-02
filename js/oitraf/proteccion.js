@@ -83,10 +83,16 @@ function evitarMarcos() {
   }
 }
 
+function anioDelPie() {
+  const nodo = document.getElementById("anio-legal");
+  if (nodo && !nodo.textContent) nodo.textContent = String(new Date().getFullYear());
+}
+
 export function initProteccion() {
   evitarMarcos();
   atribucionAlCopiar();
   bloqueCita();
+  anioDelPie();
 }
 
 initProteccion();

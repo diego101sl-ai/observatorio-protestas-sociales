@@ -258,7 +258,7 @@ a:hover { color: var(--accent-strong); }
 }
 .brand { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
 .brand-mark { flex: none; display: inline-flex; }
-.brand-mark .iso { height: 44px; }
+.brand-mark .iso { height: clamp(88px, 10vw, 132px); }
 .footer-brand .iso { height: 28px; }
 .footer-word { font-family: var(--font-sans); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
 /* ============ Isotipo animado ============

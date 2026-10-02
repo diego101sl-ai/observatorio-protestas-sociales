@@ -145,6 +145,10 @@ Ambos formularios exigen consentimiento para el uso de los datos, llevan un camp
 - **Rastreadores**: `robots.txt` permite la indexación y desautoriza a los rastreadores de entrenamiento de IA; `sitemap.xml` con las tres páginas.
 - Recomendado en GitHub: activar **Enforce HTTPS** en Pages y proteger la rama `main` (Settings → Branches) para que solo el equipo y los robots puedan publicar.
 
+## Isotipo 3D
+
+Las capas animadas del isotipo (`img/marca/circuito-*.svg` e `img/marca/iso-engranaje*.svg`) se generan con `node scripts/gen3d.mjs` a partir de `scripts/grafo.json`, que describe los nodos, las aristas por color y el perfil del engranaje extraídos del logo original con `node scripts/grafo.mjs`. Las esferas y los tubos llevan sombreado para dar volumen; la geometría es la del logo oficial.
+
 ## Licencias de los datos
 
 Banco Mundial, OIT, datos.gob.ar y Eurostat publican bajo CC BY 4.0; BLS es dominio público; FMI y OCDE permiten el uso con atribución; GDELT es de uso libre con atribución. Cada placa y cada serie enlazan al organismo que publica el dato.

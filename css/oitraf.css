@@ -237,7 +237,8 @@ button { font: inherit; }
 .iso-clip { position: absolute; inset: 0; clip-path: polygon(0% 81.52%, 100% 39%, 100% 100%, 0% 100%); }
 .iso-gear { left: 17.76%; top: 17.43%; width: 71.83%; height: 81.94%; transform-origin: 50% 50%; animation: iso-girar 30s linear infinite; will-change: transform; }
 @keyframes iso-girar { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .iso-gear, .iso-circ { animation: none; } .iso-circ { opacity: 1; } }
+/* La marca animada es parte de la identidad de OITraF y se mueve siempre; con la preferencia de menos movimiento solo se detiene la marca de agua grande del hero. */
+@media (prefers-reduced-motion: reduce) { .hero-iso .iso-gear, .hero-iso .iso-circ { animation: none; } .hero-iso .iso-circ { opacity: 1; } }
 
 /* ============ Hero ============ */
 .hero {

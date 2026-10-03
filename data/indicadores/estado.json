@@ -1,54 +1,54 @@
 {
- "generado": "2026-10-02T12:32:05Z",
+ "generado": "2026-10-03T11:38:09Z",
  "estado": {
   "wb": {
    "ok": true,
    "series": 962,
    "detalle": "",
-   "segundos": 11.9,
-   "consultado": "2026-10-02T12:30:36Z"
+   "segundos": 14.0,
+   "consultado": "2026-10-03T11:36:54Z"
   },
   "ilo": {
    "ok": true,
    "series": 155,
    "detalle": "TRU_DEMP_SEX_AGE_RT_Q/AGE_YTHADULT_YGE15: HTTP Error 400: Bad Request; TRU_DEMP_SEX_AGE_RT_A/AGE_YTHADULT_YGE15: HTTP Error 400: Bad Request",
-   "segundos": 14.7,
-   "consultado": "2026-10-02T12:30:51Z"
+   "segundos": 21.1,
+   "consultado": "2026-10-03T11:37:15Z"
   },
   "datosar": {
    "ok": true,
    "series": 14,
    "detalle": "",
-   "segundos": 21.1,
-   "consultado": "2026-10-02T12:31:12Z"
+   "segundos": 17.7,
+   "consultado": "2026-10-03T11:37:33Z"
   },
   "eurostat": {
    "ok": true,
    "series": 12,
    "detalle": "",
-   "segundos": 1.5,
-   "consultado": "2026-10-02T12:31:13Z"
+   "segundos": 1.4,
+   "consultado": "2026-10-03T11:37:34Z"
   },
   "bls": {
-   "ok": false,
-   "series": 0,
-   "detalle": "HTTP Error 503: Service Unavailable",
-   "segundos": 12.6,
-   "consultado": "2026-10-02T12:31:26Z"
+   "ok": true,
+   "series": 6,
+   "detalle": "",
+   "segundos": 0.3,
+   "consultado": "2026-10-03T11:37:34Z"
   },
   "imf": {
    "ok": true,
    "series": 114,
    "detalle": "",
-   "segundos": 37.7,
-   "consultado": "2026-10-02T12:32:04Z"
+   "segundos": 31.0,
+   "consultado": "2026-10-03T11:38:05Z"
   },
   "oecd": {
    "ok": true,
    "series": 48,
    "detalle": "",
-   "segundos": 1.5,
-   "consultado": "2026-10-02T12:32:05Z"
+   "segundos": 3.7,
+   "consultado": "2026-10-03T11:38:09Z"
   }
  },
  "total_series": 1311

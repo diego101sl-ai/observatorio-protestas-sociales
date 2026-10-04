@@ -431,18 +431,18 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_AARIADODAD_2012_M_45",
-   "titulo": "asalariados_casas_particulares_estacionalidad",
-   "descripcion": "Asalariados. Casas particulares. Con estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_34",
+   "titulo": "independientes_autonomos_sin_estac",
+   "descripcion": "Independientes autónomos. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIETAC_2012_M_34",
-   "titulo": "independientes_autonomos_sin_estac",
-   "descripcion": "Independientes autónomos. Sin estacionalidad.",
+   "id": "151.1_AARIADOTAC_2012_M_40",
+   "titulo": "asalariados_casas_particulares_sin_estac",
+   "descripcion": "Asalariados. Casas particulares. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

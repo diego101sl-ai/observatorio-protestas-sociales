@@ -259,6 +259,21 @@ function recortarCobertura(d) {
   return { ...d, hechos, total: hechos.length, resumen: { por_escala: cuenta("escala"), por_sector: cuenta("sector"), por_medio: Object.fromEntries(Object.entries(cuenta("medio")).sort((a, b) => b[1] - a[1])), por_dia: [...porDia.entries()].sort(), medios: new Set(hechos.map((h) => h.medio)).size } };
 }
 
+// Aviso público de la cobertura: solo período y fecha de sincronización.
+// El detalle operativo (modo, origen, credenciales) va a la consola y a data/hechos.json.
+function avisoCobertura(d) {
+  const aviso = $("cobertura-aviso");
+  vaciar(aviso);
+  const generado = d.generado ? new Date(d.generado) : null;
+  const diasAtras = generado && !Number.isNaN(generado.getTime()) ? Math.floor((Date.now() - generado.getTime()) / 86400000) : null;
+  const partes = [`Relevamiento del ${fmtFechaCorta(d.ventana.desde)} al ${fmtFechaCorta(d.ventana.hasta)}`];
+  if (generado) partes.push(`última sincronización ${fmtFechaCorta(d.generado)}`);
+  aviso.append(partes.join(" · "));
+  if (diasAtras !== null && diasAtras > 3) aviso.append(" ", el("span", { class: "aviso-antiguedad" }, `datos con ${diasAtras} días de antigüedad`));
+  aviso.hidden = d.modo === "dashboard" && !(diasAtras !== null && diasAtras > 3);
+  console.info(`[OITraF] cobertura de medios: modo ${d.modo || "dashboard"}, origen ${d.origen || "sincronización"}, generado ${d.generado || "s/d"}, ${d.total} hechos.`);
+}
+
 function renderCobertura() {
   const sec = $("cobertura");
   const d = state.hechos;
@@ -266,22 +281,12 @@ function renderCobertura() {
   if (!d || !d.hechos?.length) {
     aviso.hidden = false;
     vaciar(aviso);
-    aviso.append(el("b", {}, "La cobertura de medios todavía no está publicada. "),
-      "Se sincroniza desde el dashboard Algoritmo Inteligente cuando el robot cuenta con las credenciales de solo lectura (ver el README del repositorio).");
+    aviso.append("La cobertura de medios se publica en cuanto termina la próxima sincronización del relevamiento.");
+    console.info("[OITraF] cobertura de medios sin datos: falta data/hechos.json o la sincronización con el dashboard (ver README).");
     sec.querySelector(".cobertura-grid").hidden = true;
     return;
   }
-  if (d.modo === "semilla") {
-    aviso.hidden = false;
-    vaciar(aviso);
-    aviso.append(el("b", {}, "Muestra del relevamiento. "), `Datos de ${fmtFechaCorta(d.ventana.desde)} a ${fmtFechaCorta(d.ventana.hasta)} tomados de una exportación del dashboard; la sincronización diaria se activa con las credenciales del dashboard.`);
-  } else if (d.modo === "exportacion") {
-    aviso.hidden = false;
-    vaciar(aviso);
-    aviso.append(el("b", {}, "Exportación del dashboard. "), `Relevamiento del ${fmtFechaCorta(d.ventana.desde)} al ${fmtFechaCorta(d.ventana.hasta)} importado desde la base Algoritmo Inteligente; la sincronización automática diaria se activa con las credenciales del dashboard.`);
-  } else {
-    aviso.hidden = true;
-  }
+  avisoCobertura(d);
   $("stat-ur").textContent = d.total.toLocaleString("es-AR");
   $("stat-medios").textContent = String(d.resumen.medios);
   $("stat-ventana").textContent = `${fmtFechaCorta(d.ventana.desde)} → ${fmtFechaCorta(d.ventana.hasta)}`;

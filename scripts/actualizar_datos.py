@@ -8,7 +8,7 @@ protesta (código CAMEO raíz 14, con coordenadas) y publica:
   - data/articles.json  -> artículos recientes de la DOC 2.0 API
   - data/dias/*.json    -> caché de días completos (evita re-descargas)
 """
-import io, json, os, re, time, unicodedata, urllib.request, zipfile
+import io, json, os, re, time, unicodedata, urllib.error, urllib.request, zipfile
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 
@@ -125,33 +125,76 @@ if os.path.isdir("data/dias"):
             os.remove(os.path.join("data/dias", fichero))
 
 # ---- Artículos recientes (DOC 2.0 API: máx. 1 petición cada 5 s) ----
+# Los runners de GitHub comparten direcciones IP, así que la API responde
+# 429 (Too Many Requests) con frecuencia: cada consulta se reintenta con
+# esperas crecientes y el resultado de cada una queda en
+# data/articulos_estado.json (fecha, cantidad por consulta y error).
+ESTADO_ARTICULOS = "data/articulos_estado.json"
+ESPERA_ENTRE_CONSULTAS = 20
+REINTENTOS = (30, 60, 90)   # segundos de espera antes de cada reintento
+
 def pedir_articulos(query):
     url = (f"{DOC_API}?query={urllib.request.quote(query)}"
            "&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=7d")
-    data = json.loads(fetch(url).decode("utf-8", "replace"))
-    return data.get("articles") or []
+    ultimo_error = None
+    for intento, espera in enumerate((0,) + REINTENTOS):
+        if espera:
+            time.sleep(espera)
+        try:
+            crudo = fetch(url).decode("utf-8", "replace")
+            data = json.loads(crudo) if crudo.strip() else {}
+            return data.get("articles") or [], None
+        except Exception as err:
+            ultimo_error = f"{type(err).__name__}: {err}"
+            if not (isinstance(err, urllib.error.HTTPError) and err.code in (429, 500, 502, 503, 504)) \
+               and not isinstance(err, (urllib.error.URLError, TimeoutError, json.JSONDecodeError)):
+                break
+    return [], ultimo_error
 
-# Tres consultas complementarias (la API limita a 250 resultados y a
-# 1 petición cada 5 s): la etiqueta PROTEST de GDELT es generosa y trae
-# mucho ruido, así que después se filtra por el titular (ver más abajo).
+# Consultas complementarias (la API limita a 250 resultados por consulta):
+# por tema (PROTEST y STRIKE), por idioma de origen y por palabras clave. La
+# etiqueta PROTEST de GDELT es generosa y trae mucho ruido, así que después
+# se filtra por el titular (ver más abajo).
 CONSULTAS = [
     "theme:PROTEST",
+    "theme:STRIKE",
+    "theme:PROTEST sourcelang:spanish",
+    "theme:PROTEST sourcelang:portuguese",
     '(protesta OR protestas OR manifestacion OR manifestantes OR huelga OR cacerolazo OR "paro nacional")',
     '(protest OR protesters OR demonstrators OR demonstration OR "general strike" OR riots)',
 ]
 articulos, urls_vistas = [], set()
+estado_consultas = []
 for i, consulta in enumerate(CONSULTAS):
     if i:
-        time.sleep(6)
-    try:
-        for a in pedir_articulos(consulta):
-            u = a.get("url")
-            if u and u not in urls_vistas:
-                urls_vistas.add(u)
-                articulos.append(a)
-    except Exception as err:
-        print("artlist falló:", consulta[:50], "->", err)
+        time.sleep(ESPERA_ENTRE_CONSULTAS)
+    recibidos, error = pedir_articulos(consulta)
+    nuevos = 0
+    for a in recibidos:
+        u = a.get("url")
+        if u and u not in urls_vistas:
+            urls_vistas.add(u)
+            articulos.append(a)
+            nuevos += 1
+    estado_consultas.append({"consulta": consulta, "crudos": len(recibidos), "nuevos": nuevos, "error": error})
+    print(f"consulta {i + 1}: {len(recibidos)} crudos, {nuevos} nuevos" + (f" | error: {error}" if error else ""))
 print(f"artículos crudos recibidos: {len(articulos)}")
+
+# Artículos de la corrida anterior que siguen dentro de la ventana de 7 días:
+# se conservan para que un 429 o una consulta floja no vacíe la cobertura.
+def cargar_previos():
+    try:
+        with open("data/articles.json") as f:
+            previos = json.load(f).get("articles") or []
+    except Exception:
+        return []
+    limite = (datetime.now(timezone.utc) - timedelta(days=VENTANA_DIAS)).strftime("%Y%m%dT%H%M%SZ")
+    return [a for a in previos if a.get("url") and (a.get("seendate") or "") >= limite]
+
+previos = [a for a in cargar_previos() if a["url"] not in urls_vistas]
+nuevos_crudos = len(articulos)
+articulos.extend(previos)
+print(f"artículos previos conservados: {len(previos)}")
 
 # ---- Traducción de titulares al español ----
 # La cobertura es de medios de todo el mundo, en cualquier idioma; el titular
@@ -213,11 +256,20 @@ def traducir_titulares(articulos):
 # pasada en el cuerpo del texto; aquí se conservan únicamente los artículos
 # cuyo TITULAR (traducido u original) habla de protestas.
 PATRON_PROTESTA = re.compile(
-    r"protest|manifestac|manifestante|manifestation|manifestant|huelga|huelguista|"
-    r"\bmarchas?\b|disturbio|revuelta|\bmotin\b|amotinad|movilizacion|se movilizan?\b|cacerolazo|"
-    r"piquete|\bplanton\b|paro (nacional|general|civico)|cortes? de ruta|"
-    r"represion|pancarta|toman las calles|sal(en|ieron) a las? calles?|"
-    r"levantamiento popular|\briots?\b|boicot")
+    # español (titular traducido)
+    r"protest|manifesta|huelga|huelguista|\bmarchas?\b|marcharon|disturbio|revuelta|\bmotin|amotinad|"
+    r"movilizac|se movilizan?\b|cacerolazo|piquete|\bplanton|\bparos?\b|cortes? de ruta|bloqueo|"
+    r"represion|pancarta|toman? las calles|sal(en|ieron|io) a las? calles?|levantamiento|"
+    r"acampe|ocupan|sentada|boicot|concentracion (de|frente|contra)|rebeli|sublevaci|activistas?|"
+    r"gas(es)? lacrimogen|detenid[oa]s (en|durante|tras) (la|una|el) (protesta|marcha|manifesta)|"
+    # inglés y otros idiomas (titular original)
+    r"demonstrat|\brall(y|ies)\b|\briots?\b|unrest|uprising|walkout|sit-in|picket|blockade|boycott|"
+    r"tear gas|crackdown|dispers|mobili[sz]|"
+    r"\bstrik(e|es|ers|ing)\b|clash(es|ed)? with|take to the streets|took to the streets|"
+    r"greve|sciopero|streik|protesto|manifestazione|manifestacao|manifestation|manifestant")
+# falsos positivos frecuentes: huelga/strike de otro significado
+PATRON_EXCLUIR = re.compile(r"air ?strike|drone strike|missile strike|lightning strike|strike (out|zone|price|rate)|"
+                            r"paro cardiaco|paro cardiorrespiratorio|puesta en marcha|en marcha|marcha atras")
 
 def normalizar(texto):
     texto = unicodedata.normalize("NFKD", str(texto).lower())
@@ -225,13 +277,14 @@ def normalizar(texto):
 
 def es_noticia_de_protesta(a):
     texto = normalizar((a.get("title_es") or "") + " | " + (a.get("title") or ""))
-    # "en marcha" casi siempre significa "en funcionamiento", no una marcha
-    for frase in ("puesta en marcha", "en marcha"):
-        texto = texto.replace(frase, " ")
+    texto = PATRON_EXCLUIR.sub(" ", texto)
     return bool(PATRON_PROTESTA.search(texto))
 
 if articulos:
-    traducir_titulares(articulos)
+    try:
+        traducir_titulares(articulos)
+    except Exception as err:
+        print("traducción omitida en esta corrida:", err)
     total = len(articulos)
     articulos = [a for a in articulos if es_noticia_de_protesta(a)]
     # la misma noticia llega a veces por varias URLs: una sola por titular
@@ -251,7 +304,17 @@ if articulos:
                   f, ensure_ascii=False)
     print(f"articles.json: {len(articulos)} artículos")
 else:
-    print("Sin artículos nuevos; se conserva el archivo anterior si existe")
+    print("Sin artículos nuevos ni previos; se conserva el archivo anterior si existe")
+
+with open(ESTADO_ARTICULOS, "w") as f:
+    json.dump({
+        "cuando": salida["generated"],
+        "consultas": estado_consultas,
+        "crudos_nuevos": nuevos_crudos,
+        "previos_conservados": len(previos),
+        "publicados": len(articulos),
+        "errores": sum(1 for c in estado_consultas if c["error"]),
+    }, f, ensure_ascii=False, indent=1)
 
 # ---- ACLED (opcional): datos verificados a mano ----
 # Requiere los secretos ACLED_USERNAME y ACLED_PASSWORD en el repositorio

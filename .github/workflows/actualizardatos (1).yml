@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: "23 * * * *"
   workflow_dispatch: {}
+  # Al cambiar el robot se prueba en la misma rama (los robots programados solo corren en main)
+  push:
+    paths:
+      - "scripts/actualizar_datos.py"
+      - ".github/workflows/actualizardatos (1).yml"
 
 permissions:
   contents: write
@@ -27,4 +32,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --cached --quiet && echo "Sin cambios" || (git commit -m "Actualizar datos de protestas" && git pull --rebase origin main && git push)
+          git diff --cached --quiet && echo "Sin cambios" || (git commit -m "Actualizar datos de protestas" && git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}")

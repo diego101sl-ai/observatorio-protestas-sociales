@@ -1,4 +1,5 @@
-import { loadProtestData, loadArticles, loadAcledData } from "./sources/gdelt.js";
+import { loadProtestData, loadArticles, loadAcledData, loadArticlesStatus } from "./sources/gdelt.js";
+import { initTema } from "./oitraf/comun.js";
 
 const REFRESH_EVERY_MS = 15 * 60 * 1000;
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)");
@@ -18,15 +19,17 @@ const state = {
   acledData: null,
   data: { generated: "", days: [], locations: [] }, // la fuente activa
   allArticles: [],
+  articlesStatus: null,
   // derivados de los filtros:
   locations: [],
   articles: [],
 };
 
 // ---------- Tema ----------
+// El botón y la preferencia guardada son los del portal (js/oitraf/comun.js);
+// al cambiar el tema se rehacen las teselas, los focos y la leyenda.
 const root = document.documentElement;
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) root.dataset.theme = savedTheme;
+initTema();
 
 function currentTheme() {
   return (
@@ -35,10 +38,7 @@ function currentTheme() {
   );
 }
 
-document.getElementById("theme-toggle").addEventListener("click", () => {
-  const next = currentTheme() === "dark" ? "light" : "dark";
-  root.dataset.theme = next;
-  localStorage.setItem("theme", next);
+document.addEventListener("oitraf:tema", () => {
   applyBasemap();
   renderMarkers();
   renderLegend();
@@ -55,17 +55,17 @@ if (typeof L === "undefined") {
 const map = L.map("map", { worldCopyJump: true, minZoom: 2 }).setView([15, 0], 2);
 let baseLayer = null;
 
+// Teselas de OpenStreetMap (sin clave de API). El modo oscuro se logra con un
+// filtro CSS sobre el panel de teselas (clase map--oscuro, ver css/style.css),
+// así una sola capa sirve para los dos temas y la CSP autoriza un único host.
 function applyBasemap() {
-  const style = currentTheme() === "dark" ? "dark_all" : "light_all";
-  if (baseLayer) map.removeLayer(baseLayer);
-  baseLayer = L.tileLayer(
-    `https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`,
-    {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      subdomains: "abcd",
+  if (!baseLayer) {
+    baseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       maxZoom: 12,
-    }
-  ).addTo(map);
+    }).addTo(map);
+  }
+  document.getElementById("map").classList.toggle("map--oscuro", currentTheme() === "dark");
 }
 applyBasemap();
 
@@ -310,7 +310,24 @@ function renderTopLocations() {
   }
 }
 
+// Aviso discreto cuando la última corrida del robot trajo pocos artículos
+// (la API de GDELT limita las peticiones y a veces responde 429).
+function renderArticlesNote() {
+  const el = document.getElementById("articles-note");
+  if (!el) return;
+  const st = state.articlesStatus;
+  const pocos = st && Number.isFinite(st.publicados) && st.publicados < 20;
+  el.hidden = !pocos;
+  if (!pocos) return;
+  const cuando = st.cuando ? new Date(st.cuando) : null;
+  const fecha = cuando && !Number.isNaN(cuando.getTime())
+    ? cuando.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+    : "";
+  el.textContent = `Cobertura parcial: la última actualización${fecha ? ` (${fecha})` : ""} dejó ${st.publicados} artículos${st.errores ? " porque la fuente de prensa no respondió a todas las consultas" : ""}. Se completa en las próximas corridas.`;
+}
+
 function renderArticles() {
+  renderArticlesNote();
   const el = document.getElementById("articles");
   el.innerHTML = "";
   for (const art of state.articles) {
@@ -457,14 +474,16 @@ async function load() {
   btn.disabled = true;
   setStatus("Cargando datos…");
   try {
-    const [data, articles, acled] = await Promise.all([
+    const [data, articles, acled, articlesStatus] = await Promise.all([
       loadProtestData(),
       loadArticles(),
       loadAcledData(),
+      loadArticlesStatus(),
     ]);
     state.gdeltData = data;
     state.acledData = acled;
     state.allArticles = articles;
+    state.articlesStatus = articlesStatus;
     renderTicker();
 
     // El selector de fuente solo aparece cuando el robot ya generó datos de ACLED
@@ -541,25 +560,7 @@ document.getElementById("ticker-pause")?.addEventListener("click", (e) => {
   );
 });
 
-// ---------- Foto de portada (mejora progresiva) ----------
-// Si el repositorio incluye img/hero.jpg, se muestra con duotono;
-// si no existe, el hero conserva su fondo gráfico de respaldo.
-function initHeroPhoto() {
-  const media = document.querySelector(".hero-media");
-  if (!media) return;
-  const probe = new Image();
-  probe.onload = () => {
-    probe.className = "hero-photo";
-    probe.alt = "";
-    probe.decoding = "async";
-    media.prepend(probe);
-    media.closest(".hero").classList.remove("hero--nophoto");
-  };
-  probe.src = "img/hero.jpg";
-}
-
 // ---------- Arranque ----------
-initHeroPhoto();
 renderLegend();
 load();
 setInterval(load, REFRESH_EVERY_MS);

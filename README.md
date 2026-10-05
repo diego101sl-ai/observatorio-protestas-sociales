@@ -10,7 +10,7 @@ Es una web 100 % estática: no necesita servidor ni base de datos. Dos robots (G
 |---|---|
 | `index.html` | Portal: placas de indicadores de **Argentina**, **América Latina** y **Mundo** (número grande, período de referencia, variación, minigráfico y fuente), gráficos comparados, **cobertura de medios** filtrable por escala y sector, resumen del observatorio de protestas y tabla de **fuentes y método**. |
 | `indicadores.html` | Explorador de **todas las series**: filtros por escala, país, tema y fuente; búsqueda; comparación por geografía; cada serie con gráfico, tabla, descarga CSV y enlace al organismo. |
-| `protestas.html` | Mapa mundial de protestas (GDELT), con filtros de período y palabra clave, cobertura traducida al español y vista de tabla. |
+| `protestas.html` | Mapa mundial de protestas (GDELT) con la misma cabecera, tipografía y pie que el portal; filtros de período y palabra clave, cobertura traducida al español, gráfico diario y vista de tabla. |
 
 Registro editorial del observatorio (aplica a cada placa): dato verificable, fuente visible, período de referencia explícito. Cuando OITraF calcula un indicador (salario real, canasta del hogar, salario mínimo en canastas) se declara como elaboración propia y se enlaza la serie oficial de la que sale.
 
@@ -90,7 +90,7 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 ├── img/marca/                 # marca OITraF: isotipo coloreado en capas (red + engranaje) para la animación, logos horizontal/vertical, favicon
 ├── css/
 │   ├── oitraf.css             # identidad OITraF (marino + rojo), tokens claro/oscuro, paleta de gráficos validada
-│   └── style.css              # estilos del mapa de protestas
+│   └── style.css              # solo lo específico del mapa de protestas (ticker, filtros, mapa, leyenda, tabla, Leaflet)
 ├── js/
 │   ├── oitraf/
 │   │   ├── comun.js           # tema, formato es-AR, catálogo de series, indicadores derivados, CSV
@@ -120,7 +120,7 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 
 ## Observatorio de protestas
 
-Mapa interactivo que monitorea los **eventos de protesta social en todo el mundo** con datos abiertos de [GDELT](https://www.gdeltproject.org/): un robot horario descarga los ficheros de eventos de GDELT 2.0, filtra los eventos de protesta (código CAMEO 14, con coordenadas reales) y guarda `data/protests.json` y `data/articles.json`. La página ofrece mapa (Leaflet), resumen, cobertura reciente traducida al español, filtros por período y palabra clave, vista de tabla y gráfico de evolución diaria.
+Mapa interactivo (teselas de OpenStreetMap, sin clave de API) que monitorea los **eventos de protesta social en todo el mundo** con datos abiertos de [GDELT](https://www.gdeltproject.org/): un robot horario descarga los ficheros de eventos de GDELT 2.0, filtra los eventos de protesta (código CAMEO 14, con coordenadas reales) y guarda `data/protests.json` y `data/articles.json`. La página ofrece mapa (Leaflet), resumen, cobertura reciente traducida al español, filtros por período y palabra clave, vista de tabla y gráfico de evolución diaria.
 
 ⚠️ GDELT detecta eventos automáticamente en las noticias: es excelente para tendencias y focos, pero no es un recuento verificado a mano.
 
@@ -130,15 +130,17 @@ Mapa interactivo que monitorea los **eventos de protesta social en todo el mundo
 
 La portada tiene un formulario de **suscripción** (informes, ediciones especiales y relevamiento completo) y otro de **contacto para estudios a medida** (sindicatos, gobiernos, universidades, medios y organizaciones). Como el sitio es estático, los envíos van a un servicio de formularios que se configura en `js/oitraf/config.js`:
 
-1. Crear una cuenta en [Formspree](https://formspree.io) o [Web3Forms](https://web3forms.com) con el correo institucional y un formulario para cada uso.
-2. Pegar la URL de envío (y la clave, en Web3Forms) en `CONTACTO.suscripcion` y `CONTACTO.contacto`.
-3. Publicar. Mientras la URL esté vacía o el servicio falle, el formulario abre el programa de correo del visitante con el mensaje redactado hacia `CONTACTO.email`.
+1. Crear una cuenta en [Formspree](https://formspree.io) con el correo institucional y un formulario para cada uso («Suscripción» y «Contacto»).
+2. Pegar las dos URL de envío (`https://formspree.io/f/…`) en `CONTACTO.suscripcion.url` y `CONTACTO.contacto.url`; los dos valores que faltan están marcados con `FALTA` en el archivo.
+3. Publicar. Mientras una URL esté vacía o el servicio falle, el formulario muestra el estado (enviando, enviado, error con reintento) y abre el programa de correo del visitante con el mensaje redactado hacia `CONTACTO.email`.
+
+La política de seguridad de contenido de `index.html` autoriza únicamente `https://formspree.io` en `connect-src` y `form-action`. Si se prefiere Web3Forms, hay que cargar su URL y la `access_key` en `clave` y agregar `https://api.web3forms.com` a esas dos directivas.
 
 Ambos formularios exigen consentimiento para el uso de los datos, llevan un campo trampa contra robots y la política de seguridad de contenido solo autoriza esos dos dominios de envío. La lista de suscriptores queda en el servicio elegido (o en el correo); para enviar boletines conviene volcarla a una herramienta de correo masivo.
 
 ## Seguridad y autoría
 
-- **Política de seguridad de contenido** (`Content-Security-Policy` por `<meta>`, ya que GitHub Pages no permite cabeceras HTTP propias): solo scripts propios, estilos propios y de Google Fonts, imágenes propias (más las teselas de CARTO en el mapa); sin `eval`, sin objetos embebidos, sin envío de formularios a terceros. Referrer restringido y protección contra incrustación en marcos ajenos.
+- **Política de seguridad de contenido** (`Content-Security-Policy` por `<meta>`, ya que GitHub Pages no permite cabeceras HTTP propias): solo scripts propios, estilos propios y de Google Fonts, imágenes propias (más las teselas de OpenStreetMap en el mapa); sin `eval`, sin objetos embebidos, sin envío de formularios a terceros. Referrer restringido y protección contra incrustación en marcos ajenos.
 - **Atribución automática al copiar** (`js/oitraf/proteccion.js`): todo fragmento de más de 60 caracteres copiado desde el sitio llega al portapapeles con la fuente, la URL, la fecha de consulta y la licencia, en texto plano y en HTML con enlace. No se bloquean la selección ni el clic derecho, por accesibilidad.
 - **Marca en gráficos y descargas**: los gráficos llevan la marca OITraF; los CSV, dos líneas de atribución en el encabezado más la columna `fuente` de cada dato; los JSON del robot, los campos `publicado_por` y `licencia`.
 - **Licencia y cita**: `LICENCIA.md` (CC BY 4.0 para las elaboraciones propias; los datos oficiales conservan la suya), bloque «Cómo citar» en la portada con cita sugerida copiable, metadatos `copyright`, `rel="license"`, Open Graph y JSON-LD (schema.org) que declaran a OITraF como autor.

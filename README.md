@@ -130,9 +130,11 @@ Mapa interactivo que monitorea los **eventos de protesta social en todo el mundo
 
 La portada tiene un formulario de **suscripción** (informes, ediciones especiales y relevamiento completo) y otro de **contacto para estudios a medida** (sindicatos, gobiernos, universidades, medios y organizaciones). Como el sitio es estático, los envíos van a un servicio de formularios que se configura en `js/oitraf/config.js`:
 
-1. Crear una cuenta en [Formspree](https://formspree.io) o [Web3Forms](https://web3forms.com) con el correo institucional y un formulario para cada uso.
-2. Pegar la URL de envío (y la clave, en Web3Forms) en `CONTACTO.suscripcion` y `CONTACTO.contacto`.
-3. Publicar. Mientras la URL esté vacía o el servicio falle, el formulario abre el programa de correo del visitante con el mensaje redactado hacia `CONTACTO.email`.
+1. Crear una cuenta en [Formspree](https://formspree.io) con el correo institucional y un formulario para cada uso («Suscripción» y «Contacto»).
+2. Pegar las dos URL de envío (`https://formspree.io/f/…`) en `CONTACTO.suscripcion.url` y `CONTACTO.contacto.url`; los dos valores que faltan están marcados con `FALTA` en el archivo.
+3. Publicar. Mientras una URL esté vacía o el servicio falle, el formulario muestra el estado (enviando, enviado, error con reintento) y abre el programa de correo del visitante con el mensaje redactado hacia `CONTACTO.email`.
+
+La política de seguridad de contenido de `index.html` autoriza únicamente `https://formspree.io` en `connect-src` y `form-action`. Si se prefiere Web3Forms, hay que cargar su URL y la `access_key` en `clave` y agregar `https://api.web3forms.com` a esas dos directivas.
 
 Ambos formularios exigen consentimiento para el uso de los datos, llevan un campo trampa contra robots y la política de seguridad de contenido solo autoriza esos dos dominios de envío. La lista de suscriptores queda en el servicio elegido (o en el correo); para enviar boletines conviene volcarla a una herramienta de correo masivo.
 

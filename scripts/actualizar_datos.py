@@ -130,8 +130,8 @@ if os.path.isdir("data/dias"):
 # esperas crecientes y el resultado de cada una queda en
 # data/articulos_estado.json (fecha, cantidad por consulta y error).
 ESTADO_ARTICULOS = "data/articulos_estado.json"
-ESPERA_ENTRE_CONSULTAS = 8
-REINTENTOS = (12, 25, 50)   # segundos de espera antes de cada reintento
+ESPERA_ENTRE_CONSULTAS = 20
+REINTENTOS = (30, 60, 90)   # segundos de espera antes de cada reintento
 
 def pedir_articulos(query):
     url = (f"{DOC_API}?query={urllib.request.quote(query)}"
@@ -151,11 +151,15 @@ def pedir_articulos(query):
                 break
     return [], ultimo_error
 
-# Tres consultas complementarias (la API limita a 250 resultados y a
-# 1 petición cada 5 s): la etiqueta PROTEST de GDELT es generosa y trae
-# mucho ruido, así que después se filtra por el titular (ver más abajo).
+# Consultas complementarias (la API limita a 250 resultados por consulta):
+# por tema (PROTEST y STRIKE), por idioma de origen y por palabras clave. La
+# etiqueta PROTEST de GDELT es generosa y trae mucho ruido, así que después
+# se filtra por el titular (ver más abajo).
 CONSULTAS = [
     "theme:PROTEST",
+    "theme:STRIKE",
+    "theme:PROTEST sourcelang:spanish",
+    "theme:PROTEST sourcelang:portuguese",
     '(protesta OR protestas OR manifestacion OR manifestantes OR huelga OR cacerolazo OR "paro nacional")',
     '(protest OR protesters OR demonstrators OR demonstration OR "general strike" OR riots)',
 ]
@@ -256,9 +260,11 @@ PATRON_PROTESTA = re.compile(
     r"protest|manifesta|huelga|huelguista|\bmarchas?\b|marcharon|disturbio|revuelta|\bmotin|amotinad|"
     r"movilizac|se movilizan?\b|cacerolazo|piquete|\bplanton|\bparos?\b|cortes? de ruta|bloqueo|"
     r"represion|pancarta|toman? las calles|sal(en|ieron|io) a las? calles?|levantamiento|"
-    r"acampe|ocupan|sentada|boicot|concentracion (de|frente|contra)|"
+    r"acampe|ocupan|sentada|boicot|concentracion (de|frente|contra)|rebeli|sublevaci|activistas?|"
+    r"gas(es)? lacrimogen|detenid[oa]s (en|durante|tras) (la|una|el) (protesta|marcha|manifesta)|"
     # inglés y otros idiomas (titular original)
-    r"demonstrat|\brall(y|ies)\b|\briots?\b|unrest|walkout|sit-in|picket|blockade|boycott|"
+    r"demonstrat|\brall(y|ies)\b|\briots?\b|unrest|uprising|walkout|sit-in|picket|blockade|boycott|"
+    r"tear gas|crackdown|dispers|mobili[sz]|"
     r"\bstrik(e|es|ers|ing)\b|clash(es|ed)? with|take to the streets|took to the streets|"
     r"greve|sciopero|streik|protesto|manifestazione|manifestacao|manifestation|manifestant")
 # falsos positivos frecuentes: huelga/strike de otro significado

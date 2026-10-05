@@ -453,6 +453,7 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
   color: var(--text-secondary); font-size: 0.9rem; background: var(--surface-1);
 }
 .aviso b { color: var(--text-primary); }
+.aviso-antiguedad { display: inline-block; padding: 0.05rem 0.5rem; border-radius: 999px; background: rgba(237, 161, 0, 0.14); color: var(--text-primary); font-size: 0.78rem; }
 .medios-lista { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.5rem 0 0; padding: 0; list-style: none; }
 .medios-lista li { font-size: 0.74rem; border: 1px solid var(--hairline); border-radius: 3px; padding: 0.1rem 0.45rem; color: var(--text-secondary); }
 .medios-lista li b { font-weight: 600; color: var(--text-primary); }

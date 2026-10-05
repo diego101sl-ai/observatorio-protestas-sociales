@@ -138,7 +138,7 @@ Ambos formularios exigen consentimiento para el uso de los datos, llevan un camp
 
 ## Seguridad y autoría
 
-- **Política de seguridad de contenido** (`Content-Security-Policy` por `<meta>`, ya que GitHub Pages no permite cabeceras HTTP propias): solo scripts propios, estilos propios y de Google Fonts, imágenes propias (más las teselas de CARTO en el mapa); sin `eval`, sin objetos embebidos, sin envío de formularios a terceros. Referrer restringido y protección contra incrustación en marcos ajenos.
+- **Política de seguridad de contenido** (`Content-Security-Policy` por `<meta>`, ya que GitHub Pages no permite cabeceras HTTP propias): solo scripts propios, estilos propios y de Google Fonts, imágenes propias (más las teselas de OpenStreetMap en el mapa); sin `eval`, sin objetos embebidos, sin envío de formularios a terceros. Referrer restringido y protección contra incrustación en marcos ajenos.
 - **Atribución automática al copiar** (`js/oitraf/proteccion.js`): todo fragmento de más de 60 caracteres copiado desde el sitio llega al portapapeles con la fuente, la URL, la fecha de consulta y la licencia, en texto plano y en HTML con enlace. No se bloquean la selección ni el clic derecho, por accesibilidad.
 - **Marca en gráficos y descargas**: los gráficos llevan la marca OITraF; los CSV, dos líneas de atribución en el encabezado más la columna `fuente` de cada dato; los JSON del robot, los campos `publicado_por` y `licencia`.
 - **Licencia y cita**: `LICENCIA.md` (CC BY 4.0 para las elaboraciones propias; los datos oficiales conservan la suya), bloque «Cómo citar» en la portada con cita sugerida copiable, metadatos `copyright`, `rel="license"`, Open Graph y JSON-LD (schema.org) que declaran a OITraF como autor.

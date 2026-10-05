@@ -55,17 +55,17 @@ if (typeof L === "undefined") {
 const map = L.map("map", { worldCopyJump: true, minZoom: 2 }).setView([15, 0], 2);
 let baseLayer = null;
 
+// Teselas de OpenStreetMap (sin clave de API). El modo oscuro se logra con un
+// filtro CSS sobre el panel de teselas (clase map--oscuro, ver css/style.css),
+// así una sola capa sirve para los dos temas y la CSP autoriza un único host.
 function applyBasemap() {
-  const style = currentTheme() === "dark" ? "dark_all" : "light_all";
-  if (baseLayer) map.removeLayer(baseLayer);
-  baseLayer = L.tileLayer(
-    `https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`,
-    {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      subdomains: "abcd",
+  if (!baseLayer) {
+    baseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       maxZoom: 12,
-    }
-  ).addTo(map);
+    }).addTo(map);
+  }
+  document.getElementById("map").classList.toggle("map--oscuro", currentTheme() === "dark");
 }
 applyBasemap();
 

@@ -672,6 +672,9 @@ a:hover { color: var(--accent-strong); }
 }
 /* El mapa llena la columna: crece a la par del panel de cobertura del lateral */
 #map { flex: 1; min-height: max(64vh, 460px); background: var(--page); }
+/* Modo oscuro de las teselas de OpenStreetMap: se invierten y se devuelve el tono
+   para que el agua siga azulada; solo afecta al panel de teselas, no a los focos */
+.map--oscuro .leaflet-tile-pane { filter: invert(1) hue-rotate(195deg) brightness(0.8) contrast(0.9) saturate(0.5); }
 
 /* Pulso de los focos más activos (clase que asigna js/app.js) */
 @media (prefers-reduced-motion: no-preference) {

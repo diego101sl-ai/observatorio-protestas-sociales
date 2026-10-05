@@ -1,9 +1,27 @@
 {
- "cuando": null,
- "consultas": [],
- "crudos_nuevos": 0,
+ "cuando": "2026-10-05T18:39:34Z",
+ "consultas": [
+  {
+   "consulta": "theme:PROTEST",
+   "crudos": 250,
+   "nuevos": 250,
+   "error": null
+  },
+  {
+   "consulta": "(protesta OR protestas OR manifestacion OR manifestantes OR huelga OR cacerolazo OR \"paro nacional\")",
+   "crudos": 4,
+   "nuevos": 4,
+   "error": null
+  },
+  {
+   "consulta": "(protest OR protesters OR demonstrators OR demonstration OR \"general strike\" OR riots)",
+   "crudos": 0,
+   "nuevos": 0,
+   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+  }
+ ],
+ "crudos_nuevos": 254,
  "previos_conservados": 0,
- "publicados": null,
- "errores": 0,
- "nota": "pendiente de la primera corrida del robot"
+ "publicados": 64,
+ "errores": 1
 }

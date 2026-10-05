@@ -10,7 +10,7 @@ Es una web 100 % estática: no necesita servidor ni base de datos. Dos robots (G
 |---|---|
 | `index.html` | Portal: placas de indicadores de **Argentina**, **América Latina** y **Mundo** (número grande, período de referencia, variación, minigráfico y fuente), gráficos comparados, **cobertura de medios** filtrable por escala y sector, resumen del observatorio de protestas y tabla de **fuentes y método**. |
 | `indicadores.html` | Explorador de **todas las series**: filtros por escala, país, tema y fuente; búsqueda; comparación por geografía; cada serie con gráfico, tabla, descarga CSV y enlace al organismo. |
-| `protestas.html` | Mapa mundial de protestas (GDELT), con filtros de período y palabra clave, cobertura traducida al español y vista de tabla. |
+| `protestas.html` | Mapa mundial de protestas (GDELT) con la misma cabecera, tipografía y pie que el portal; filtros de período y palabra clave, cobertura traducida al español, gráfico diario y vista de tabla. |
 
 Registro editorial del observatorio (aplica a cada placa): dato verificable, fuente visible, período de referencia explícito. Cuando OITraF calcula un indicador (salario real, canasta del hogar, salario mínimo en canastas) se declara como elaboración propia y se enlaza la serie oficial de la que sale.
 
@@ -90,7 +90,7 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 ├── img/marca/                 # marca OITraF: isotipo coloreado en capas (red + engranaje) para la animación, logos horizontal/vertical, favicon
 ├── css/
 │   ├── oitraf.css             # identidad OITraF (marino + rojo), tokens claro/oscuro, paleta de gráficos validada
-│   └── style.css              # estilos del mapa de protestas
+│   └── style.css              # solo lo específico del mapa de protestas (ticker, filtros, mapa, leyenda, tabla, Leaflet)
 ├── js/
 │   ├── oitraf/
 │   │   ├── comun.js           # tema, formato es-AR, catálogo de series, indicadores derivados, CSV
@@ -120,7 +120,7 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 
 ## Observatorio de protestas
 
-Mapa interactivo que monitorea los **eventos de protesta social en todo el mundo** con datos abiertos de [GDELT](https://www.gdeltproject.org/): un robot horario descarga los ficheros de eventos de GDELT 2.0, filtra los eventos de protesta (código CAMEO 14, con coordenadas reales) y guarda `data/protests.json` y `data/articles.json`. La página ofrece mapa (Leaflet), resumen, cobertura reciente traducida al español, filtros por período y palabra clave, vista de tabla y gráfico de evolución diaria.
+Mapa interactivo (teselas de OpenStreetMap, sin clave de API) que monitorea los **eventos de protesta social en todo el mundo** con datos abiertos de [GDELT](https://www.gdeltproject.org/): un robot horario descarga los ficheros de eventos de GDELT 2.0, filtra los eventos de protesta (código CAMEO 14, con coordenadas reales) y guarda `data/protests.json` y `data/articles.json`. La página ofrece mapa (Leaflet), resumen, cobertura reciente traducida al español, filtros por período y palabra clave, vista de tabla y gráfico de evolución diaria.
 
 ⚠️ GDELT detecta eventos automáticamente en las noticias: es excelente para tendencias y focos, pero no es un recuento verificado a mano.
 

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Observatorio de protestas sociales de OITraF: eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT.">
-  <meta name="theme-color" content="#13293f">
+  <meta name="description" content="Observatorio de protestas sociales de OITraF: eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT, actualizados cada hora.">
+  <meta name="theme-color" content="#071b3d">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://tile.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="copyright" content="© OITraF · Observatorio Internacional del Trabajo del Futuro. Elaboraciones propias bajo CC BY 4.0; los datos oficiales conservan la licencia de su organismo.">
@@ -18,67 +18,59 @@
   <meta property="og:url" content="https://diego101sl-ai.github.io/observatorio-protestas-sociales/protestas.html">
   <meta property="og:image" content="https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png">
   <meta name="twitter:card" content="summary">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf","name":"OITraF","alternateName":"Observatorio Internacional del Trabajo del Futuro","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/","logo":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png","sameAs":["https://www.instagram.com/oitraf1/"]},{"@type":"WebPage","name":"Observatorio de Protestas Sociales · OITraF","description":"Eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT, actualizados cada hora.","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/protestas.html","inLanguage":"es","creator":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"publisher":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"license":"https://creativecommons.org/licenses/by/4.0/","isAccessibleForFree":true,"copyrightHolder":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf","name":"OITraF","alternateName":"Observatorio Internacional del Trabajo del Futuro","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/","logo":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/img/marca/oitraf-isotipo-color.png","sameAs":["https://www.instagram.com/oitraf1/"]},{"@type":"Dataset","name":"Observatorio de Protestas Sociales · OITraF","description":"Eventos de protesta detectados en la prensa mundial con datos abiertos de GDELT, agregados por lugar y día.","url":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/protestas.html","inLanguage":"es","creator":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"publisher":{"@id":"https://diego101sl-ai.github.io/observatorio-protestas-sociales/#oitraf"},"license":"https://creativecommons.org/licenses/by/4.0/","isAccessibleForFree":true,"isBasedOn":"https://www.gdeltproject.org/"}]}</script>
   <title>Observatorio de Protestas Sociales · OITraF</title>
   <link rel="icon" type="image/png" href="img/marca/favicon-64.png">
   <link rel="apple-touch-icon" href="img/marca/oitraf-isotipo-color.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/oitraf.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <a class="skip-link" href="#map">Saltar al mapa</a>
 
-  <header class="hero hero--nophoto">
-    <div class="hero-media" aria-hidden="true">
-      <!-- Foto de portada: sube tu fotografía con derechos a img/hero.jpg
-           (marcha, asamblea, calle). js/app.js la detecta y aplica el duotono solo;
-           mientras no exista, se muestra este fondo gráfico de respaldo. -->
-      <div class="hero-tint"></div>
-      <div class="hero-fallback"><div class="hero-rings"></div></div>
-    </div>
-
-    <div class="shell topbar-inner">
-      <div class="brand">
-        <a href="index.html" aria-label="OITraF, portal" class="brand-mark"><span class="iso" aria-hidden="true"><span class="iso-clip"><img class="iso-gear" src="img/marca/iso-engranaje-blanco.svg" alt=""></span><img class="iso-circ iso-circ--rojo" src="img/marca/circuito-rojo.svg" alt=""><img class="iso-circ iso-circ--amarillo" src="img/marca/circuito-amarillo.svg" alt=""><img class="iso-circ iso-circ--azul" src="img/marca/circuito-azul-blanco.svg" alt=""></span></a>
-        <h1>Observatorio de Protestas Sociales</h1>
-      </div>
-      <a class="back-link" href="index.html">← OITraF · portal</a>
-      <button id="theme-toggle" class="theme-btn" type="button" aria-label="Cambiar tema">
+  <header class="masthead">
+    <div class="shell masthead-inner">
+      <a class="brand" href="index.html" aria-label="OITraF, portada">
+        <span class="iso" aria-hidden="true"><span class="iso-clip"><img class="iso-gear" src="img/marca/iso-engranaje-blanco.svg" alt=""></span><img class="iso-circ iso-circ--rojo" src="img/marca/circuito-rojo.svg" alt=""><img class="iso-circ iso-circ--amarillo" src="img/marca/circuito-amarillo.svg" alt=""><img class="iso-circ iso-circ--azul" src="img/marca/circuito-azul-blanco.svg" alt=""></span>
+        <span class="brand-word">OITraF</span>
+        <span class="brand-sub">Observatorio Internacional del Trabajo del Futuro</span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="index.html#argentina">Argentina</a>
+        <a href="index.html#latam">América Latina</a>
+        <a href="index.html#mundo">Mundo</a>
+        <a href="index.html#cobertura">Cobertura de medios</a>
+        <a href="index.html#suscripcion">Suscribite</a>
+        <a href="index.html#contacto">Estudios a medida</a>
+        <a href="protestas.html" aria-current="page">Protestas</a>
+        <a href="indicadores.html">Todos los indicadores</a>
+        <a href="index.html#fuentes">Fuentes</a>
+        <a href="nosotros.html">Sobre nosotros</a>
+      </nav>
+      <button id="theme-toggle" class="theme-btn" type="button" aria-label="Cambiar tema claro u oscuro">
         <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 1.4 A5.6 5.6 0 0 1 7 12.6 Z" fill="currentColor"/></svg>
         Tema
       </button>
     </div>
-
-    <div class="shell hero-body">
-      <p class="hero-kicker"><span class="live-dot" aria-hidden="true"></span>Observatorio en directo · actualización horaria</p>
-      <p class="hero-headline">Protestas sociales en el mundo<span class="hero-dot">.</span></p>
-      <p class="hero-lede sr-only">Marchas, concentraciones y asambleas: eventos de protesta detectados automáticamente
-        en la prensa mundial con datos abiertos de <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>.</p>
-    </div>
-
-    <div class="shell hero-stats" aria-label="Resumen">
-      <div class="stats-band">
-        <div class="stat-tile">
-          <span class="stat-label">Focos detectados</span>
-          <span class="stat-value" id="stat-locations">—</span>
-          <span class="stat-note">lugares con eventos de protesta</span>
-        </div>
-        <div class="stat-tile">
-          <span class="stat-label">Eventos de protesta</span>
-          <span class="stat-value" id="stat-mentions">—</span>
-          <span class="stat-note">eventos registrados en el periodo</span>
-        </div>
-        <div class="stat-tile stat-tile--peak">
-          <span class="stat-label">Foco más activo</span>
-          <span class="stat-value stat-value--text" id="stat-top">—</span>
-          <span class="stat-note" id="stat-top-note">&nbsp;</span>
-        </div>
-      </div>
-    </div>
   </header>
+
+  <section class="hero" aria-labelledby="h-prot">
+    <span class="iso hero-iso" aria-hidden="true"><span class="iso-clip"><img class="iso-gear" src="img/marca/iso-engranaje-blanco.svg" alt=""></span><img class="iso-circ iso-circ--rojo" src="img/marca/circuito-rojo.svg" alt=""><img class="iso-circ iso-circ--amarillo" src="img/marca/circuito-amarillo.svg" alt=""><img class="iso-circ iso-circ--azul" src="img/marca/circuito-azul-blanco.svg" alt=""></span>
+    <div class="shell hero-body" style="padding-block:2.4rem 1.8rem">
+      <p class="kicker"><span class="dot live-dot" aria-hidden="true"></span>Observatorio en directo · actualización horaria</p>
+      <h1 id="h-prot" class="display" style="font-size:clamp(2.2rem,5vw,3.8rem)">Protestas sociales <em>en el mundo</em></h1>
+      <p class="hero-lede">Marchas, paros, concentraciones y asambleas detectados automáticamente en la prensa mundial con datos abiertos de <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>. Un termómetro de la conflictividad social, no un recuento verificado a mano.</p>
+    </div>
+    <div class="stats-band" aria-label="Resumen">
+      <div class="stat-tile"><span class="stat-label">Focos detectados</span><span class="stat-value num" id="stat-locations">—</span><span class="stat-note">lugares con eventos de protesta</span></div>
+      <div class="stat-tile"><span class="stat-label">Eventos de protesta</span><span class="stat-value num" id="stat-mentions">—</span><span class="stat-note">eventos registrados en el período</span></div>
+      <div class="stat-tile"><span class="stat-label">Foco más activo</span><span class="stat-value stat-value--text" id="stat-top">—</span><span class="stat-note" id="stat-top-note">&nbsp;</span></div>
+    </div>
+  </section>
 
   <section id="ticker" class="ticker" aria-label="Cobertura en directo" hidden>
     <span class="ticker-label"><span class="live-dot" aria-hidden="true"></span>Cobertura</span>
@@ -91,8 +83,8 @@
     </button>
   </section>
 
-  <section class="filters" aria-label="Filtros">
-    <div class="shell filters-inner">
+  <section class="barra-filtros" aria-label="Filtros">
+    <div class="shell barra-filtros-inner">
       <div class="filter-group" id="source-group" role="group" aria-label="Fuente de datos" hidden>
         <span class="filter-label" aria-hidden="true">Fuente</span>
         <button class="chip is-active" data-source="gdelt" type="button" aria-pressed="true" title="Eventos detectados automáticamente en la prensa mundial">GDELT</button>
@@ -105,7 +97,7 @@
         <button class="chip" data-days="7" type="button">7 días</button>
       </div>
       <input id="keyword" class="text-input" type="search" placeholder="Filtrar por tema o lugar (ej. pensiones, Chile)…" aria-label="Palabra clave">
-      <button id="refresh" class="primary-btn" type="button">Actualizar</button>
+      <button id="refresh" class="btn btn-red btn-compacto" type="button">Actualizar</button>
     </div>
   </section>
 
@@ -117,7 +109,7 @@
     <section class="map-panel" aria-label="Mapa de protestas">
       <div id="map" role="application" aria-label="Mapa interactivo de focos de protesta"></div>
       <div class="map-legend" id="legend" aria-hidden="true"></div>
-      <button id="table-toggle" class="ghost-btn map-table-btn" type="button" aria-expanded="false">Ver como tabla</button>
+      <button id="table-toggle" class="tool-btn map-table-btn" type="button" aria-expanded="false">Ver como tabla</button>
     </section>
 
     <aside class="sidebar">
@@ -163,14 +155,31 @@
 
   <footer class="footer">
     <div class="shell footer-inner">
-      <div class="footer-brand">
-        <span class="iso" aria-hidden="true"><span class="iso-clip"><img class="iso-gear" src="img/marca/iso-engranaje-blanco.svg" alt=""></span><img class="iso-circ iso-circ--rojo" src="img/marca/circuito-rojo.svg" alt=""><img class="iso-circ iso-circ--amarillo" src="img/marca/circuito-amarillo.svg" alt=""><img class="iso-circ iso-circ--azul" src="img/marca/circuito-azul-blanco.svg" alt=""></span><span class="footer-word">OITraF</span>
-        <span>Observatorio de Protestas Sociales · un programa de <a href="index.html">OITraF</a> · <a href="nosotros.html">Sobre nosotros</a></span>
+      <div>
+        <div class="brand"><span class="iso" aria-hidden="true"><span class="iso-clip"><img class="iso-gear" src="img/marca/iso-engranaje-blanco.svg" alt=""></span><img class="iso-circ iso-circ--rojo" src="img/marca/circuito-rojo.svg" alt=""><img class="iso-circ iso-circ--amarillo" src="img/marca/circuito-amarillo.svg" alt=""><img class="iso-circ iso-circ--azul" src="img/marca/circuito-azul-blanco.svg" alt=""></span><span class="brand-word">OITraF</span></div>
+        <p><span id="updated"></span>Los eventos provienen del proyecto <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> (detección automática en la prensa mundial, código CAMEO 14 «protesta»), no de un recuento verificado a mano. Fuente futura adicional: <a href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>. Mapa © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>.</p>
       </div>
-      <p><span id="updated"></span>Los eventos provienen del proyecto <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>
-         (detección automática en la prensa mundial, código CAMEO 14 «protesta»), no de un recuento verificado a mano.
-         Fuente futura adicional: <a href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>.
-         Mapa © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>.</p>
+      <div>
+        <h4>Secciones</h4>
+        <ul>
+          <li><a href="index.html">Portada</a></li>
+          <li><a href="indicadores.html">Explorador de indicadores</a></li>
+                    <li><a href="index.html#cobertura">Cobertura de medios</a></li>
+          <li><a href="index.html#suscripcion">Suscripción e informes</a></li>
+          <li><a href="index.html#contacto">Estudios a medida</a></li>
+          <li><a href="index.html#fuentes">Método y fuentes</a></li>
+          <li><a href="nosotros.html">Sobre nosotros</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Fuentes de datos</h4>
+        <ul>
+          <li><a href="https://www.indec.gob.ar/" target="_blank" rel="noopener">INDEC</a> · <a href="https://datos.gob.ar/series/api/" target="_blank" rel="noopener">datos.gob.ar</a></li>
+          <li><a href="https://ilostat.ilo.org/es/" target="_blank" rel="noopener">OIT · ILOSTAT</a> · <a href="https://datos.bancomundial.org/" target="_blank" rel="noopener">Banco Mundial</a></li>
+          <li><a href="https://www.imf.org/external/datamapper/" target="_blank" rel="noopener">FMI</a> · <a href="https://data-explorer.oecd.org/" target="_blank" rel="noopener">OCDE</a> · <a href="https://ec.europa.eu/eurostat" target="_blank" rel="noopener">Eurostat</a> · <a href="https://www.bls.gov/" target="_blank" rel="noopener">BLS</a></li>
+          <li><a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a> (protestas)</li>
+        </ul>
+      </div>
     </div>
     <div class="shell">
       <p class="legal">© <span id="anio-legal"></span> OITraF. Las elaboraciones propias se publican bajo <a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="license" target="_blank">CC BY 4.0</a>: podés reutilizarlas citando a OITraF con enlace. Los datos oficiales conservan la licencia de su organismo. Al copiar texto del sitio se agrega la fuente automáticamente. <a href="https://github.com/diego101sl-ai/observatorio-protestas-sociales/blob/main/LICENCIA.md" target="_blank" rel="noopener">Licencia y condiciones de uso</a>.</p>

@@ -1,4 +1,5 @@
 import { loadProtestData, loadArticles, loadAcledData, loadArticlesStatus } from "./sources/gdelt.js";
+import { initTema } from "./oitraf/comun.js";
 
 const REFRESH_EVERY_MS = 15 * 60 * 1000;
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)");
@@ -25,9 +26,10 @@ const state = {
 };
 
 // ---------- Tema ----------
+// El botón y la preferencia guardada son los del portal (js/oitraf/comun.js);
+// al cambiar el tema se rehacen las teselas, los focos y la leyenda.
 const root = document.documentElement;
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) root.dataset.theme = savedTheme;
+initTema();
 
 function currentTheme() {
   return (
@@ -36,10 +38,7 @@ function currentTheme() {
   );
 }
 
-document.getElementById("theme-toggle").addEventListener("click", () => {
-  const next = currentTheme() === "dark" ? "light" : "dark";
-  root.dataset.theme = next;
-  localStorage.setItem("theme", next);
+document.addEventListener("oitraf:tema", () => {
   applyBasemap();
   renderMarkers();
   renderLegend();
@@ -561,25 +560,7 @@ document.getElementById("ticker-pause")?.addEventListener("click", (e) => {
   );
 });
 
-// ---------- Foto de portada (mejora progresiva) ----------
-// Si el repositorio incluye img/hero.jpg, se muestra con duotono;
-// si no existe, el hero conserva su fondo gráfico de respaldo.
-function initHeroPhoto() {
-  const media = document.querySelector(".hero-media");
-  if (!media) return;
-  const probe = new Image();
-  probe.onload = () => {
-    probe.className = "hero-photo";
-    probe.alt = "";
-    probe.decoding = "async";
-    media.prepend(probe);
-    media.closest(".hero").classList.remove("hero--nophoto");
-  };
-  probe.src = "img/hero.jpg";
-}
-
 // ---------- Arranque ----------
-initHeroPhoto();
 renderLegend();
 load();
 setInterval(load, REFRESH_EVERY_MS);

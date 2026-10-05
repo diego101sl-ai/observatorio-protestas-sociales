@@ -1,4 +1,4 @@
-import { loadProtestData, loadArticles, loadAcledData } from "./sources/gdelt.js";
+import { loadProtestData, loadArticles, loadAcledData, loadArticlesStatus } from "./sources/gdelt.js";
 
 const REFRESH_EVERY_MS = 15 * 60 * 1000;
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)");
@@ -18,6 +18,7 @@ const state = {
   acledData: null,
   data: { generated: "", days: [], locations: [] }, // la fuente activa
   allArticles: [],
+  articlesStatus: null,
   // derivados de los filtros:
   locations: [],
   articles: [],
@@ -310,7 +311,24 @@ function renderTopLocations() {
   }
 }
 
+// Aviso discreto cuando la última corrida del robot trajo pocos artículos
+// (la API de GDELT limita las peticiones y a veces responde 429).
+function renderArticlesNote() {
+  const el = document.getElementById("articles-note");
+  if (!el) return;
+  const st = state.articlesStatus;
+  const pocos = st && Number.isFinite(st.publicados) && st.publicados < 20;
+  el.hidden = !pocos;
+  if (!pocos) return;
+  const cuando = st.cuando ? new Date(st.cuando) : null;
+  const fecha = cuando && !Number.isNaN(cuando.getTime())
+    ? cuando.toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+    : "";
+  el.textContent = `Cobertura parcial: la última actualización${fecha ? ` (${fecha})` : ""} dejó ${st.publicados} artículos${st.errores ? " porque la fuente de prensa no respondió a todas las consultas" : ""}. Se completa en las próximas corridas.`;
+}
+
 function renderArticles() {
+  renderArticlesNote();
   const el = document.getElementById("articles");
   el.innerHTML = "";
   for (const art of state.articles) {
@@ -457,14 +475,16 @@ async function load() {
   btn.disabled = true;
   setStatus("Cargando datos…");
   try {
-    const [data, articles, acled] = await Promise.all([
+    const [data, articles, acled, articlesStatus] = await Promise.all([
       loadProtestData(),
       loadArticles(),
       loadAcledData(),
+      loadArticlesStatus(),
     ]);
     state.gdeltData = data;
     state.acledData = acled;
     state.allArticles = articles;
+    state.articlesStatus = articlesStatus;
     renderTicker();
 
     // El selector de fuente solo aparece cuando el robot ya generó datos de ACLED

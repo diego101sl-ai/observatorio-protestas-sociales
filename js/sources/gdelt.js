@@ -44,6 +44,10 @@ export async function loadProtestData() {
  */
 export async function loadAcledData() {
   try {
+    // El robot deja siempre data/acled_estado.json; solo si la última corrida
+    // fue «ok» existe data/acled.json (así no se pide un archivo inexistente).
+    const estado = await fetchLocalJson("data/acled_estado.json").catch(() => null);
+    if (!estado || !String(estado.estado || "").startsWith("ok")) return null;
     const data = await fetchLocalJson("data/acled.json");
     if (!Array.isArray(data.locations) || !data.locations.length) return null;
     return {
@@ -88,4 +92,18 @@ function parseSeenDate(s) {
   const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/.exec(s || "");
   if (!m) return null;
   return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]));
+}
+
+/**
+ * Estado de la última corrida del robot de artículos (data/articulos_estado.json):
+ * cuándo corrió, cuántos artículos publicó y si alguna consulta a GDELT falló.
+ * Devuelve null si el archivo todavía no existe.
+ * @returns {Promise<null | {cuando: string, publicados: number, crudos_nuevos: number, errores: number}>}
+ */
+export async function loadArticlesStatus() {
+  try {
+    return await fetchLocalJson("data/articulos_estado.json");
+  } catch {
+    return null;
+  }
 }

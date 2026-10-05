@@ -347,18 +347,18 @@
   },
   {
    "puntaje": -999,
-   "id": "303.1_ASALARIADOGBA_0_T_53",
-   "titulo": "asalariados_sin_descuento_jubilatorio_aglomerados_gba",
-   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral. Gran Buenos Aires",
+   "id": "303.1_ASALARIADOANA_0_T_58",
+   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_pampeana",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Pampeana.",
    "frecuencia": "R/P3M",
    "fin": "2020-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "303.1_ASALARIADOANA_0_T_58",
-   "titulo": "asalariados_sin_desc_jubilat_aglo_int_pais_region_pampeana",
-   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral.Region Pampeana.",
+   "id": "303.1_ASALARIADOGBA_0_T_53",
+   "titulo": "asalariados_sin_descuento_jubilatorio_aglomerados_gba",
+   "descripcion": "Evolución de la tasa de asalariados sin descuento jubilatorio. EPH Continua. Trimestral. Gran Buenos Aires",
    "frecuencia": "R/P3M",
    "fin": "2020-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -413,15 +413,6 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIEDAD_2012_M_39",
-   "titulo": "independientes_autonomos_estacionalidad",
-   "descripcion": "Independientes autónomos. Con estacionalidad.",
-   "frecuencia": "R/P1M",
-   "fin": "2026-06-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
    "id": "151.1_AARIADOTAC_2012_M_25",
    "titulo": "asalariados_pub_sin_estac",
    "descripcion": "Asalariados. Sector público. Sin estacionalidad.",
@@ -431,18 +422,27 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIETAC_2012_M_34",
-   "titulo": "independientes_autonomos_sin_estac",
-   "descripcion": "Independientes autónomos. Sin estacionalidad.",
+   "id": "151.1_IPENDIEDAD_2012_M_39",
+   "titulo": "independientes_autonomos_estacionalidad",
+   "descripcion": "Independientes autónomos. Con estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "151.1_AARIADOTAC_2012_M_40",
-   "titulo": "asalariados_casas_particulares_sin_estac",
-   "descripcion": "Asalariados. Casas particulares. Sin estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_43",
+   "titulo": "independientes_monotributo_social_sin_estac",
+   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "151.1_IPENDIETAC_2012_M_34",
+   "titulo": "independientes_autonomos_sin_estac",
+   "descripcion": "Independientes autónomos. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -479,18 +479,18 @@
   },
   {
    "puntaje": 24,
-   "id": "153.1_RNERACIANA_2009_M_20",
-   "titulo": "asalariados_priv_remuneracion_mediana",
-   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
+   "id": "151.1_AARIADOTAC_2012_M_26",
+   "titulo": "asalariados_priv_sin_estac",
+   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": 24,
-   "id": "151.1_AARIADOTAC_2012_M_26",
-   "titulo": "asalariados_priv_sin_estac",
-   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
+   "id": "153.1_RNERACIANA_2009_M_20",
+   "titulo": "asalariados_priv_remuneracion_mediana",
+   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -769,6 +769,15 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
+   "puntaje": 26,
+   "id": "364.3_TOTALTAL__5",
+   "titulo": "total",
+   "descripcion": "Total",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
    "puntaje": 24,
    "id": "444.1_CANASTA_batotCuyo_0_0_26_47",
    "titulo": "cuyo",
@@ -809,15 +818,6 @@
    "id": "444.1_CANASTA_batotPampeana_0_0_26_47",
    "titulo": "pampeana",
    "descripcion": "Canasta Básica Total. Pampeana",
-   "frecuencia": "R/P1M",
-   "fin": "2025-12-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": 24,
-   "id": "444.1_CANASTA_batotGBA_0_0_26_47",
-   "titulo": "gran_buenos_aires",
-   "descripcion": "Canasta Básica Total. Gran Buenos Aires",
    "frecuencia": "R/P1M",
    "fin": "2025-12-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -947,7 +947,7 @@
   },
   {
    "puntaje": -999,
-   "id": "344.1_TOTAL_AGLONOS__25",
+   "id": "341.1_TOTAL_AGLONOS__25",
    "titulo": "total_aglomerados_urbanos",
    "descripcion": "Total aglomerados urbanos",
    "frecuencia": "R/P6M",
@@ -956,7 +956,7 @@
   },
   {
    "puntaje": -999,
-   "id": "341.1_TOTAL_AGLONOS__25",
+   "id": "344.1_TOTAL_AGLONOS__25",
    "titulo": "total_aglomerados_urbanos",
    "descripcion": "Total aglomerados urbanos",
    "frecuencia": "R/P6M",

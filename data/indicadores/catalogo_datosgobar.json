@@ -290,9 +290,9 @@
   },
   {
    "puntaje": 26,
-   "id": "46.2_ECTSTJ_0_T_42",
-   "titulo": "eph_continua_tasa_subocupacion_total_jujuy",
-   "descripcion": "Tasa de subocupación total Jujuy.",
+   "id": "46.2_ECTSTC_0_T_41",
+   "titulo": "eph_continua_tasa_subocupacion_total_caba",
+   "descripcion": "Tasa de subocupación total CABA.",
    "frecuencia": "R/P3M",
    "fin": "2026-04-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -769,15 +769,6 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
-   "puntaje": 26,
-   "id": "364.3_TOTALTAL__5",
-   "titulo": "total",
-   "descripcion": "Total",
-   "frecuencia": "R/P1M",
-   "fin": "2026-06-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
    "puntaje": 24,
    "id": "444.1_CANASTA_batotCuyo_0_0_26_47",
    "titulo": "cuyo",
@@ -818,6 +809,15 @@
    "id": "444.1_CANASTA_batotPampeana_0_0_26_47",
    "titulo": "pampeana",
    "descripcion": "Canasta Básica Total. Pampeana",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotGBA_0_0_26_47",
+   "titulo": "gran_buenos_aires",
+   "descripcion": "Canasta Básica Total. Gran Buenos Aires",
    "frecuencia": "R/P1M",
    "fin": "2025-12-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -947,7 +947,7 @@
   },
   {
    "puntaje": -999,
-   "id": "341.1_TOTAL_AGLONOS__25",
+   "id": "344.1_TOTAL_AGLONOS__25",
    "titulo": "total_aglomerados_urbanos",
    "descripcion": "Total aglomerados urbanos",
    "frecuencia": "R/P6M",
@@ -956,7 +956,7 @@
   },
   {
    "puntaje": -999,
-   "id": "344.1_TOTAL_AGLONOS__25",
+   "id": "341.1_TOTAL_AGLONOS__25",
    "titulo": "total_aglomerados_urbanos",
    "descripcion": "Total aglomerados urbanos",
    "frecuencia": "R/P6M",

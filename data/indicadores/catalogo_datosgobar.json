@@ -290,9 +290,9 @@
   },
   {
    "puntaje": 26,
-   "id": "46.2_ECTSTC_0_T_41",
-   "titulo": "eph_continua_tasa_subocupacion_total_caba",
-   "descripcion": "Tasa de subocupación total CABA.",
+   "id": "46.2_ECTSTJ_0_T_42",
+   "titulo": "eph_continua_tasa_subocupacion_total_jujuy",
+   "descripcion": "Tasa de subocupación total Jujuy.",
    "frecuencia": "R/P3M",
    "fin": "2026-04-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

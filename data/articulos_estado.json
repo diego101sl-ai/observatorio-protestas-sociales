@@ -1,22 +1,22 @@
 {
- "cuando": "2026-10-08T16:37:02Z",
+ "cuando": "2026-10-08T22:11:41Z",
  "consultas": [
   {
    "consulta": "theme:PROTEST",
-   "crudos": 250,
-   "nuevos": 250,
-   "error": null
+   "crudos": 0,
+   "nuevos": 0,
+   "error": "HTTPError: HTTP Error 429: Too Many Requests"
   },
   {
    "consulta": "theme:STRIKE",
-   "crudos": 250,
-   "nuevos": 200,
-   "error": null
+   "crudos": 0,
+   "nuevos": 0,
+   "error": "HTTPError: HTTP Error 429: Too Many Requests"
   },
   {
    "consulta": "theme:PROTEST sourcelang:spanish",
    "crudos": 250,
-   "nuevos": 207,
+   "nuevos": 250,
    "error": null
   },
   {
@@ -38,8 +38,8 @@
    "error": "HTTPError: HTTP Error 429: Too Many Requests"
   }
  ],
- "crudos_nuevos": 657,
- "previos_conservados": 113,
- "publicados": 250,
- "errores": 3
+ "crudos_nuevos": 250,
+ "previos_conservados": 202,
+ "publicados": 243,
+ "errores": 5
 }

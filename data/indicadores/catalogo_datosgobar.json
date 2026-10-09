@@ -290,9 +290,9 @@
   },
   {
    "puntaje": 26,
-   "id": "46.2_ECTSTJ_0_T_42",
-   "titulo": "eph_continua_tasa_subocupacion_total_jujuy",
-   "descripcion": "Tasa de subocupación total Jujuy.",
+   "id": "46.2_ECTSTC_0_T_41",
+   "titulo": "eph_continua_tasa_subocupacion_total_caba",
+   "descripcion": "Tasa de subocupación total CABA.",
    "frecuencia": "R/P3M",
    "fin": "2026-04-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -431,18 +431,18 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_AARIADODAD_2012_M_45",
-   "titulo": "asalariados_casas_particulares_estacionalidad",
-   "descripcion": "Asalariados. Casas particulares. Con estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_43",
+   "titulo": "independientes_monotributo_social_sin_estac",
+   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIETAC_2012_M_43",
-   "titulo": "independientes_monotributo_social_sin_estac",
-   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_34",
+   "titulo": "independientes_autonomos_sin_estac",
+   "descripcion": "Independientes autónomos. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

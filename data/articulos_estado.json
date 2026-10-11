@@ -1,5 +1,5 @@
 {
- "cuando": "2026-10-11T09:03:12Z",
+ "cuando": "2026-10-11T15:48:15Z",
  "consultas": [
   {
    "consulta": "theme:PROTEST",
@@ -29,17 +29,17 @@
    "consulta": "(protesta OR protestas OR manifestacion OR manifestantes OR huelga OR cacerolazo OR \"paro nacional\")",
    "crudos": 0,
    "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "error": null
   },
   {
    "consulta": "(protest OR protesters OR demonstrators OR demonstration OR \"general strike\" OR riots)",
-   "crudos": 0,
-   "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "crudos": 250,
+   "nuevos": 108,
+   "error": null
   }
  ],
- "crudos_nuevos": 250,
- "previos_conservados": 40,
+ "crudos_nuevos": 358,
+ "previos_conservados": 15,
  "publicados": 114,
- "errores": 4
+ "errores": 2
 }

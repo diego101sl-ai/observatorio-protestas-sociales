@@ -1022,27 +1022,27 @@
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_38_89",
-   "titulo": "hogares_pobres_pct_corrientes_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Corrientes. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_43_38",
+   "titulo": "hogares_pobres_pct_santa_rosa_toay_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Santa Rosa - Toay. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_40_30",
-   "titulo": "hogares_pobres_pct_gran_mendoza_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran Mendoza. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_38_52",
+   "titulo": "hogares_pobres_pct_rio_cuarto_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Río Cuarto. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_32_37",
-   "titulo": "hogares_pobres_pct_caba_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Ciudad de Buenos Aires. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_41_76",
+   "titulo": "hogares_pobres_pct_gran_la_plata_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran La Plata. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"

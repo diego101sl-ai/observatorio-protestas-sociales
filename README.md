@@ -20,7 +20,7 @@ Registro editorial del observatorio (aplica a cada placa): dato verificable, fue
 
 Corre todos los días (`.github/workflows/actualizar-indicadores.yml`, 06:17 UTC) y también a mano desde **Actions → Actualizar indicadores OITraF → Run workflow** (opcionalmente con la lista de fuentes a consultar, por ejemplo `wb,datosar`). Escribe:
 
-- `data/indicadores.json`: todas las series normalizadas (`fuente`, `codigo`, `tema`, `nombre`, `descripcion`, `unidad`, `frecuencia`, `geo`, `escala`, `url`, `ultimo`, `anterior`, `var_interanual`, `proyeccion_desde`, `serie`).
+- `data/indicadores.json`: todas las series normalizadas (`fuente`, `codigo`, `tema`, `nombre`, `descripcion`, `unidad`, `frecuencia`, `geo`, `escala`, `url`, `url_datos`, `ultimo`, `anterior`, `var_interanual`, `proyeccion_desde`, `serie`). `url` es la página del organismo que publica la serie (INDEC, Secretaría de Trabajo, ILOSTAT, etc.); en las series argentinas `url_datos` es la descarga oficial en CSV por la API de datos.gob.ar.
 - `data/indicadores/estado.json`: resultado de cada fuente (ok / sin respuesta, cantidad de series, detalle del error).
 - `data/indicadores/catalogo_datosgobar.json`: candidatas que el robot evaluó para cada serie argentina y la elegida, para revisar y fijar ids.
 

@@ -39,6 +39,7 @@ function placaDesde(s, cfg = {}) {
   const bajada = cfg.bajada || `${primeraOracion(s.descripcion || s.nombre)}`;
   const fuente = el("span", { class: "placa-fuente" },
     "Fuente: ", el("a", { href: s.url, target: "_blank", rel: "noopener" }, nombreFuente(s)),
+    s.url_datos ? el("span", {}, " · ", el("a", { href: s.url_datos, target: "_blank", rel: "noopener", title: "Descargar la serie oficial en CSV desde la API de datos.gob.ar" }, "serie en datos.gob.ar")) : null,
     s.ajuste ? ` · ${s.ajuste}` : "",
     s.conservada_de ? " · dato conservado de una corrida anterior" : "");
   const card = el("article", { class: `placa${cfg.destacada ? " placa--destacada" : ""}` },

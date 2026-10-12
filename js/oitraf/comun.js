@@ -201,9 +201,41 @@ export function organismoAR(codigo = "") {
   return "Fuente oficial";
 }
 
+// Página institucional donde el organismo publica cada serie argentina (las series
+// se descargan de datos.gob.ar, pero la fuente que se cita y enlaza es el organismo).
+export function paginaOficialAR(codigo = "") {
+  if (codigo.startsWith("eph_")) return "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-31-58";
+  if (codigo.startsWith("pobreza") || codigo.startsWith("indigencia")) return "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-46-152";
+  if (codigo.startsWith("sipa_")) return "https://www.argentina.gob.ar/trabajo/estadisticas";
+  if (codigo === "ripte" || codigo === "ripte_real_ia") return "https://www.argentina.gob.ar/trabajo/seguridadsocial/ripte";
+  if (codigo.startsWith("smvm")) return "https://www.argentina.gob.ar/trabajo/consejodelsalario";
+  if (codigo.startsWith("ipc")) return "https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31";
+  if (codigo === "cbt" || codigo === "cba" || codigo === "cbt_hogar") return "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-43-149";
+  if (codigo === "indice_salarios") return "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-31-61";
+  if (codigo === "emae") return "https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-9-48";
+  return "";
+}
+
+const ILOSTAT_DATOS = "https://ilostat.ilo.org/es/data/";
+
+// Corrige enlaces de fuente heredados de corridas anteriores del robot: el explorador
+// viejo de ILOSTAT (rshiny) ya no existe y el visor de datos.gob.ar no es la fuente.
+export function normalizarEnlaces(series) {
+  for (const s of series) {
+    if (s.fuente === "ilo" && /rshiny\.ilo\.org/.test(s.url || "")) s.url = ILOSTAT_DATOS;
+    if (s.fuente === "datosar") {
+      const m = /[?&]ids=([^&]+)/.exec(s.url || "");
+      if (m && !s.url_datos) s.url_datos = `https://apis.datos.gob.ar/series/api/series/?ids=${m[1]}&format=csv`;
+      const oficial = paginaOficialAR(s.codigo);
+      if (oficial && /datos\.gob\.ar/.test(s.url || "")) s.url = oficial;
+    }
+  }
+  return series;
+}
+
 export function nombreFuente(s) {
   if (!s) return "";
-  if (s.fuente === "datosar") return `${organismoAR(s.codigo)} (datos.gob.ar)`;
+  if (s.fuente === "datosar") return organismoAR(s.codigo);
   if (s.fuente === "oitraf") return s.nota || "Elaboración OITraF sobre fuentes oficiales";
   return FUENTE_CORTA[s.fuente] || s.fuente;
 }
@@ -231,7 +263,7 @@ const PREFERENCIA = ["datosar", "ilo", "oecd", "eurostat", "bls", "wb", "imf", "
 export class Catalogo {
   constructor(datos) {
     this.datos = datos || { series: [], fuentes: {}, temas: {}, estado: {}, geos: {} };
-    this.series = this.datos.series || [];
+    this.series = normalizarEnlaces(this.datos.series || []);
     this.porId = new Map(this.series.map((s) => [s.id, s]));
   }
 

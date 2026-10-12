@@ -73,6 +73,7 @@ function tarjeta(s) {
   const btnTabla = el("button", { class: "tool-btn", type: "button", "aria-pressed": "false" }, "Tabla");
   const btnCsv = el("button", { class: "tool-btn", type: "button" }, "CSV");
   const linkFuente = el("a", { class: "tool-btn", href: s.url, target: "_blank", rel: "noopener" }, "Fuente ↗");
+  const linkDatos = s.url_datos ? el("a", { class: "tool-btn", href: s.url_datos, target: "_blank", rel: "noopener", title: "Serie oficial en CSV, API de datos.gob.ar" }, "datos.gob.ar ↓") : null;
   const d = s.anterior ? fmtDelta(s.ultimo[1], s.anterior[1], s.unidad) : null;
   const card = el("article", { class: "card serie-card", id: s.id.replace(/[^a-zA-Z0-9_-]/g, "_") },
     el("div", { class: "card-head" },
@@ -84,7 +85,7 @@ function tarjeta(s) {
           el("span", { class: "p" }, fmtPeriodo(s.ultimo[0])),
           d ? el("span", { class: "p" }, el("b", { class: d.clase }, d.texto), ` vs. ${fmtPeriodoCorto(s.anterior[0])}`) : null,
           s.proyeccion_desde ? el("span", { class: "p" }, `Proyecciones desde ${Number(s.proyeccion_desde) + 1}`) : null)),
-      el("div", { class: "card-tools" }, btnTabla, btnCsv, linkFuente)),
+      el("div", { class: "card-tools" }, btnTabla, btnCsv, linkFuente, linkDatos)),
     chart, tablaCont,
     el("p", { class: "card-foot" },
       s.descripcion ? `${s.descripcion} ` : "",

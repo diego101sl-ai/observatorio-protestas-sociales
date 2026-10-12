@@ -10,7 +10,8 @@ import {
 } from "./comun.js";
 import { lineChart, barChart, columnChart, sparkline, tabla } from "./graficos.js";
 
-const state = { cat: null, hechos: null, protestas: null, escala: "Todas", sector: "TRABAJADORES", mostrar: 20 };
+const PAGINA_HECHOS = matchMedia("(max-width: 640px)").matches ? 10 : 20;
+const state = { cat: null, hechos: null, protestas: null, escala: "Todas", sector: "TRABAJADORES", mostrar: PAGINA_HECHOS };
 
 function $(id) { return document.getElementById(id); }
 
@@ -73,6 +74,19 @@ const AR_PLACAS = [
   { volanta: "Subocupación", tema: "subocupacion", prefer: ["datosar", "ilo"] },
 ];
 
+// En teléfonos las placas se muestran de a seis; el botón (visible solo por CSS en pantallas
+// angostas) despliega el resto sin recargar nada.
+function botonMasPlacas(cont) {
+  const viejo = cont.parentElement.querySelector(".placas-mas");
+  if (viejo) viejo.remove();
+  cont.classList.remove("placas--todas");
+  const n = cont.querySelectorAll(".placa").length;
+  if (n <= 6) return;
+  const btn = el("button", { class: "btn btn-outline placas-mas", type: "button" }, `Ver los ${n - 6} indicadores restantes`);
+  btn.addEventListener("click", () => { cont.classList.add("placas--todas"); btn.remove(); });
+  cont.after(btn);
+}
+
 function renderArgentina() {
   const cont = $("placas-ar");
   vaciar(cont);
@@ -86,6 +100,7 @@ function renderArgentina() {
     n++;
   }
   if (!n) cont.append(placaVacia("Los indicadores de Argentina se publican cuando corre el robot de datos (ver Fuentes)."));
+  botonMasPlacas(cont);
   const salarial = state.cat.filtrar({ geo: "ARG", fuente: "datosar" });
   $("nota-ar").textContent = salarial.length
     ? `${salarial.length} series oficiales argentinas. Universos distintos: la EPH cubre 31 aglomerados urbanos; el SIPA, el empleo con aportes; el IPC y las canastas, precios al consumidor.`
@@ -185,6 +200,7 @@ function renderMundo() {
     n++;
   }
   if (!n) cont.append(placaVacia("Los indicadores internacionales se publican cuando corre el robot de datos."));
+  botonMasPlacas(cont);
 
   const lineas = [
     cat.mejor({ fuente: "bls", codigo: "LNS14000000", geo: "USA" }),
@@ -293,9 +309,9 @@ function renderCobertura() {
   $("cobertura-sync").textContent = `Última sincronización: ${fmtFechaLarga(d.generado)} · corpus total del dashboard: ${d.total_corpus.toLocaleString("es-AR")} unidades de registro.`;
 
   const escalas = ["Todas", ...ESCALAS.filter((e) => d.resumen.por_escala[e])];
-  chipRow($("chips-escala"), escalas.map((e) => ({ valor: e, etiqueta: e === "Todas" ? "Todas las escalas" : e })), state.escala, (v) => { state.escala = v; state.mostrar = 20; renderCoberturaDinamica(); });
+  chipRow($("chips-escala"), escalas.map((e) => ({ valor: e, etiqueta: e === "Todas" ? "Todas las escalas" : e })), state.escala, (v) => { state.escala = v; state.mostrar = PAGINA_HECHOS; renderCoberturaDinamica(); });
   if (!d.resumen.por_sector[state.sector]) state.sector = SECTORES_PUBLICOS.find((s) => d.resumen.por_sector[s]) || state.sector;
-  chipRow($("chips-sector"), SECTORES_PUBLICOS.map((s) => ({ valor: s, etiqueta: `${NOMBRE_SECTOR[s]}${d.resumen.por_sector[s] ? ` · ${d.resumen.por_sector[s]}` : ""}` })), state.sector, (v) => { state.sector = v; state.mostrar = 20; renderCoberturaDinamica(); });
+  chipRow($("chips-sector"), SECTORES_PUBLICOS.map((s) => ({ valor: s, etiqueta: `${NOMBRE_SECTOR[s]}${d.resumen.por_sector[s] ? ` · ${d.resumen.por_sector[s]}` : ""}` })), state.sector, (v) => { state.sector = v; state.mostrar = PAGINA_HECHOS; renderCoberturaDinamica(); });
 
   const medios = $("medios-lista");
   vaciar(medios);
@@ -337,7 +353,7 @@ function renderCoberturaDinamica() {
   }
   const mas = $("hechos-mas");
   mas.hidden = lista.length <= state.mostrar;
-  mas.onclick = () => { state.mostrar += 20; renderCoberturaDinamica(); };
+  mas.onclick = () => { state.mostrar += PAGINA_HECHOS; renderCoberturaDinamica(); };
 }
 
 // ---------------------------------------------------------------------------

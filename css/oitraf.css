@@ -558,3 +558,51 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
 .lineas .card h3 { font-size: 1.05rem; margin: 0.3rem 0 0.4rem; }
 .lineas .card .kicker { margin: 0; }
 .lineas .card p:last-child { margin-top: 0.6rem; font-size: 0.86rem; }
+
+/* ============ Adaptación a teléfonos ============ */
+.placas-mas { display: none; margin-top: 0.9rem; }
+@media (max-width: 640px) {
+  /* Cabecera compacta: marca y botón de tema en la primera fila, menú deslizable en una sola línea */
+  .masthead-inner { grid-template-columns: 1fr auto; gap: 0.6rem 0.8rem; padding-block: 0.9rem 0; align-items: start; }
+  .masthead-inner > .brand { grid-column: 1; }
+  .masthead-inner > .theme-btn { grid-column: 2; grid-row: 1; justify-self: end; margin-top: 0.4rem; }
+  .brand .iso { height: 84px; }
+  .brand-word { font-size: 2.9rem; }
+  .brand-sub { font-size: 0.64rem; letter-spacing: 0.1em; line-height: 1.35; }
+  .nav {
+    grid-column: 1 / -1; flex-wrap: nowrap; gap: 0 1.2rem; overflow-x: auto; overscroll-behavior-x: contain;
+    margin-inline: -16px; padding-inline: 16px; padding-bottom: 0.1rem; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { flex: none; white-space: nowrap; padding: 0.55rem 0 0.6rem; font-size: 0.92rem; }
+
+  /* Bandas de cifras: la última placa impar ocupa todo el ancho en lugar de quedar huérfana */
+  .stats-band .stat-tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* Placas más cortas: sin bajada (está en el explorador), minigráfico más bajo y fuente en dos líneas */
+  .placa { min-height: 0; padding: 0.9rem 0.95rem 0.8rem; gap: 0.3rem; }
+  .placa-bajada { display: none; }
+  .placa-spark, .placa-spark svg { height: 30px; }
+  .placa-fuente { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .placas:not(.placas--todas) > .placa:nth-child(n + 7) { display: none; }
+  .placas-mas { display: inline-flex; }
+
+  /* Cobertura: resúmenes a tres líneas */
+  .hecho-resumen { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* Tabla comparada: la columna del país queda fija al deslizar */
+  table.datos th:first-child, table.datos td:first-child {
+    position: sticky; left: 0; z-index: 1; background: var(--surface-1);
+    box-shadow: 4px 0 6px -4px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Explorador: selectores a dos columnas y buscador a todo el ancho */
+  .explorer-controls .filters { gap: 0.5rem; }
+  .explorer-controls .select { flex: 1 1 calc(50% - 0.25rem); min-width: 0; }
+  .explorer-controls .text-input { flex: 1 1 100%; min-width: 0; }
+  .explorer-controls .tool-btn { flex: 1 1 calc(50% - 0.25rem); text-align: center; }
+
+  /* Filtros de cobertura: chips más compactos */
+  .chip { padding: 0.3rem 0.7rem; font-size: 0.82rem; }
+}

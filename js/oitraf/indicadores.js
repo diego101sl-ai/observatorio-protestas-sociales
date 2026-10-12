@@ -8,7 +8,10 @@ import {
 } from "./comun.js";
 import { lineChart, barChart, tabla } from "./graficos.js";
 
-const state = { cat: null, escala: "", geo: "", tema: "", fuente: "", q: "", limite: 24 };
+// En teléfonos cada tarjeta ocupa casi una pantalla: se cargan de a ocho
+const PAGINA = matchMedia("(max-width: 640px)").matches ? 8 : 24;
+const TOPE_CATALOGO = matchMedia("(max-width: 640px)").matches ? 60 : 400;
+const state = { cat: null, escala: "", geo: "", tema: "", fuente: "", q: "", limite: PAGINA, catalogo: TOPE_CATALOGO };
 const $ = (id) => document.getElementById(id);
 
 function leerURL() {
@@ -138,11 +141,11 @@ function render() {
   for (const s of lista.slice(0, state.limite)) cont.append(tarjeta(s));
   const mas = $("resultados-mas");
   mas.hidden = lista.length <= state.limite;
-  mas.onclick = () => { state.limite += 24; render(); };
+  mas.onclick = () => { state.limite += PAGINA; render(); };
   if (!lista.length) cont.append(el("p", { class: "aviso" }, "Ninguna serie coincide con los filtros. Probá con otra combinación o borrá la búsqueda."));
 
   // Catálogo completo (compacto)
-  const filas = lista.slice(0, 400).map((s) => [
+  const filas = lista.slice(0, state.catalogo).map((s) => [
     el("a", { href: `#${s.id.replace(/[^a-zA-Z0-9_-]/g, "_")}`, onclick: (ev) => { if (!document.getElementById(s.id.replace(/[^a-zA-Z0-9_-]/g, "_"))) { ev.preventDefault(); state.limite = lista.indexOf(s) + 1; render(); location.hash = s.id.replace(/[^a-zA-Z0-9_-]/g, "_"); } } }, s.nombre),
     s.geo_nombre,
     fmtNum(s.ultimo[1], s.unidad),
@@ -150,18 +153,27 @@ function render() {
     FUENTE_CORTA[s.fuente] || s.fuente,
   ]);
   tabla($("catalogo"), [{ titulo: "Indicador" }, { titulo: "Geografía" }, { titulo: "Último dato", num: true }, { titulo: "Período" }, { titulo: "Fuente" }], filas);
-  $("catalogo-nota").textContent = lista.length > 400 ? `Se muestran 400 de ${lista.length} filas; refiná los filtros para ver el resto.` : "";
+  const masCat = $("catalogo-mas");
+  if (lista.length > state.catalogo) {
+    $("catalogo-nota").textContent = `Se muestran ${state.catalogo} de ${lista.length} filas; refiná los filtros o ampliá la lista.`;
+    masCat.hidden = false;
+    masCat.textContent = `Ver ${Math.min(TOPE_CATALOGO, lista.length - state.catalogo)} filas más`;
+    masCat.onclick = () => { state.catalogo += TOPE_CATALOGO; render(); };
+  } else {
+    $("catalogo-nota").textContent = "";
+    masCat.hidden = true;
+  }
 }
 
 function enganchar() {
-  const cambiar = (k, v) => { state[k] = v; if (k === "escala") { state.geo = ""; } state.limite = 24; escribirURL(); poblarControles(); render(); };
+  const cambiar = (k, v) => { state[k] = v; if (k === "escala") { state.geo = ""; } state.limite = PAGINA; state.catalogo = TOPE_CATALOGO; escribirURL(); poblarControles(); render(); };
   $("f-escala").addEventListener("change", (e) => cambiar("escala", e.target.value));
   $("f-geo").addEventListener("change", (e) => cambiar("geo", e.target.value));
   $("f-tema").addEventListener("change", (e) => cambiar("tema", e.target.value));
   $("f-fuente").addEventListener("change", (e) => cambiar("fuente", e.target.value));
   let t;
   $("f-q").addEventListener("input", (e) => { clearTimeout(t); t = setTimeout(() => cambiar("q", e.target.value.trim()), 220); });
-  $("f-limpiar").addEventListener("click", () => { Object.assign(state, { escala: "", geo: "", tema: "", fuente: "", q: "", limite: 24 }); escribirURL(); poblarControles(); render(); });
+  $("f-limpiar").addEventListener("click", () => { Object.assign(state, { escala: "", geo: "", tema: "", fuente: "", q: "", limite: PAGINA, catalogo: TOPE_CATALOGO }); escribirURL(); poblarControles(); render(); });
   $("csv-todo").addEventListener("click", () => {
     const lista = resultados();
     descargarCSV("oitraf_indicadores.csv", [["id", "indicador", "geografia", "escala", "tema", "frecuencia", "unidad", "periodo", "valor", "fuente", "url"],

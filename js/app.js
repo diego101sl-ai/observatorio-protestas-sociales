@@ -495,8 +495,7 @@ async function load() {
     setUpdatedNote();
     if (!data.locations.length) {
       setStatus(
-        "Los datos del mapa aún se están generando. El robot de datos (GitHub Actions) se ejecuta cada hora; " +
-          "si acabas de crear la web, ejecútalo una vez a mano desde la pestaña Actions del repositorio."
+        "Los datos del mapa se están generando. Se actualizan cada hora; volvé a intentar en unos minutos."
       );
     } else {
       setStatus("");
@@ -504,7 +503,7 @@ async function load() {
   } catch (err) {
     console.error(err);
     setStatus(
-      `No se pudieron cargar los datos: ${err.message}. Comprueba que la carpeta data/ existe en el repositorio.`,
+      "No se pudieron cargar los datos del mapa. Reintentá en unos minutos.",
       true
     );
   } finally {

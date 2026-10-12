@@ -188,7 +188,7 @@ async function main() {
   const ind = await fetchJson("data/indicadores.json");
   state.cat = derivarSeries(new Catalogo(ind));
   if (!ind) {
-    $("resultados-meta").textContent = "El archivo data/indicadores.json todavía no existe. Ejecutá el workflow «Actualizar indicadores OITraF» en GitHub Actions para generarlo.";
+    $("resultados-meta").textContent = "Las series se publican en la próxima actualización. Volvé a intentar en unos minutos.";
   }
   $("gen").textContent = ind?.generado ? `Datos generados el ${fmtFechaLarga(ind.generado)} · ${ind.total_series} series.` : "";
   poblarControles();

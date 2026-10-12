@@ -100,7 +100,7 @@ function renderArgentina() {
     cont.append(placaDesde(s, cfg));
     n++;
   }
-  if (!n) cont.append(placaVacia("Los indicadores de Argentina se publican cuando corre el robot de datos (ver Fuentes)."));
+  if (!n) cont.append(placaVacia("Los indicadores de Argentina se publican en la próxima actualización."));
   botonMasPlacas(cont);
   const salarial = state.cat.filtrar({ geo: "ARG", fuente: "datosar" });
   $("nota-ar").textContent = salarial.length
@@ -200,7 +200,7 @@ function renderMundo() {
     cont.append(placaDesde(s, { volanta: cfg.volanta, titulo: "Desocupación", bajada }));
     n++;
   }
-  if (!n) cont.append(placaVacia("Los indicadores internacionales se publican cuando corre el robot de datos."));
+  if (!n) cont.append(placaVacia("Los indicadores internacionales se publican en la próxima actualización."));
   botonMasPlacas(cont);
 
   const lineas = [
@@ -307,7 +307,7 @@ function renderCobertura() {
   $("stat-ur").textContent = d.total.toLocaleString("es-AR");
   $("stat-medios").textContent = String(d.resumen.medios);
   $("stat-ventana").textContent = `${fmtFechaCorta(d.ventana.desde)} → ${fmtFechaCorta(d.ventana.hasta)}`;
-  $("cobertura-sync").textContent = `Última sincronización: ${fmtFechaLarga(d.generado)} · corpus total del dashboard: ${d.total_corpus.toLocaleString("es-AR")} unidades de registro.`;
+  $("cobertura-sync").textContent = `Última actualización: ${fmtFechaLarga(d.generado)}.`;
 
   const escalas = ["Todas", ...ESCALAS.filter((e) => d.resumen.por_escala[e])];
   chipRow($("chips-escala"), escalas.map((e) => ({ valor: e, etiqueta: e === "Todas" ? "Todas las escalas" : e })), state.escala, (v) => { state.escala = v; state.mostrar = PAGINA_HECHOS; renderCoberturaDinamica(); });
@@ -418,7 +418,7 @@ function renderFuentes() {
   tabla(cont, [{ titulo: "Fuente" }, { titulo: "Tipo" }, { titulo: "Qué aporta" }, { titulo: "Estado" }], filas);
   $("fuentes-gen").textContent = cat.datos.generado
     ? `Indicadores generados el ${fmtFechaLarga(cat.datos.generado)} · ${cat.datos.total_series} series oficiales.`
-    : "El archivo de indicadores todavía no fue generado: ejecutá el workflow «Actualizar indicadores OITraF» en GitHub Actions.";
+    : "Los indicadores se publican en la próxima actualización.";
 }
 
 // ---------------------------------------------------------------------------

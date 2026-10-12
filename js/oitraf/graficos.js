@@ -43,8 +43,9 @@ function fmtTick(v, unidad) {
 }
 
 /** Marca discreta de autoría en la esquina inferior derecha del gráfico. */
+// Marca de agua arriba a la derecha, lejos de las etiquetas del eje horizontal
 function marcaAgua(svg, W, H) {
-  svg.append(texto(W - 4, H - 3, "OITraF", { class: "marca-agua", "text-anchor": "end", "aria-hidden": "true" }));
+  svg.append(texto(W - 4, 11, "OITraF", { class: "marca-agua", "text-anchor": "end", "aria-hidden": "true" }));
 }
 
 function observar(contenedor, dibujar) {
@@ -233,7 +234,7 @@ export function barChart(contenedor, spec) {
     vaciar(contenedor);
     // en pantallas angostas la nota (período y fuente) queda solo en el tooltip y la tabla
     const conNota = W >= 560;
-    const padL = Math.min(W < 560 ? 120 : 200, 8 + Math.max(...items.map((i) => i.etiqueta.length)) * 7.2);
+    const padL = Math.min(W < 560 ? 136 : 200, 8 + Math.max(...items.map((i) => i.etiqueta.length)) * 7.2);
     const maxChars = Math.floor((padL - 10) / 7.2);
     const recortar = (s) => (s.length > maxChars ? s.slice(0, Math.max(3, maxChars - 1)).trimEnd() + "…" : s);
     const padR = 8 + Math.max(...items.map((i) => (fmtNum(i.valor, unidad) + (conNota && i.nota ? "  " + i.nota : "")).length)) * 6.4;

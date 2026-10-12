@@ -4,7 +4,21 @@
  */
 
 // ---------- Tema ----------
+// En teléfonos el menú es una fila deslizable: al cargar se corre unos píxeles y
+// vuelve, para que se note que hay más secciones a la derecha.
+function pistaMenuDeslizable() {
+  const nav = document.querySelector(".masthead .nav");
+  if (!nav || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const correr = () => {
+    if (nav.scrollWidth <= nav.clientWidth + 8 || nav.scrollLeft > 0) return;
+    nav.scrollTo({ left: 72, behavior: "smooth" });
+    setTimeout(() => { if (nav.scrollLeft <= 80) nav.scrollTo({ left: 0, behavior: "smooth" }); }, 700);
+  };
+  setTimeout(correr, 500);
+}
+
 export function initTema() {
+  pistaMenuDeslizable();
   const root = document.documentElement;
   let guardado = null;
   try { guardado = localStorage.getItem("oitraf-tema"); } catch { /* sin almacenamiento */ }

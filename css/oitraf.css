@@ -562,20 +562,33 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
 /* ============ Adaptación a teléfonos ============ */
 .placas-mas { display: none; margin-top: 0.9rem; }
 @media (max-width: 640px) {
-  /* Cabecera compacta: marca y botón de tema en la primera fila, menú deslizable en una sola línea */
-  .masthead-inner { grid-template-columns: 1fr auto; gap: 0.6rem 0.8rem; padding-block: 0.9rem 0; align-items: start; }
-  .masthead-inner > .brand { grid-column: 1; }
-  .masthead-inner > .theme-btn { grid-column: 2; grid-row: 1; justify-self: end; margin-top: 0.4rem; }
+  /* Cabecera: marca centrada (isotipo y siglas en una fila, nombre completo debajo),
+     botón de tema en la esquina y menú de botones deslizable en una sola línea */
+  .masthead-inner { display: block; position: relative; padding-block: 0.9rem 0; }
+  .masthead-inner > .brand {
+    display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center;
+    column-gap: 0.8rem; row-gap: 0.35rem; width: 100%; padding-top: 1.6rem;
+  }
   .brand .iso { height: 84px; }
   .brand-word { font-size: 2.9rem; }
-  .brand-sub { font-size: 0.64rem; letter-spacing: 0.1em; line-height: 1.35; }
+  .brand-sub {
+    grid-column: 1 / -1; text-align: center; max-width: none; border-left: 0; padding-left: 0;
+    font-size: 0.66rem; letter-spacing: 0.12em; line-height: 1.4; text-wrap: balance;
+  }
+  .masthead-inner > .theme-btn { position: absolute; top: 0.6rem; right: 0; margin: 0; }
   .nav {
-    grid-column: 1 / -1; flex-wrap: nowrap; gap: 0 1.2rem; overflow-x: auto; overscroll-behavior-x: contain;
-    margin-inline: -16px; padding-inline: 16px; padding-bottom: 0.1rem; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    flex-wrap: nowrap; gap: 0.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-behavior: smooth;
+    margin: 1rem -16px 0; padding: 0 16px 0.9rem; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
   }
   .nav::-webkit-scrollbar { display: none; }
-  .nav a { flex: none; white-space: nowrap; padding: 0.55rem 0 0.6rem; font-size: 0.92rem; }
+  .nav a {
+    flex: none; white-space: nowrap; font-size: 0.86rem; font-weight: 600;
+    padding: 0.45rem 0.9rem; border: 1px solid var(--navy-line); border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07); color: #fff;
+  }
+  .nav a:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.35); }
+  .nav a[aria-current="page"] { background: var(--red); border-color: var(--red); color: #fff; }
 
   /* Bandas de cifras: la última placa impar ocupa todo el ancho en lugar de quedar huérfana */
   .stats-band .stat-tile:last-child:nth-child(odd) { grid-column: 1 / -1; }

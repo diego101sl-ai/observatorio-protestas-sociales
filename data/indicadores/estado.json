@@ -1,55 +1,55 @@
 {
- "generado": "2026-10-11T12:53:46Z",
+ "generado": "2026-10-12T15:23:33Z",
  "estado": {
   "wb": {
    "ok": true,
    "series": 962,
    "detalle": "",
-   "segundos": 447.6,
-   "consultado": "2026-10-11T12:53:02Z"
+   "segundos": 267.5,
+   "consultado": "2026-10-12T15:22:44Z"
   },
   "ilo": {
    "ok": true,
    "series": 155,
    "detalle": "TRU_DEMP_SEX_AGE_RT_Q/AGE_YTHADULT_YGE15: HTTP Error 400: Bad Request; TRU_DEMP_SEX_AGE_RT_A/AGE_YTHADULT_YGE15: HTTP Error 400: Bad Request",
-   "segundos": 14.4,
-   "consultado": "2026-10-11T12:53:17Z"
+   "segundos": 18.4,
+   "consultado": "2026-10-12T15:23:02Z"
   },
   "datosar": {
    "ok": true,
-   "series": 14,
-   "detalle": "",
-   "segundos": 21.2,
-   "consultado": "2026-10-11T12:53:38Z"
+   "series": 11,
+   "detalle": "eph_informalidad 52.2_ASDJ_0_0_37: sin datos; eph_informalidad 52.2_ASDJ_0_0_37: sin datos; pobreza_personas 64.2_POBLACION_NUA_0_0_34_74: sin datos; pobreza_personas 64.2_POBLACION_NUA_0_0_34_74: sin datos; emae 143.3_NO_PR_2004_A_31: sin datos; emae 143.3_NO_PR_2004_A_31: sin datos",
+   "segundos": 21.7,
+   "consultado": "2026-10-12T15:23:24Z"
   },
   "eurostat": {
    "ok": true,
    "series": 12,
    "detalle": "",
-   "segundos": 1.1,
-   "consultado": "2026-10-11T12:53:39Z"
+   "segundos": 1.3,
+   "consultado": "2026-10-12T15:23:25Z"
   },
   "bls": {
    "ok": true,
    "series": 6,
    "detalle": "",
-   "segundos": 0.4,
-   "consultado": "2026-10-11T12:53:40Z"
+   "segundos": 0.5,
+   "consultado": "2026-10-12T15:23:26Z"
   },
   "imf": {
    "ok": true,
    "series": 114,
    "detalle": "",
-   "segundos": 2.5,
-   "consultado": "2026-10-11T12:53:42Z"
+   "segundos": 2.4,
+   "consultado": "2026-10-12T15:23:28Z"
   },
   "oecd": {
    "ok": true,
    "series": 48,
    "detalle": "",
-   "segundos": 4.0,
-   "consultado": "2026-10-11T12:53:46Z"
+   "segundos": 4.4,
+   "consultado": "2026-10-12T15:23:33Z"
   }
  },
- "total_series": 1311
+ "total_series": 1308
 }

@@ -566,14 +566,15 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
      botón de tema en la esquina y menú de botones deslizable en una sola línea */
   .masthead-inner { display: block; position: relative; padding-block: 0.9rem 0; }
   .masthead-inner > .brand {
-    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-    gap: 0.35rem 0.7rem; width: 100%; padding-top: 1.6rem;
+    display: flex; flex-wrap: nowrap; justify-content: center; align-items: center;
+    gap: clamp(0.4rem, 1.8vw, 0.7rem); width: 100%; padding-top: 1.7rem;
   }
-  .brand .iso { height: 84px; }
-  .brand-word { font-size: 2.9rem; }
+  .brand .iso { height: clamp(58px, 17vw, 72px); }
+  .brand-word { font-size: clamp(1.9rem, 6vw, 2.4rem); }
   .brand-sub {
-    flex-basis: 100%; text-align: center; max-width: none; border-left: 0; padding-left: 0;
-    font-size: 0.66rem; letter-spacing: 0.12em; line-height: 1.4; text-wrap: balance;
+    flex: 0 1 auto; max-width: clamp(7.6rem, 36vw, 9.6rem); text-align: left;
+    border-left: 1px solid var(--navy-line); padding-left: clamp(0.4rem, 1.8vw, 0.7rem);
+    font-size: clamp(0.5rem, 1.6vw, 0.6rem); letter-spacing: 0.1em; line-height: 1.45;
   }
   .masthead-inner > .theme-btn { position: absolute; top: 0.6rem; right: 0; margin: 0; }
   .nav {

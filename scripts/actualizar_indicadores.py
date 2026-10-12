@@ -227,7 +227,7 @@ estado: dict[str, dict] = {}
 def agregar(*, fuente: str, codigo: str, tema: str, nombre: str, descripcion: str, unidad: str,
             frecuencia: str, geo: str, puntos: list[tuple[str, float]], url: str,
             geo_nombre: str | None = None, proyeccion_desde: str | None = None,
-            nota: str | None = None, ajuste: str | None = None) -> None:
+            nota: str | None = None, ajuste: str | None = None, url_datos: str | None = None) -> None:
     limpios: dict[str, float] = {}
     for p, v in puntos:
         if v is None or not p:
@@ -261,6 +261,7 @@ def agregar(*, fuente: str, codigo: str, tema: str, nombre: str, descripcion: st
         "geo_nombre": geo_nombre or nombre_geo(geo),
         "escala": escala_de(geo),
         "url": url,
+        "url_datos": url_datos,
         "ultimo": list(ultimo),
         "anterior": list(anterior) if anterior else None,
         "var_interanual": interanual,
@@ -481,7 +482,7 @@ def descargar_ilo() -> None:
         for geo, puntos in por_geo.items():
             agregar(fuente="ilo", codigo=f"{iid}.{filtros.get('classif1', '')}", tema=tema, nombre=nombre,
                     descripcion=descripcion, unidad="%", frecuencia=frecuencia, geo=geo, puntos=puntos,
-                    url=f"https://rshiny.ilo.org/dataexplorer/?lang=es&id={iid}")
+                    url="https://ilostat.ilo.org/es/data/", nota=f"Indicador ILOSTAT {iid}")
             n += 1
         time.sleep(0.5)
     registrar("ilo", n > 0, "; ".join(errores)[:600], n, t0)
@@ -491,6 +492,28 @@ def descargar_ilo() -> None:
 # 3) Argentina · datos.gob.ar (Series de Tiempo)
 # ---------------------------------------------------------------------------
 API_AR = "https://apis.datos.gob.ar/series/api/"
+
+# Página institucional del organismo que publica cada serie (la fuente que se cita);
+# la descarga sigue haciéndose por la API de datos.gob.ar (url_datos).
+PAGINAS_OFICIALES_AR = [
+    ("eph_", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-31-58"),
+    ("pobreza", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-46-152"),
+    ("indigencia", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-46-152"),
+    ("sipa_", "https://www.argentina.gob.ar/trabajo/estadisticas"),
+    ("ripte", "https://www.argentina.gob.ar/trabajo/seguridadsocial/ripte"),
+    ("smvm", "https://www.argentina.gob.ar/trabajo/consejodelsalario"),
+    ("ipc", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31"),
+    ("cbt", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-43-149"),
+    ("cba", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-43-149"),
+    ("indice_salarios", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-4-31-61"),
+    ("emae", "https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-9-48"),
+]
+
+def pagina_oficial_ar(clave: str) -> str:
+    for prefijo, url in PAGINAS_OFICIALES_AR:
+        if clave.startswith(prefijo):
+            return url
+    return "https://datos.gob.ar/series/api/"
 
 # Cada entrada define cómo encontrar la serie en el catálogo oficial. Si se
 # conoce el id se usa directo; si no, se busca por texto y se elige la mejor
@@ -724,7 +747,8 @@ def descargar_datosar() -> None:
             agregar(fuente="datosar", codigo=spec["clave"], tema=spec["tema"], nombre=spec["nombre"],
                     descripcion=spec["descripcion"], unidad=spec["unidad"], frecuencia=spec["frecuencia"],
                     geo="ARG", puntos=puntos,
-                    url=f"https://datos.gob.ar/series/api/series/?ids={sid}&format=csv",
+                    url=pagina_oficial_ar(spec["clave"]),
+                    url_datos=f"{API_AR}series/?ids={sid}&format=csv",
                     nota=f"Serie oficial {sid}: {campo.get('title') or ''}".strip())
             n += 1
             break

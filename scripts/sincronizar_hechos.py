@@ -188,10 +188,46 @@ def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
           f"{SALIDA.stat().st_size // 1024} KB")
 
 
+ESTADO = RAIZ / "data" / "hechos_estado.json"
+REINTENTOS = (10, 30, 60)  # segundos de espera entre intentos ante error de red o 5xx
+
+
 def pedir(url: str, *, headers: dict | None = None, data: bytes | None = None):
-    req = urllib.request.Request(url, data=data, headers={"User-Agent": UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return json.loads(r.read().decode("utf-8"))
+    req = urllib.request.Request(url, data=data, headers={"User-Agent": UA, "Accept": "application/json",
+                                                           "Accept-Encoding": "gzip", **(headers or {})})
+    with urllib.request.urlopen(req, timeout=180) as r:
+        cuerpo = r.read()
+        if (r.headers.get("Content-Encoding") or "").lower() == "gzip":
+            import gzip
+            cuerpo = gzip.decompress(cuerpo)
+        return json.loads(cuerpo.decode("utf-8"))
+
+
+def pedir_con_reintentos(url: str, **kw):
+    """Reintenta ante caídas de red o errores 5xx (p. ej. el servicio reiniciándose);
+    un 4xx (credenciales, permisos) se devuelve enseguida."""
+    import time
+    ultimo: Exception | None = None
+    for i, espera in enumerate((0,) + REINTENTOS):
+        if espera:
+            print(f"[i] reintento {i} en {espera} s…")
+            time.sleep(espera)
+        try:
+            return pedir(url, **kw)
+        except urllib.error.HTTPError as e:
+            if e.code < 500:
+                raise
+            ultimo = e
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            ultimo = e
+    raise RuntimeError(f"sin respuesta tras {len(REINTENTOS) + 1} intentos: {ultimo}")
+
+
+def guardar_estado(**campos) -> None:
+    """Estado de la última sincronización (diagnóstico, no se muestra en la web)."""
+    estado = {"cuando": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), **campos}
+    ESTADO.parent.mkdir(parents=True, exist_ok=True)
+    ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 def desde_dashboard() -> int:
@@ -201,24 +237,37 @@ def desde_dashboard() -> int:
     if not base or not email or not clave:
         print("[i] Sin credenciales del dashboard (DASHBOARD_URL, DASHBOARD_EMAIL y DASHBOARD_PASSWORD). "
               "No se modifica data/hechos.json.")
+        guardar_estado(ok=False, motivo="sin credenciales")
         return 0
+    if not base.startswith("https://"):
+        print("[ERR] DASHBOARD_URL debe empezar con https:// (las credenciales viajan en el login).")
+        guardar_estado(ok=False, motivo="DASHBOARD_URL sin https")
+        return 1
     try:
-        sesion = pedir(f"{base}/api/auth/login", headers={"Content-Type": "application/json"},
-                       data=json.dumps({"email": email, "password": clave}).encode())
+        sesion = pedir_con_reintentos(f"{base}/api/auth/login", headers={"Content-Type": "application/json"},
+                                      data=json.dumps({"email": email, "password": clave}).encode())
         jwt = sesion.get("token")
         if not jwt:
             raise RuntimeError("el login no devolvió token")
-        hechos = pedir(f"{base}/api/hechos", headers={"Authorization": f"Bearer {jwt}"})
-        origen = f"{base}/api/hechos (sesión {sesion.get('user', {}).get('rol', '?')})"
+        rol = (sesion.get("user") or {}).get("rol", "?")
+        hechos = pedir_con_reintentos(f"{base}/api/hechos", headers={"Authorization": f"Bearer {jwt}"})
+        origen = f"dashboard Algoritmo Inteligente (API, sesión {rol})"
         if not isinstance(hechos, list):
             raise RuntimeError(f"respuesta inesperada: {str(hechos)[:200]}")
     except urllib.error.HTTPError as e:
-        print(f"[ERR] dashboard respondió HTTP {e.code}: {e.read()[:300]!r}")
+        detalle = e.read()[:300].decode("utf-8", "replace")
+        print(f"[ERR] dashboard respondió HTTP {e.code}: {detalle!r}")
+        guardar_estado(ok=False, motivo=f"HTTP {e.code}", detalle=detalle)
         return 1
     except Exception as e:  # noqa: BLE001
         print(f"[ERR] no se pudo sincronizar con el dashboard: {e}")
+        guardar_estado(ok=False, motivo=str(e)[:300])
         return 1
+    fechas = sorted(str(h.get("fecha") or "")[:10] for h in hechos if h.get("fecha"))
+    print(f"[i] {len(hechos)} hechos en el dashboard"
+          + (f" ({fechas[0]} → {fechas[-1]})" if fechas else "") + f", sesión {rol}")
     escribir(hechos, "dashboard", origen)
+    guardar_estado(ok=True, modo="dashboard", total_corpus=len(hechos), ultima_fecha=fechas[-1] if fechas else None)
     return 0
 
 

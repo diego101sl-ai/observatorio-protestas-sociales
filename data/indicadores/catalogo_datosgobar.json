@@ -598,7 +598,7 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "ripte__elegida": "158.1_REPTE_0_0_5",
+ "ripte__elegida": null,
  "smvm": [
   {
    "puntaje": 24,
@@ -929,25 +929,7 @@
   },
   {
    "puntaje": -999,
-   "id": "341.1_TOTAL_AGLOIOR__30",
-   "titulo": "total_aglomerados_del_interior",
-   "descripcion": "Total aglomerados del Interior",
-   "frecuencia": "R/P6M",
-   "fin": "2003-05-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "342.1_TOTAL_AGLOIOR__30",
-   "titulo": "total_aglomerados_del_interior",
-   "descripcion": "Total aglomerados del Interior",
-   "frecuencia": "R/P6M",
-   "fin": "2003-05-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "343.1_TOTAL_AGLONOS__25",
+   "id": "342.1_TOTAL_AGLONOS__25",
    "titulo": "total_aglomerados_urbanos",
    "descripcion": "Total aglomerados urbanos",
    "frecuencia": "R/P6M",
@@ -956,24 +938,42 @@
   },
   {
    "puntaje": -999,
-   "id": "49.2_TOTAL_AGLOTES_0_T_48_13",
-   "titulo": "total_aglomerados_eph_subocupados_no_demandantes",
-   "descripcion": "Población subocupada no demandante del total de los aglomerados de la EPH, en miles de personas",
-   "frecuencia": "R/P3M",
-   "fin": "2026-04-01",
+   "id": "343.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "49.2_TAEO_0_0_30",
-   "titulo": "total_aglomerados_eph_ocupados",
-   "descripcion": "Población ocupada del total de los aglomerados de la EPH, en miles de personas",
-   "frecuencia": "R/P3M",
-   "fin": "2026-04-01",
+   "id": "344.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "341.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "341.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "pobreza_personas__elegida": "64.2_POBLACION_NUA_0_0_34_74",
+ "pobreza_personas__elegida": null,
  "indigencia_personas": [
   {
    "puntaje": -999,

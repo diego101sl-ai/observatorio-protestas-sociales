@@ -524,6 +524,20 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
 .serie-card .valor-actual { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.3rem; }
 .serie-card .valor-actual .v { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1.05; letter-spacing: -0.02em; }
 .serie-card .valor-actual .p { font-size: 0.8rem; color: var(--text-muted); }
+/* Bandera chica del país (img/banderas, SVG 4:3 de flag-icons) */
+.bandera {
+  display: inline-block; width: 16px; height: 12px; border-radius: 2px; object-fit: cover; flex: none;
+  box-shadow: 0 0 0 1px var(--hairline); vertical-align: -1px;
+}
+.badge--geo { display: inline-flex; align-items: center; gap: 0.35rem; }
+.badge .bandera { width: 14px; height: 10.5px; }
+.placa-volanta { display: inline-flex; align-items: center; gap: 0.4rem; }
+.placa--destacada .bandera { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35); }
+.geo-celda { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+.select-bandera { position: relative; display: inline-block; }
+.select-bandera .bandera { position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.select-bandera.has-bandera .select { padding-left: 2.05rem; }
+.cuenta-geo { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--text-primary); }
 .badge { display: inline-block; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--hairline); border-radius: 3px; padding: 0.05rem 0.4rem; color: var(--text-muted); }
 .badge--gob { border-color: rgba(31, 95, 191, 0.4); color: var(--accent); }
 .badge--mul { border-color: rgba(229, 50, 45, 0.4); color: var(--red); }

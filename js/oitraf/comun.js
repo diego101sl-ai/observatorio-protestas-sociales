@@ -260,6 +260,45 @@ export const LATAM = ["ARG", "BOL", "BRA", "CHL", "COL", "CRI", "CUB", "DOM", "E
 // ---------- Catálogo de series ----------
 const PREFERENCIA = ["datosar", "ilo", "oecd", "eurostat", "bls", "wb", "imf", "oitraf"];
 
+/* ============ Banderas por geografía (código ISO 3166-1 alfa-3 → alfa-2) ============ */
+// Los agregados (Mundo, regiones, grupos de ingreso) no tienen bandera; la Unión
+// Europea y la zona euro usan la bandera europea. Archivos en img/banderas/ (flag-icons).
+const ISO3_A2 = {
+  ARG: "ar", BOL: "bo", BRA: "br", CHL: "cl", COL: "co", CRI: "cr", CUB: "cu", DOM: "do", ECU: "ec", SLV: "sv",
+  GTM: "gt", HTI: "ht", HND: "hn", JAM: "jm", MEX: "mx", NIC: "ni", PAN: "pa", PRY: "py", PER: "pe", PRI: "pr",
+  TTO: "tt", URY: "uy", VEN: "ve", BLZ: "bz", GUY: "gy", SUR: "sr", BHS: "bs", BRB: "bb",
+  USA: "us", CAN: "ca",
+  DEU: "de", FRA: "fr", ITA: "it", ESP: "es", PRT: "pt", GBR: "gb", IRL: "ie", NLD: "nl", BEL: "be", LUX: "lu",
+  CHE: "ch", AUT: "at", POL: "pl", CZE: "cz", SVK: "sk", HUN: "hu", ROU: "ro", BGR: "bg", GRC: "gr", SRB: "rs",
+  HRV: "hr", SVN: "si", BIH: "ba", MNE: "me", MKD: "mk", ALB: "al", XKX: "xk", UKR: "ua", RUS: "ru", BLR: "by",
+  MDA: "md", GEO: "ge", ARM: "am", AZE: "az", TUR: "tr", LTU: "lt", LVA: "lv", EST: "ee", FIN: "fi", SWE: "se",
+  NOR: "no", DNK: "dk", ISL: "is", CYP: "cy", MLT: "mt",
+  ISR: "il", PSE: "ps", IRN: "ir", IRQ: "iq", SYR: "sy", LBN: "lb", JOR: "jo", SAU: "sa", YEM: "ye", ARE: "ae",
+  QAT: "qa", KWT: "kw", BHR: "bh", OMN: "om", EGY: "eg", MAR: "ma", DZA: "dz", TUN: "tn", LBY: "ly",
+  SDN: "sd", SSD: "ss", ETH: "et", ERI: "er", SOM: "so", KEN: "ke", UGA: "ug", TZA: "tz", RWA: "rw", BDI: "bi",
+  COD: "cd", COG: "cg", CMR: "cm", NGA: "ng", GHA: "gh", CIV: "ci", SEN: "sn", MLI: "ml", BFA: "bf", NER: "ne",
+  TCD: "td", GIN: "gn", GNB: "gw", GNQ: "gq", SLE: "sl", LBR: "lr", TGO: "tg", BEN: "bj", GAB: "ga", CAF: "cf",
+  AGO: "ao", MOZ: "mz", ZWE: "zw", ZMB: "zm", MWI: "mw", MDG: "mg", ZAF: "za", NAM: "na", BWA: "bw", LSO: "ls",
+  SWZ: "sz", MRT: "mr", MUS: "mu", CPV: "cv",
+  IND: "in", PAK: "pk", BGD: "bd", LKA: "lk", NPL: "np", BTN: "bt", MDV: "mv", AFG: "af", MMR: "mm", THA: "th",
+  VNM: "vn", KHM: "kh", LAO: "la", MYS: "my", SGP: "sg", IDN: "id", PHL: "ph", CHN: "cn", HKG: "hk", TWN: "tw",
+  JPN: "jp", KOR: "kr", PRK: "kp", MNG: "mn", KAZ: "kz", KGZ: "kg", UZB: "uz", TJK: "tj", TKM: "tm",
+  AUS: "au", NZL: "nz", PNG: "pg", FJI: "fj",
+  EUU: "eu", EU27_2020: "eu", EU28: "eu", EA19: "eu", EA20: "eu", EA21: "eu",
+};
+
+/** Código de bandera (alfa-2) para una geografía del catálogo, o null si no tiene. */
+export function banderaGeo(geo) {
+  return ISO3_A2[String(geo || "").toUpperCase()] || null;
+}
+
+/** <img> con la bandera de la geografía (o null). `clase` se suma a «bandera». */
+export function elBandera(geo, nombre = "", clase = "") {
+  const cc = banderaGeo(geo);
+  if (!cc) return null;
+  return el("img", { class: `bandera${clase ? ` ${clase}` : ""}`, src: `img/banderas/${cc}.svg`, alt: "", title: nombre || "", width: "16", height: "12", decoding: "async" });
+}
+
 export class Catalogo {
   constructor(datos) {
     this.datos = datos || { series: [], fuentes: {}, temas: {}, estado: {}, geos: {} };

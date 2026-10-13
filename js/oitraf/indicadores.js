@@ -4,8 +4,7 @@
  */
 import {
   initTema, fetchJson, el, vaciar, fmtNum, fmtCompacto, fmtPeriodo, fmtPeriodoCorto, fmtDelta, fmtFechaLarga,
-  nombreFuente, FUENTE_CORTA, Catalogo, derivarSeries, descargarCSV,
-} from "./comun.js";
+  nombreFuente, FUENTE_CORTA, Catalogo, derivarSeries, descargarCSV, elBandera, banderaGeo } from "./comun.js";
 import { lineChart, barChart, tabla } from "./graficos.js";
 
 // En teléfonos cada tarjeta ocupa casi una pantalla: se cargan de a ocho
@@ -39,6 +38,11 @@ function poblarControles() {
   const cat = state.cat;
   opciones($("f-escala"), [["Nacional", "Nacional (Argentina)"], ["Latinoamericana", "Latinoamericana"], ["Internacional", "Internacional"]], state.escala, "Todas las escalas");
   opciones($("f-geo"), cat.geosDe(state.escala || null), state.geo, "Todas las geografías");
+  const cc = banderaGeo(state.geo);
+  const imgGeo = $("f-geo-bandera");
+  imgGeo.hidden = !cc;
+  if (cc) imgGeo.src = `img/banderas/${cc}.svg`;
+  imgGeo.closest(".select-bandera")?.classList.toggle("has-bandera", !!cc);
   const temas = cat.temasDe({ escala: state.escala || null, geo: state.geo || null }).map((t) => [t, cat.nombreTema(t)]);
   opciones($("f-tema"), temas, state.tema, "Todos los temas");
   const fuentes = [...new Set(cat.filtrar({ escala: state.escala || null, geo: state.geo || null, tema: state.tema || null }).map((s) => s.fuente))]
@@ -78,7 +82,7 @@ function tarjeta(s) {
   const card = el("article", { class: "card serie-card", id: s.id.replace(/[^a-zA-Z0-9_-]/g, "_") },
     el("div", { class: "card-head" },
       el("div", {},
-        el("div", { class: "kicker" }, el("span", { class: "badge" }, s.geo_nombre), " ", el("span", { class: `badge ${state.cat.datos.fuentes?.[s.fuente]?.tipo === "gobierno" ? "badge--gob" : "badge--mul"}` }, FUENTE_CORTA[s.fuente] || s.fuente), " ", el("span", { class: "badge" }, s.frecuencia)),
+        el("div", { class: "kicker" }, el("span", { class: "badge badge--geo" }, elBandera(s.geo, s.geo_nombre), s.geo_nombre), " ", el("span", { class: `badge ${state.cat.datos.fuentes?.[s.fuente]?.tipo === "gobierno" ? "badge--gob" : "badge--mul"}` }, FUENTE_CORTA[s.fuente] || s.fuente), " ", el("span", { class: "badge" }, s.frecuencia)),
         el("h3", {}, s.nombre),
         el("div", { class: "valor-actual" },
           el("span", { class: "v num" }, grande ? fmtCompacto(s.ultimo[1], s.unidad) : fmtNum(s.ultimo[1], s.unidad)),
@@ -135,7 +139,11 @@ function comparacion(lista) {
 
 function render() {
   const lista = resultados();
-  $("resultados-meta").textContent = `${lista.length.toLocaleString("es-AR")} series${lista.length !== state.cat.series.length ? ` de ${state.cat.series.length.toLocaleString("es-AR")}` : ""}.`;
+  const meta = $("resultados-meta");
+  vaciar(meta);
+  const geoNombre = state.geo ? (state.cat.datos.geos?.[state.geo]?.nombre || lista[0]?.geo_nombre || state.geo) : "";
+  if (geoNombre) meta.append(el("span", { class: "cuenta-geo" }, elBandera(state.geo, geoNombre), geoNombre), " · ");
+  meta.append(`${lista.length.toLocaleString("es-AR")} series${lista.length !== state.cat.series.length ? ` de ${state.cat.series.length.toLocaleString("es-AR")}` : ""}.`);
   comparacion(lista);
   const cont = $("resultados");
   vaciar(cont);
@@ -148,7 +156,7 @@ function render() {
   // Catálogo completo (compacto)
   const filas = lista.slice(0, state.catalogo).map((s) => [
     el("a", { href: `#${s.id.replace(/[^a-zA-Z0-9_-]/g, "_")}`, onclick: (ev) => { if (!document.getElementById(s.id.replace(/[^a-zA-Z0-9_-]/g, "_"))) { ev.preventDefault(); state.limite = lista.indexOf(s) + 1; render(); location.hash = s.id.replace(/[^a-zA-Z0-9_-]/g, "_"); } } }, s.nombre),
-    s.geo_nombre,
+    el("span", { class: "geo-celda" }, elBandera(s.geo, s.geo_nombre), s.geo_nombre),
     fmtNum(s.ultimo[1], s.unidad),
     el("span", { class: "periodo" }, fmtPeriodo(s.ultimo[0])),
     FUENTE_CORTA[s.fuente] || s.fuente,

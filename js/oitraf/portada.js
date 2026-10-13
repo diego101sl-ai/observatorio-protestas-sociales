@@ -6,8 +6,7 @@
 import {
   initTema, fetchJson, el, vaciar, fmtNum, fmtCompacto, fmtPeriodo, fmtPeriodoCorto, fmtDelta,
   fmtFechaLarga, fmtFechaCorta, nombreFuente, FUENTE_CORTA, SECTOR_COLOR, SECTORES_PUBLICOS, NOMBRE_SECTOR, ESCALAS, LATAM,
-  Catalogo, derivarSeries, primeraOracion,
-} from "./comun.js";
+  Catalogo, derivarSeries, primeraOracion, elBandera } from "./comun.js";
 import { lineChart, barChart, columnChart, sparkline, tabla } from "./graficos.js";
 
 const PAGINA_HECHOS = matchMedia("(max-width: 640px)").matches ? 10 : 20;
@@ -43,7 +42,7 @@ function placaDesde(s, cfg = {}) {
     s.ajuste ? ` · ${s.ajuste}` : "",
     s.conservada_de ? " · dato conservado de una corrida anterior" : "");
   const card = el("article", { class: `placa${cfg.destacada ? " placa--destacada" : ""}` },
-    el("span", { class: "placa-volanta" }, cfg.volanta || state.cat.nombreTema(s.tema)),
+    el("span", { class: "placa-volanta" }, elBandera(s.geo, s.geo_nombre), cfg.volanta || state.cat.nombreTema(s.tema)),
     el("div", { class: "placa-num" }, valorTxt),
     el("div", { class: "placa-titulo" }, `${cfg.titulo || s.nombre} · ${fmtPeriodo(pUlt)}`),
     el("p", { class: "placa-bajada" }, bajada),

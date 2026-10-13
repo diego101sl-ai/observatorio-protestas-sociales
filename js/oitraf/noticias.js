@@ -68,7 +68,7 @@ export function itemNoticia(h) {
   const p = paisDeHecho(h);
   const cuerpo = h.cuerpo ? parrafos(h.cuerpo) : (h.resumen ? [h.resumen] : []);
   const region = [h.region, h.provincia].filter(Boolean).join(" · ");
-  const ficha = [["Eje", h.eje], ["Género", h.genero], ["Órbita", h.orbita], ["Momento", h.momento], ["Región", region], ["Geo", h.geo], ["Tag", h.tag]]
+  const ficha = [["Eje", h.eje && h.eje !== h.sector ? h.eje : ""], ["Género", h.genero], ["Órbita", h.orbita], ["Momento", h.momento], ["Región", region], ["Geo", h.geo], ["Tag", h.tag]]
     .filter(([, v]) => v && String(v).trim());
   return el("li", { class: "hecho" },
     el("div", { class: "hecho-meta" },

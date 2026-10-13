@@ -455,6 +455,18 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 .sector-chip::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--sector, var(--mark-muted)); }
 .escala-tag { border: 1px solid var(--hairline); border-radius: 3px; padding: 0 0.35rem; }
 .mas-btn { margin-top: 0.8rem; }
+/* Noticias del trabajo */
+.noticias .hecho-resumen { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.noticias .hecho-meta .bandera { width: 16px; height: 12px; }
+.noticias .hecho-titulo { font-size: 1.04rem; }
+.noticia-dia { list-style: none; margin: 1.1rem 0 0.2rem; padding: 0 0 0.3rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--hairline); }
+.noticia-dia:first-child { margin-top: 0; }
+.noticia-dia + .hecho { border-top: 0; }
+.hecho-actores { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
+.hecho-actores span { border: 1px solid var(--hairline); border-radius: 999px; padding: 0.05rem 0.5rem; font-size: 0.7rem; color: var(--text-muted); }
+.noticias--portada .hecho { padding: 0.55rem 0; }
+.noticias--portada .hecho-titulo { font-size: 0.96rem; }
+.noticias--portada .mas-btn { display: inline-block; text-decoration: none; }
 .aviso {
   border: 1px dashed var(--border); border-radius: var(--radius); padding: 0.9rem 1rem;
   color: var(--text-secondary); font-size: 0.9rem; background: var(--surface-1);

@@ -138,6 +138,10 @@ Mapa interactivo (teselas de OpenStreetMap, sin clave de API) que monitorea los 
 
 **ACLED (opcional)**: base académica de eventos verificados a mano. Crear cuenta en <https://acleddata.com/> y cargar los secretos `ACLED_USERNAME` y `ACLED_PASSWORD`; el robot guarda `data/acled.json` y la web muestra un selector GDELT/ACLED.
 
+## Noticias del trabajo
+
+`noticias.html` («Las últimas noticias del mundo del trabajo») lista las unidades de registro del sector **Trabajadores** de `data/hechos.json`, de la más nueva a la más vieja y agrupadas por día, con filtros por escala, medio y texto. Cada noticia muestra la bandera del país al que refiere (Argentina para las escalas Nacional y Provincial; para el resto se deduce del título y el resumen con `js/paises.js`), los actores y el enlace a la nota original. La portada muestra las seis más recientes. Se actualiza con cada sincronización del dashboard (cada 3 horas); no hay nada que cargar a mano.
+
 ## Publicaciones
 
 `data/notas.json` tiene una entrada por nota: `medio`, `fecha` (`AAAA`, `AAAA-MM` o `AAAA-MM-DD`), `titulo`, `url`, `resumen`, `temas`, `autor`, `tipo` (`nota` para las publicadas en medios, `semanal` para las del equipo), `extracto`, `palabras`, `lectura_min` y `archivo` (la página de lectura dentro del sitio).

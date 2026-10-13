@@ -1,12 +1,13 @@
 /**
  * Página «Las últimas noticias del mundo del trabajo»: las unidades de registro
- * del sector Trabajadores de data/hechos.json (sincronizado desde el dashboard
- * cada 3 horas) de los últimos DIAS días, organizadas en tres bloques por escala
- * (Internacional, Latinoamérica, Nacional/Argentina, que incluye la Provincial)
- * y, dentro de cada bloque, de la más nueva a la más vieja agrupadas por día.
- * La ventana es móvil: lo que cumple DIAS+1 días desaparece solo y lo nuevo
- * entra con la siguiente sincronización. Cada noticia lleva la bandera del
- * país al que refiere y enlaza a la nota original.
+ * del sector Trabajadores de los últimos DIAS días, con la ficha completa que
+ * publica el robot en data/noticias.json (cuerpo entero, actores, enlaces, eje,
+ * género, órbita, región, momento, tag y declaraciones), organizadas en tres
+ * bloques por escala (Internacional, Latinoamérica, Nacional/Argentina, que
+ * incluye la Provincial) y, dentro de cada bloque, de la más nueva a la más
+ * vieja agrupadas por día. La ventana es móvil: lo que cumple DIAS+1 días
+ * desaparece solo y lo nuevo entra con la siguiente sincronización. Si todavía
+ * no existe noticias.json se usa el extracto de data/hechos.json.
  */
 import { initTema, fetchJson, el, vaciar, fmtFechaLarga, paisDeHecho } from "./comun.js";
 
@@ -16,9 +17,9 @@ const $ = (id) => document.getElementById(id);
 const DIAS = 10;
 const PAGINA = matchMedia("(max-width: 640px)").matches ? 8 : 12;
 export const BLOQUES = [
-  { id: "internacional", escalas: ["Internacional"], titulo: "Internacional", kicker: "Mundo" },
-  { id: "latinoamerica", escalas: ["Latinoamericana"], titulo: "Latinoamérica", kicker: "Región" },
-  { id: "nacional", escalas: ["Nacional", "Provincial"], titulo: "Nacional · Argentina", kicker: "Argentina" },
+  { id: "internacional", escalas: ["Internacional"], titulo: "Internacional" },
+  { id: "latinoamerica", escalas: ["Latinoamericana"], titulo: "Latinoamérica" },
+  { id: "nacional", escalas: ["Nacional", "Provincial"], titulo: "Nacional · Argentina" },
 ];
 const state = { hechos: [], q: "", mostrar: Object.fromEntries(BLOQUES.map((b) => [b.id, PAGINA])) };
 
@@ -50,26 +51,46 @@ function etiquetaDia(iso) {
   return fmtFechaLarga(iso);
 }
 
-/** Tarjeta de una noticia. */
-export function itemNoticia(h, { compacto = false } = {}) {
-  const link = h.links?.[0];
-  const titulo = link ? el("a", { href: link, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo;
+/** Cuerpo de la UR en párrafos (saltos de línea del dashboard; si no hay, uno solo). */
+function parrafos(texto) {
+  const partes = String(texto || "").split(/\n+/).map((p) => p.trim()).filter(Boolean);
+  return partes.length ? partes : [];
+}
+
+function urlLink(l) { return typeof l === "string" ? l : l?.url; }
+function esX(l) { return typeof l !== "string" && l?.tipo === "x"; }
+
+/** Tarjeta de una noticia con la ficha completa. */
+export function itemNoticia(h) {
+  const links = (h.links || []).map((l) => ({ url: urlLink(l), x: esX(l) })).filter((l) => l.url);
+  const principal = links.find((l) => !l.x) || links[0];
+  const titulo = principal ? el("a", { href: principal.url, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo;
   const p = paisDeHecho(h);
+  const cuerpo = h.cuerpo ? parrafos(h.cuerpo) : (h.resumen ? [h.resumen] : []);
+  const region = [h.region, h.provincia].filter(Boolean).join(" · ");
+  const ficha = [["Eje", h.eje], ["Género", h.genero], ["Órbita", h.orbita], ["Momento", h.momento], ["Región", region], ["Geo", h.geo], ["Tag", h.tag]]
+    .filter(([, v]) => v && String(v).trim());
   return el("li", { class: "hecho" },
     el("div", { class: "hecho-meta" },
       bandera(h), p ? el("span", {}, p.nombre) : null,
-      h.escala === "Provincial" ? el("span", { class: "escala-tag" }, "Provincial") : null,
+      el("span", { class: "escala-tag" }, h.escala),
+      h.id ? el("span", { class: "hecho-ur" }, `UR ${h.id}`) : null,
       el("span", {}, h.medio), el("span", {}, fmtFechaLarga(h.fecha))),
     el("h3", { class: "hecho-titulo" }, titulo),
-    !compacto && h.resumen ? el("p", { class: "hecho-resumen" }, h.resumen) : null,
-    !compacto && h.actores?.length ? el("div", { class: "hecho-actores" }, ...h.actores.slice(0, 6).map((a) => el("span", {}, a))) : null,
-    !compacto && link ? el("div", { class: "hecho-leer" }, el("a", { href: link, target: "_blank", rel: "noopener" }, `Leer en ${h.medio} ↗`),
-      ...(h.links || []).slice(1, 3).map((u, i) => el("a", { href: u, target: "_blank", rel: "noopener" }, `enlace ${i + 2} ↗`))) : null,
+    cuerpo.length ? el("div", { class: "hecho-cuerpo" }, ...cuerpo.map((t) => el("p", {}, t))) : null,
+    h.actores?.length ? el("div", { class: "hecho-actores" }, ...h.actores.map((a) => el("span", {}, a))) : null,
+    ficha.length ? el("div", { class: "hecho-ficha" }, ...ficha.map(([k, v]) => el("span", {}, el("b", {}, `${k}: `), String(v)))) : null,
+    h.declaraciones?.length ? el("details", { class: "hecho-decl" },
+      el("summary", {}, `Declaraciones · ${h.declaraciones.length}`),
+      ...h.declaraciones.map((d) => el("blockquote", {}, `«${d.cita}»`, d.quien ? el("cite", {}, d.quien) : null))) : null,
+    links.length ? el("div", { class: "hecho-leer" },
+      ...links.map((l, i) => el("a", { href: l.url, target: "_blank", rel: "noopener" },
+        l.x ? "Publicación en X ↗" : (l === principal ? `Leer en ${h.medio} ↗` : `Enlace ${i + 1} ↗`)))) : null,
   );
 }
 
 function coincide(h, q) {
-  return !q || `${h.titulo} ${h.resumen || ""} ${(h.actores || []).join(" ")} ${h.medio} ${h.eje || ""}`.toLowerCase().includes(q);
+  return !q || `${h.titulo} ${h.cuerpo || h.resumen || ""} ${(h.actores || []).join(" ")} ${h.medio} ${h.eje || ""} ${h.region || ""} ${h.provincia || ""} ${h.tag || ""}`.toLowerCase().includes(q);
 }
 
 function renderBloque(b) {
@@ -98,13 +119,21 @@ function render() {
   for (const b of BLOQUES) renderBloque(b);
 }
 
-async function iniciar() {
-  let d;
+async function cargar() {
   try {
-    d = await fetchJson("data/hechos.json");
+    const d = await fetchJson("data/noticias.json");
+    if (Array.isArray(d.noticias)) return { generado: d.generado, hechos: d.noticias };
+  } catch { /* todavía no existe: se usa el extracto de hechos.json */ }
+  try {
+    const d = await fetchJson("data/hechos.json");
+    return { generado: d.generado, hechos: d.hechos || [] };
   } catch {
-    d = { hechos: [] };
+    return { generado: null, hechos: [] };
   }
+}
+
+async function iniciar() {
+  const d = await cargar();
   state.hechos = noticiasRecientes(d.hechos);
   const desde = desdeVentana();
   $("noticias-gen").textContent = d.generado

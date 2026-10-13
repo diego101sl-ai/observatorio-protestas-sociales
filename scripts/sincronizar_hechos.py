@@ -230,10 +230,27 @@ def guardar_estado(**campos) -> None:
     ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+def _limpiar_secreto(valor: str, nombre: str) -> str:
+    """Tolera valores pegados con la fila entera de una tabla («1.ª<TAB>DASHBOARD_URL<TAB>valor»)
+    o con el nombre del secreto adelante: se queda con el último campo."""
+    v = (valor or "").strip()
+    if "\t" in v:
+        v = v.split("\t")[-1].strip()
+    if v.upper().startswith(nombre + "="):
+        v = v[len(nombre) + 1:].strip()
+    return v
+
+
 def desde_dashboard() -> int:
-    base = os.environ.get("DASHBOARD_URL", "").strip().rstrip("/")
-    email = os.environ.get("DASHBOARD_EMAIL", "").strip()
-    clave = os.environ.get("DASHBOARD_PASSWORD", "")
+    base = _limpiar_secreto(os.environ.get("DASHBOARD_URL", ""), "DASHBOARD_URL").rstrip("/")
+    m = re.search(r"(?:https?://)?[\w.-]+\.[a-z]{2,}(?::\d+)?(?:/[\w./-]*)?", base, re.I)
+    if m:
+        base = m.group(0).rstrip("/")
+    email = _limpiar_secreto(os.environ.get("DASHBOARD_EMAIL", ""), "DASHBOARD_EMAIL")
+    m = re.search(r"[\w.+-]+@[\w.-]+\.[a-z]{2,}", email, re.I)
+    if m:
+        email = m.group(0)
+    clave = _limpiar_secreto(os.environ.get("DASHBOARD_PASSWORD", ""), "DASHBOARD_PASSWORD")
     if not base or not email or not clave:
         print("[i] Sin credenciales del dashboard (DASHBOARD_URL, DASHBOARD_EMAIL y DASHBOARD_PASSWORD). "
               "No se modifica data/hechos.json.")

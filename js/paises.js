@@ -193,7 +193,7 @@ const TABLA = [
   ["tj", "Tayikistán", "tayikistan|tajikistan|tayik[oa]s?", "dusambe|dushanbe"],
   ["tm", "Turkmenistán", "turkmenistan|turkmen[oa]s?", "asjabad|ashgabat"],
   ["au", "Australia", "australia|australian[oa]s?|australian", "sidney|sydney|melbourne|canberra|brisbane|perth|adelaida|adelaide"],
-  ["nz", "Nueva Zelanda", "nueva zelanda|new zealand|neozelandes(?:es|a|as)?", "wellington|auckland|maori(?:es)?"],
+  ["nz", "Nueva Zelanda", "nueva zelanda|new zealand|neozelandes(?:es|a|as)?", "auckland|maori(?:es)?"],
   ["pg", "Papúa Nueva Guinea", "papua nueva guinea|papua new guinea", "port moresby"],
   ["fj", "Fiyi", "fiyi|fiji", "suva"],
   ["nc", "Nueva Caledonia", "nueva caledonia|new caledonia", "numea|noumea|canac(?:os|a|as)?|kanaks?"],

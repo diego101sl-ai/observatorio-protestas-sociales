@@ -80,7 +80,7 @@ def sector_de_eje(eje: str) -> str:
     return "AGENDA POLÍTICA"
 
 
-def resumir(cuerpo: str, largo: int = 260) -> str:
+def resumir(cuerpo: str, largo: int = 420) -> str:
     texto = re.sub(r"\s+", " ", cuerpo or "").strip()
     if len(texto) <= largo:
         return texto

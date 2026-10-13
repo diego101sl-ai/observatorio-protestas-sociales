@@ -260,6 +260,8 @@ export const LATAM = ["ARG", "BOL", "BRA", "CHL", "COL", "CRI", "CUB", "DOM", "E
 // ---------- Catálogo de series ----------
 const PREFERENCIA = ["datosar", "ilo", "oecd", "eurostat", "bls", "wb", "imf", "oitraf"];
 
+import { paisDeTexto } from "../paises.js";
+
 /* ============ Banderas por geografía (código ISO 3166-1 alfa-3 → alfa-2) ============ */
 // Los agregados (Mundo, regiones, grupos de ingreso) no tienen bandera; la Unión
 // Europea y la zona euro usan la bandera europea. Archivos en img/banderas/ (flag-icons).
@@ -286,6 +288,25 @@ const ISO3_A2 = {
   AUS: "au", NZL: "nz", PNG: "pg", FJI: "fj",
   EUU: "eu", EU27_2020: "eu", EU28: "eu", EA19: "eu", EA20: "eu", EA21: "eu",
 };
+
+const LATAM_A2 = new Set(["ar", "bo", "br", "cl", "co", "cr", "cu", "do", "ec", "sv", "gt", "ht", "hn", "jm", "mx", "ni", "pa", "py", "pe", "pr", "tt", "uy", "ve", "bz", "gy", "sr", "bs", "bb", "gf"]);
+// País de origen de los medios latinoamericanos del relevamiento (respaldo cuando el
+// titular no nombra ningún país). Telesur cubre toda la región: sin respaldo.
+const PAIS_MEDIO = { "O Globo": ["br", "Brasil"], "La Jornada": ["mx", "México"], "El Diario de Hoy": ["sv", "El Salvador"] };
+
+/**
+ * País al que refiere una unidad de registro del relevamiento: Argentina para las
+ * escalas Nacional y Provincial; en la Latinoamericana solo se aceptan países de la
+ * región (si no, el país del medio); en la Internacional, lo que diga el texto.
+ */
+export function paisDeHecho(h) {
+  if (h.escala === "Nacional" || h.escala === "Provincial") return { cc: "ar", nombre: "Argentina" };
+  const p = paisDeTexto(`${h.titulo} · ${h.resumen || ""}`);
+  if (h.escala !== "Latinoamericana") return p;
+  if (p && LATAM_A2.has(p.cc)) return p;
+  const m = PAIS_MEDIO[h.medio];
+  return m ? { cc: m[0], nombre: m[1] } : null;
+}
 
 /** Código de bandera (alfa-2) para una geografía del catálogo, o null si no tiene. */
 export function banderaGeo(geo) {

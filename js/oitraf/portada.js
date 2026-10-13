@@ -6,7 +6,7 @@
 import {
   initTema, fetchJson, el, vaciar, fmtNum, fmtCompacto, fmtPeriodo, fmtPeriodoCorto, fmtDelta,
   fmtFechaLarga, fmtFechaCorta, nombreFuente, FUENTE_CORTA, SECTOR_COLOR, SECTORES_PUBLICOS, NOMBRE_SECTOR, ESCALAS, LATAM,
-  Catalogo, derivarSeries, primeraOracion, elBandera } from "./comun.js";
+  Catalogo, derivarSeries, primeraOracion, elBandera, paisDeHecho } from "./comun.js";
 import { lineChart, barChart, columnChart, sparkline, tabla } from "./graficos.js";
 
 const PAGINA_HECHOS = matchMedia("(max-width: 640px)").matches ? 10 : 20;
@@ -357,6 +357,36 @@ function renderCoberturaDinamica() {
 }
 
 // ---------------------------------------------------------------------------
+// Las últimas noticias del mundo del trabajo (adelanto; la lista completa está
+// en noticias.html)
+// ---------------------------------------------------------------------------
+function renderNoticias() {
+  const ul = $("noticias-portada");
+  if (!ul) return;
+  const d = state.hechos;
+  const lista = (d?.hechos || []).filter((h) => h.sector === "TRABAJADORES")
+    .sort((a, b) => (b.fecha > a.fecha ? 1 : b.fecha < a.fecha ? -1 : (b.id || 0) - (a.id || 0)))
+    .slice(0, 6);
+  vaciar(ul);
+  if (!lista.length) {
+    ul.append(el("li", { class: "hecho" }, el("p", { class: "hecho-resumen" }, "Las noticias se publican en cuanto termina la próxima sincronización del relevamiento.")));
+    return;
+  }
+  $("noticias-sync").textContent = d.generado ? `Actualizado el ${fmtFechaLarga(d.generado)}.` : "";
+  for (const h of lista) {
+    const link = h.links?.[0];
+    const p = paisDeHecho(h);
+    ul.append(el("li", { class: "hecho" },
+      el("div", { class: "hecho-meta" },
+        p ? el("img", { class: "bandera", src: `img/banderas/${p.cc}.svg`, alt: "", title: p.nombre, width: "16", height: "12", decoding: "async" }) : null,
+        p ? el("span", {}, p.nombre) : null,
+        el("span", { class: "escala-tag" }, h.escala), el("span", {}, h.medio), el("span", {}, fmtFechaCorta(h.fecha))),
+      el("h4", { class: "hecho-titulo" }, link ? el("a", { href: link, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo),
+      h.resumen ? el("p", { class: "hecho-resumen" }, primeraOracion(h.resumen)) : null));
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Protestas (resumen del mapa)
 // ---------------------------------------------------------------------------
 function renderProtestas() {
@@ -445,7 +475,7 @@ async function main() {
   state.cat = derivarSeries(new Catalogo(ind));
   state.hechos = recortarCobertura(hechos);
   state.protestas = prot;
-  const pasos = [renderHero, renderArgentina, renderLatam, renderMundo, renderCobertura, renderProtestas, renderFuentes];
+  const pasos = [renderHero, renderArgentina, renderLatam, renderMundo, renderNoticias, renderCobertura, renderProtestas, renderFuentes];
   for (const paso of pasos) {
     try { paso(); } catch (e) { console.error(`Error en ${paso.name}`, e); }
   }

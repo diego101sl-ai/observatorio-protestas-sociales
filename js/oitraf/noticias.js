@@ -1,18 +1,40 @@
 /**
  * Página «Las últimas noticias del mundo del trabajo»: las unidades de registro
  * del sector Trabajadores de data/hechos.json (sincronizado desde el dashboard
- * cada 3 horas), de la más nueva a la más vieja, agrupadas por día, con filtros
- * por escala, medio y texto. Cada noticia lleva la bandera del país al que
- * refiere (deducida del título y el resumen; Argentina para las escalas
- * Nacional y Provincial) y enlaza a la nota original.
+ * cada 3 horas) de los últimos DIAS días, organizadas en tres bloques por escala
+ * (Internacional, Latinoamérica, Nacional/Argentina, que incluye la Provincial)
+ * y, dentro de cada bloque, de la más nueva a la más vieja agrupadas por día.
+ * La ventana es móvil: lo que cumple DIAS+1 días desaparece solo y lo nuevo
+ * entra con la siguiente sincronización. Cada noticia lleva la bandera del
+ * país al que refiere y enlaza a la nota original.
  */
-import { initTema, fetchJson, el, vaciar, fmtFechaLarga, ESCALAS, paisDeHecho } from "./comun.js";
+import { initTema, fetchJson, el, vaciar, fmtFechaLarga, paisDeHecho } from "./comun.js";
 
 initTema();
 
 const $ = (id) => document.getElementById(id);
-const PAGINA = matchMedia("(max-width: 640px)").matches ? 10 : 20;
-const state = { hechos: [], escala: "Todas", medio: "Todos", q: "", mostrar: PAGINA };
+const DIAS = 10;
+const PAGINA = matchMedia("(max-width: 640px)").matches ? 8 : 12;
+export const BLOQUES = [
+  { id: "internacional", escalas: ["Internacional"], titulo: "Internacional", kicker: "Mundo" },
+  { id: "latinoamerica", escalas: ["Latinoamericana"], titulo: "Latinoamérica", kicker: "Región" },
+  { id: "nacional", escalas: ["Nacional", "Provincial"], titulo: "Nacional · Argentina", kicker: "Argentina" },
+];
+const state = { hechos: [], q: "", mostrar: Object.fromEntries(BLOQUES.map((b) => [b.id, PAGINA])) };
+
+/** Fecha límite (inclusive): hoy menos DIAS-1 días, en hora local. */
+export function desdeVentana(dias = DIAS, hoy = new Date()) {
+  const d = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() - (dias - 1));
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/** Noticias del sector Trabajadores dentro de la ventana, de la más nueva a la más vieja. */
+export function noticiasRecientes(hechos, dias = DIAS) {
+  const desde = desdeVentana(dias);
+  return (hechos || [])
+    .filter((h) => h.sector === "TRABAJADORES" && h.fecha >= desde)
+    .sort((a, b) => (b.fecha > a.fecha ? 1 : b.fecha < a.fecha ? -1 : (b.id || 0) - (a.id || 0)));
+}
 
 function bandera(h) {
   const p = paisDeHecho(h);
@@ -28,7 +50,7 @@ function etiquetaDia(iso) {
   return fmtFechaLarga(iso);
 }
 
-/** Tarjeta de una noticia (también la usa la portada). */
+/** Tarjeta de una noticia. */
 export function itemNoticia(h, { compacto = false } = {}) {
   const link = h.links?.[0];
   const titulo = link ? el("a", { href: link, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo;
@@ -36,7 +58,8 @@ export function itemNoticia(h, { compacto = false } = {}) {
   return el("li", { class: "hecho" },
     el("div", { class: "hecho-meta" },
       bandera(h), p ? el("span", {}, p.nombre) : null,
-      el("span", { class: "escala-tag" }, h.escala), el("span", {}, h.medio), el("span", {}, fmtFechaLarga(h.fecha))),
+      h.escala === "Provincial" ? el("span", { class: "escala-tag" }, "Provincial") : null,
+      el("span", {}, h.medio), el("span", {}, fmtFechaLarga(h.fecha))),
     el("h3", { class: "hecho-titulo" }, titulo),
     !compacto && h.resumen ? el("p", { class: "hecho-resumen" }, h.resumen) : null,
     !compacto && h.actores?.length ? el("div", { class: "hecho-actores" }, ...h.actores.slice(0, 6).map((a) => el("span", {}, a))) : null,
@@ -45,41 +68,34 @@ export function itemNoticia(h, { compacto = false } = {}) {
   );
 }
 
-function chipRow(cont, valores, activo, alElegir) {
-  vaciar(cont);
-  for (const v of valores) {
-    const b = el("button", { class: `chip${v === activo ? " is-active" : ""}`, type: "button", "aria-pressed": String(v === activo) }, v);
-    b.addEventListener("click", () => alElegir(v));
-    cont.append(b);
-  }
+function coincide(h, q) {
+  return !q || `${h.titulo} ${h.resumen || ""} ${(h.actores || []).join(" ")} ${h.medio} ${h.eje || ""}`.toLowerCase().includes(q);
 }
 
-function filtradas() {
+function renderBloque(b) {
   const q = state.q.trim().toLowerCase();
-  return state.hechos
-    .filter((h) => state.escala === "Todas" || h.escala === state.escala)
-    .filter((h) => state.medio === "Todos" || h.medio === state.medio)
-    .filter((h) => !q || `${h.titulo} ${h.resumen || ""} ${(h.actores || []).join(" ")} ${h.medio} ${h.eje || ""}`.toLowerCase().includes(q));
-}
-
-function render() {
-  chipRow($("chips-escala"), ["Todas", ...ESCALAS], state.escala, (v) => { state.escala = v; state.mostrar = PAGINA; render(); });
-  const lista = filtradas();
-  const ul = $("noticias-lista");
+  const lista = state.hechos.filter((h) => b.escalas.includes(h.escala)).filter((h) => coincide(h, q));
+  const ul = $(`lista-${b.id}`);
   vaciar(ul);
   let dia = "";
-  for (const h of lista.slice(0, state.mostrar)) {
+  for (const h of lista.slice(0, state.mostrar[b.id])) {
     if (h.fecha !== dia) {
       dia = h.fecha;
       ul.append(el("li", { class: "noticia-dia" }, etiquetaDia(dia)));
     }
     ul.append(itemNoticia(h));
   }
-  $("noticias-vacio").hidden = lista.length > 0;
-  const mas = $("noticias-mas");
-  mas.hidden = lista.length <= state.mostrar;
-  mas.onclick = () => { state.mostrar += PAGINA; render(); };
-  $("noticias-cuenta").textContent = `${lista.length.toLocaleString("es-AR")} noticia${lista.length === 1 ? "" : "s"}${lista.length !== state.hechos.length ? ` de ${state.hechos.length.toLocaleString("es-AR")}` : ""}.`;
+  $(`vacio-${b.id}`).hidden = lista.length > 0;
+  const mas = $(`mas-${b.id}`);
+  mas.hidden = lista.length <= state.mostrar[b.id];
+  mas.onclick = () => { state.mostrar[b.id] += PAGINA; renderBloque(b); };
+  const total = state.hechos.filter((h) => b.escalas.includes(h.escala)).length;
+  $(`cuenta-${b.id}`).textContent = `${lista.length.toLocaleString("es-AR")} noticia${lista.length === 1 ? "" : "s"}${lista.length !== total ? ` de ${total.toLocaleString("es-AR")}` : ""} en los últimos ${DIAS} días.`;
+  $(`chip-${b.id}`).textContent = `${b.titulo} · ${lista.length}`;
+}
+
+function render() {
+  for (const b of BLOQUES) renderBloque(b);
 }
 
 async function iniciar() {
@@ -89,18 +105,14 @@ async function iniciar() {
   } catch {
     d = { hechos: [] };
   }
-  state.hechos = (d.hechos || []).filter((h) => h.sector === "TRABAJADORES")
-    .sort((a, b) => (b.fecha > a.fecha ? 1 : b.fecha < a.fecha ? -1 : (b.id || 0) - (a.id || 0)));
-  $("noticias-gen").textContent = d.generado ? `Actualizado el ${fmtFechaLarga(d.generado)}.` : "";
-  const medios = ["Todos", ...[...new Set(state.hechos.map((h) => h.medio))].sort((a, b) => a.localeCompare(b, "es"))];
-  const sel = $("f-medio");
-  vaciar(sel);
-  for (const m of medios) sel.append(el("option", { value: m }, m === "Todos" ? "Todos los medios" : m));
-  sel.addEventListener("change", (e) => { state.medio = e.target.value; state.mostrar = PAGINA; render(); });
-  $("noticias-q").addEventListener("input", (e) => { state.q = e.target.value; state.mostrar = PAGINA; render(); });
+  state.hechos = noticiasRecientes(d.hechos);
+  const desde = desdeVentana();
+  $("noticias-gen").textContent = d.generado
+    ? `Del ${fmtFechaLarga(desde)} a hoy · actualizado el ${fmtFechaLarga(d.generado)}.`
+    : "";
+  $("noticias-q").addEventListener("input", (e) => { state.q = e.target.value; for (const b of BLOQUES) state.mostrar[b.id] = PAGINA; render(); });
   if (!state.hechos.length) {
-    $("noticias-cuenta").textContent = "";
-    $("noticias-vacio").textContent = "Las noticias se publican en cuanto termina la próxima sincronización del relevamiento.";
+    for (const b of BLOQUES) $(`vacio-${b.id}`).textContent = "Las noticias se publican en cuanto termina la próxima sincronización del relevamiento.";
   }
   render();
 }

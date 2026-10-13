@@ -14,6 +14,7 @@
  */
 
 import { traducirLugar, traducirPais } from "../nombres-es.js";
+import { paisDeArticulo } from "../paises.js";
 
 async function fetchLocalJson(path) {
   const res = await fetch(path, { cache: "no-store" });
@@ -83,6 +84,8 @@ export async function loadArticles() {
       url: a.url,
       domain: a.domain || "",
       country: traducirPais(a.sourcecountry || ""),
+      // país donde ocurre la protesta, deducido del titular (no del medio)
+      pais: paisDeArticulo({ tituloEs: a.title_es, titulo: a.title, paisFuente: a.sourcecountry }),
       seenDate: parseSeenDate(a.seendate),
     }));
 }

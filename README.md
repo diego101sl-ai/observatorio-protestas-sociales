@@ -88,6 +88,8 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 ├── index.html                 # portal OITraF
 ├── indicadores.html           # explorador de todas las series
 ├── protestas.html             # mapa de protestas (GDELT)
+├── js/paises.js               # país de cada protesta a partir del titular (banderas)
+├── img/banderas/              # banderas SVG (flag-icons, MIT)
 ├── img/marca/                 # marca OITraF: isotipo coloreado en capas (red + engranaje) para la animación, logos horizontal/vertical, favicon
 ├── css/
 │   ├── oitraf.css             # identidad OITraF (marino + rojo), tokens claro/oscuro, paleta de gráficos validada
@@ -122,6 +124,8 @@ Abrir <http://localhost:8000>. Los módulos ES no funcionan abriendo los `.html`
 ## Observatorio de protestas
 
 Mapa interactivo (teselas de OpenStreetMap, sin clave de API) que monitorea los **eventos de protesta social en todo el mundo** con datos abiertos de [GDELT](https://www.gdeltproject.org/): un robot horario descarga los ficheros de eventos de GDELT 2.0, filtra los eventos de protesta (código CAMEO 14, con coordenadas reales) y guarda `data/protests.json` y `data/articles.json`. La página ofrece mapa (Leaflet), resumen, cobertura reciente traducida al español, filtros por período y palabra clave, vista de tabla y gráfico de evolución diaria.
+
+**Banderas por país de la protesta.** En el ticker de titulares y en la lista de cobertura cada noticia lleva la bandera del país donde ocurre la protesta. El país no es el del medio (un diario español cubre a Chile, uno indio a Francia): `js/paises.js` lo deduce del titular (traducción al español y original) buscando nombres de país, gentilicios y, con menos peso, ciudades, regiones y referentes; una mención precedida por «en», «in» o «desde» pesa más, y si hay varias con preposición gana la primera del titular. El nombre del medio al final del titular («– The Irish News») se analiza solo si el resto no menciona ningún lugar. Si nada aparece, se usa el país del medio; si tampoco hay, la noticia va sin bandera. Las banderas son los SVG 4:3 de [flag-icons](https://github.com/lipis/flag-icons) (licencia MIT, copia en `img/banderas/LICENSE-flag-icons.txt`), traídos por el workflow `traer-banderas.yml`.
 
 ⚠️ GDELT detecta eventos automáticamente en las noticias: es excelente para tendencias y focos, pero no es un recuento verificado a mano.
 

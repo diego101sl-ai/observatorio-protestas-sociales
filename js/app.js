@@ -336,10 +336,15 @@ function renderArticles() {
     a.href = art.url;
     a.target = "_blank";
     a.rel = "noopener";
-    a.textContent = art.title;
+    if (art.pais) {
+      a.insertAdjacentHTML("afterbegin", banderaHtml(art.pais));
+      a.append(art.title);
+    } else {
+      a.textContent = art.title;
+    }
     const meta = document.createElement("div");
     meta.className = "article-meta";
-    meta.textContent = [art.domain, art.country, formatDate(art.seenDate)]
+    meta.textContent = [art.pais ? art.pais.nombre : null, art.domain, art.country && art.country !== art.pais?.nombre ? `medio de ${art.country}` : null, formatDate(art.seenDate)]
       .filter(Boolean)
       .join(" · ");
     li.append(a, meta);
@@ -396,6 +401,11 @@ function animateNumber(el, to) {
 }
 
 // Ticker de titulares (usa toda la cobertura, sin filtrar, para que siempre lata)
+/** Bandera del país de la protesta (SVG local); cadena vacía si no se detectó. */
+function banderaHtml(pais) {
+  if (!pais) return "";
+  return `<img class="bandera" src="img/banderas/${escapeHtml(pais.cc)}.svg" alt="${escapeHtml(pais.nombre)}" title="${escapeHtml(pais.nombre)}" width="18" height="14" decoding="async">`;
+}
 function renderTicker() {
   const bar = document.getElementById("ticker");
   const track = document.getElementById("ticker-track");
@@ -406,7 +416,7 @@ function renderTicker() {
   const half = arts
     .map(
       (a) =>
-        `<a class="ticker-item" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.title)}</a>`
+        `<a class="ticker-item${a.pais ? "" : " ticker-item--sin-pais"}" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${banderaHtml(a.pais)}${escapeHtml(a.title)}</a>`
     )
     .join("");
   track.innerHTML = half + half; // dos copias para el bucle continuo

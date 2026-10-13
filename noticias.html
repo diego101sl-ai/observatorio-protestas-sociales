@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="css/oitraf.css">
 </head>
 <body>
-  <a class="skip-link" href="#listado">Saltar a las noticias</a>
+  <a class="skip-link" href="#internacional">Saltar a las noticias</a>
 
   <header class="masthead">
     <div class="shell masthead-inner">
@@ -61,36 +61,74 @@
     <div class="shell hero-body" style="padding-block:2.4rem 1.8rem">
       <p class="kicker"><span class="dot" aria-hidden="true"></span>Seguimiento de medios</p>
       <h1 id="h-not" class="display" style="font-size:clamp(2rem,4.6vw,3.4rem)">Las últimas noticias del <em>mundo del trabajo</em></h1>
-      <p class="hero-lede">Lo que pasó con el trabajo en Argentina, América Latina y el mundo, según el relevamiento diario del equipo de OITraF en 24 medios. Cada noticia enlaza a la nota original. <span id="noticias-gen"></span></p>
+      <p class="hero-lede">Los últimos 10 días del mundo del trabajo en el mundo, América Latina y Argentina, según el relevamiento diario del equipo de OITraF en 24 medios. Cada noticia enlaza a la nota original; lo que cumple 11 días sale de la lista. <span id="noticias-gen"></span></p>
     </div>
   </section>
 
   <main>
-    <section class="section" id="listado" aria-labelledby="h-lista">
+    <div class="explorer-controls" id="listado">
+      <div class="shell filters" role="navigation" aria-label="Bloques y búsqueda">
+        <div class="filter-group" role="group" aria-label="Escala"><span class="filter-label">Escala</span>
+          <a class="chip" id="chip-internacional" href="#internacional">Internacional</a>
+          <a class="chip" id="chip-latinoamerica" href="#latinoamerica">Latinoamérica</a>
+          <a class="chip" id="chip-nacional" href="#nacional">Nacional · Argentina</a>
+        </div>
+        <label class="sr-only" for="noticias-q">Buscar</label>
+        <input id="noticias-q" class="text-input" type="search" placeholder="Buscar (ej. paritaria, despidos, Chile)…">
+      </div>
+    </div>
+    <section class="section" id="internacional" aria-labelledby="h-internacional">
       <div class="shell">
         <div class="section-head">
           <div>
-            <p class="kicker"><span class="dot" aria-hidden="true"></span>Sector Trabajadores</p>
-            <h2 id="h-lista" class="display">Noticias</h2>
-            <p class="lede">Despidos, paritarias, huelgas, reformas laborales, plataformas, inteligencia artificial y empleo. Se actualiza varias veces por día.</p>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Mundo</p>
+            <h2 id="h-internacional" class="display">Internacional</h2>
+            <p class="lede">Lo que pasa con el trabajo fuera de la región: Estados Unidos, Europa, Asia, Medio Oriente y África, según la prensa internacional relevada.</p>
           </div>
-          <p class="aside" id="noticias-cuenta"></p>
-        </div>
-        <div class="filters">
-          <div class="filter-group" role="group" aria-label="Escala"><span class="filter-label">Escala</span><span id="chips-escala" class="filter-group"></span></div>
-          <label class="sr-only" for="f-medio">Medio</label>
-          <select id="f-medio" class="select"></select>
-          <label class="sr-only" for="noticias-q">Buscar</label>
-          <input id="noticias-q" class="text-input" type="search" placeholder="Buscar (ej. paritaria, despidos, Chile)…">
+          <p class="aside" id="cuenta-internacional"></p>
         </div>
         <div class="card noticias">
-          <ul class="hechos" id="noticias-lista"></ul>
-          <p class="aviso" id="noticias-vacio" hidden>Ninguna noticia coincide con los filtros.</p>
-          <button class="btn btn-outline mas-btn" id="noticias-mas" type="button" hidden>Ver más noticias</button>
+          <ul class="hechos" id="lista-internacional"></ul>
+          <p class="aviso" id="vacio-internacional" hidden>Ninguna noticia coincide con la búsqueda en este bloque.</p>
+          <button class="btn btn-outline mas-btn" id="mas-internacional" type="button" hidden>Ver más noticias</button>
         </div>
-        <p class="aside" style="margin-top:.8rem">Selección, clasificación y redacción de las unidades de registro bajo CC BY 4.0. Los enlaces remiten a las notas de cada medio, cuyos textos pertenecen a sus autores.</p>
       </div>
     </section>
+    <section class="section section-band" id="latinoamerica" aria-labelledby="h-latinoamerica">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Región</p>
+            <h2 id="h-latinoamerica" class="display">Latinoamérica</h2>
+            <p class="lede">Brasil, México, Chile, Colombia y el resto de América Latina y el Caribe, según los medios regionales relevados.</p>
+          </div>
+          <p class="aside" id="cuenta-latinoamerica"></p>
+        </div>
+        <div class="card noticias">
+          <ul class="hechos" id="lista-latinoamerica"></ul>
+          <p class="aviso" id="vacio-latinoamerica" hidden>Ninguna noticia coincide con la búsqueda en este bloque.</p>
+          <button class="btn btn-outline mas-btn" id="mas-latinoamerica" type="button" hidden>Ver más noticias</button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="nacional" aria-labelledby="h-nacional">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="kicker"><span class="dot" aria-hidden="true"></span>Argentina</p>
+            <h2 id="h-nacional" class="display">Nacional · Argentina</h2>
+            <p class="lede">Paritarias, conflictos, empleo, reforma laboral y las noticias de las provincias, según los medios nacionales y provinciales relevados.</p>
+          </div>
+          <p class="aside" id="cuenta-nacional"></p>
+        </div>
+        <div class="card noticias">
+          <ul class="hechos" id="lista-nacional"></ul>
+          <p class="aviso" id="vacio-nacional" hidden>Ninguna noticia coincide con la búsqueda en este bloque.</p>
+          <button class="btn btn-outline mas-btn" id="mas-nacional" type="button" hidden>Ver más noticias</button>
+        </div>
+      </div>
+    </section>
+    <p class="shell aside" style="margin:0 auto 1.6rem">Selección, clasificación y redacción de las unidades de registro bajo CC BY 4.0. Los enlaces remiten a las notas de cada medio, cuyos textos pertenecen a sus autores.</p>
   </main>
 
   <footer class="footer">

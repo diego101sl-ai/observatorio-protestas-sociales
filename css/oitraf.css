@@ -467,6 +467,7 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 .noticias--portada .hecho { padding: 0.55rem 0; }
 .noticias--portada .hecho-titulo { font-size: 0.96rem; }
 .noticias--portada .mas-btn { display: inline-block; text-decoration: none; }
+a.chip { text-decoration: none; display: inline-block; }
 .aviso {
   border: 1px dashed var(--border); border-radius: var(--radius); padding: 0.9rem 1rem;
   color: var(--text-secondary); font-size: 0.9rem; background: var(--surface-1);

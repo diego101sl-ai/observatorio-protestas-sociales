@@ -364,25 +364,34 @@ function renderNoticias() {
   const ul = $("noticias-portada");
   if (!ul) return;
   const d = state.hechos;
-  const lista = (d?.hechos || []).filter((h) => h.sector === "TRABAJADORES")
-    .sort((a, b) => (b.fecha > a.fecha ? 1 : b.fecha < a.fecha ? -1 : (b.id || 0) - (a.id || 0)))
-    .slice(0, 6);
+  const hoy = new Date();
+  const lim = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() - 9);
+  const desde = `${lim.getFullYear()}-${String(lim.getMonth() + 1).padStart(2, "0")}-${String(lim.getDate()).padStart(2, "0")}`;
+  const recientes = (d?.hechos || []).filter((h) => h.sector === "TRABAJADORES" && h.fecha >= desde)
+    .sort((a, b) => (b.fecha > a.fecha ? 1 : b.fecha < a.fecha ? -1 : (b.id || 0) - (a.id || 0)));
+  // dos por escala: Internacional, Latinoamérica, Nacional (incluye Provincial)
+  const bloques = [["Internacional", ["Internacional"]], ["Latinoamérica", ["Latinoamericana"]], ["Nacional · Argentina", ["Nacional", "Provincial"]]];
   vaciar(ul);
-  if (!lista.length) {
+  if (!recientes.length) {
     ul.append(el("li", { class: "hecho" }, el("p", { class: "hecho-resumen" }, "Las noticias se publican en cuanto termina la próxima sincronización del relevamiento.")));
     return;
   }
-  $("noticias-sync").textContent = d.generado ? `Actualizado el ${fmtFechaLarga(d.generado)}.` : "";
-  for (const h of lista) {
-    const link = h.links?.[0];
-    const p = paisDeHecho(h);
-    ul.append(el("li", { class: "hecho" },
-      el("div", { class: "hecho-meta" },
-        p ? el("img", { class: "bandera", src: `img/banderas/${p.cc}.svg`, alt: "", title: p.nombre, width: "16", height: "12", decoding: "async" }) : null,
-        p ? el("span", {}, p.nombre) : null,
-        el("span", { class: "escala-tag" }, h.escala), el("span", {}, h.medio), el("span", {}, fmtFechaCorta(h.fecha))),
-      el("h4", { class: "hecho-titulo" }, link ? el("a", { href: link, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo),
-      h.resumen ? el("p", { class: "hecho-resumen" }, primeraOracion(h.resumen)) : null));
+  $("noticias-sync").textContent = d.generado ? `Últimos 10 días · actualizado el ${fmtFechaLarga(d.generado)}.` : "";
+  for (const [titulo, escalas] of bloques) {
+    const lista = recientes.filter((h) => escalas.includes(h.escala)).slice(0, 2);
+    if (!lista.length) continue;
+    ul.append(el("li", { class: "noticia-dia" }, titulo));
+    for (const h of lista) {
+      const link = h.links?.[0];
+      const p = paisDeHecho(h);
+      ul.append(el("li", { class: "hecho" },
+        el("div", { class: "hecho-meta" },
+          p ? el("img", { class: "bandera", src: `img/banderas/${p.cc}.svg`, alt: "", title: p.nombre, width: "16", height: "12", decoding: "async" }) : null,
+          p ? el("span", {}, p.nombre) : null,
+          el("span", {}, h.medio), el("span", {}, fmtFechaCorta(h.fecha))),
+        el("h4", { class: "hecho-titulo" }, link ? el("a", { href: link, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo),
+        h.resumen ? el("p", { class: "hecho-resumen" }, primeraOracion(h.resumen)) : null));
+    }
   }
 }
 

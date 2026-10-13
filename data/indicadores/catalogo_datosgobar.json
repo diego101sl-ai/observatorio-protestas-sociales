@@ -598,7 +598,7 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "ripte__elegida": "158.1_REPTE_0_0_5",
+ "ripte__elegida": null,
  "smvm": [
   {
    "puntaje": 24,
@@ -638,6 +638,15 @@
   },
   {
    "puntaje": -999,
+   "id": "AGRO_0350",
+   "titulo": "focos_tamanio_minimo",
+   "descripcion": "Tamaño mínimo del foco de incendio",
+   "frecuencia": "R/P1M",
+   "fin": "2017-12-01",
+   "publicador": "Área de Incendios Forestales - Dirección Nacional de Desarrollo Foresto Industrial"
+  },
+  {
+   "puntaje": -999,
    "id": "302.3_SERV_TELEFTES_0_S_40",
    "titulo": "serv_telef_movil_datos_accesos_bamtbytes",
    "descripcion": "Servicio de telefonía móvil. Datos y accesos en bambytes",
@@ -662,15 +671,6 @@
    "frecuencia": "R/P1Y",
    "fin": "2025-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "355.1_NOMINAL_AL_A__9",
-   "titulo": "nominal_a",
-   "descripcion": "Salario nominal",
-   "frecuencia": "R/P1Y",
-   "fin": "1989-01-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
  "smvm__elegida": "57.1_SMVMM_0_M_34",
@@ -682,6 +682,15 @@
    "descripcion": "Nivel de precios del nivel general",
    "frecuencia": "R/P1M",
    "fin": "2026-07-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "196.1_NIVEL_GENERAL_2014_0_13",
+   "titulo": "nivel_general",
+   "descripcion": "Nivel de precios del nivel general",
+   "frecuencia": "R/P1M",
+   "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
@@ -713,15 +722,6 @@
   },
   {
    "puntaje": -999,
-   "id": "96.3_INGV_2008_M_20",
-   "titulo": "ipc_nivel_general_md",
-   "descripcion": "IPC Nivel General. Variación % mensual",
-   "frecuencia": "R/P1M",
-   "fin": "2013-12-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
    "id": "105.1_I2L_2016_M_18",
    "titulo": "ipc_2016_lavandina",
    "descripcion": "IPC-GBA. Precios. Lavandina. Mensual",
@@ -740,11 +740,11 @@
   },
   {
    "puntaje": -999,
-   "id": "105.1_I2A_2016_M_15",
-   "titulo": "ipc_2016_azucar",
-   "descripcion": "IPC-GBA. Precios. Azúcar. Mensual",
+   "id": "193.2_ESTACIONALLES_2021_0_12_84",
+   "titulo": "estacionales",
+   "descripcion": "Nivel de precios de estacionales",
    "frecuencia": "R/P1M",
-   "fin": "2026-08-01",
+   "fin": "2026-09-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
@@ -929,25 +929,7 @@
   },
   {
    "puntaje": -999,
-   "id": "341.1_TOTAL_AGLOIOR__30",
-   "titulo": "total_aglomerados_del_interior",
-   "descripcion": "Total aglomerados del Interior",
-   "frecuencia": "R/P6M",
-   "fin": "2003-05-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "342.1_TOTAL_AGLOIOR__30",
-   "titulo": "total_aglomerados_del_interior",
-   "descripcion": "Total aglomerados del Interior",
-   "frecuencia": "R/P6M",
-   "fin": "2003-05-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "343.1_TOTAL_AGLONOS__25",
+   "id": "342.1_TOTAL_AGLONOS__25",
    "titulo": "total_aglomerados_urbanos",
    "descripcion": "Total aglomerados urbanos",
    "frecuencia": "R/P6M",
@@ -956,24 +938,42 @@
   },
   {
    "puntaje": -999,
-   "id": "49.2_TOTAL_AGLOTES_0_T_48_13",
-   "titulo": "total_aglomerados_eph_subocupados_no_demandantes",
-   "descripcion": "Población subocupada no demandante del total de los aglomerados de la EPH, en miles de personas",
-   "frecuencia": "R/P3M",
-   "fin": "2026-04-01",
+   "id": "343.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "49.2_TAEO_0_0_30",
-   "titulo": "total_aglomerados_eph_ocupados",
-   "descripcion": "Población ocupada del total de los aglomerados de la EPH, en miles de personas",
-   "frecuencia": "R/P3M",
-   "fin": "2026-04-01",
+   "id": "344.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "341.1_TOTAL_AGLONOS__25",
+   "titulo": "total_aglomerados_urbanos",
+   "descripcion": "Total aglomerados urbanos",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "341.1_TOTAL_AGLOIOR__30",
+   "titulo": "total_aglomerados_del_interior",
+   "descripcion": "Total aglomerados del Interior",
+   "frecuencia": "R/P6M",
+   "fin": "2003-05-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "pobreza_personas__elegida": "64.2_POBLACION_NUA_0_0_34_74",
+ "pobreza_personas__elegida": null,
  "indigencia_personas": [
   {
    "puntaje": -999,

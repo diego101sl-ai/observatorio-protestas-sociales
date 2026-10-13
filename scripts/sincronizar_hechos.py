@@ -110,6 +110,10 @@ def links_de(h: dict) -> list[str]:
 # Hechos que el equipo marca como de acceso parcial (nota detrás de un muro de pago
 # o leída a medias) no se publican en la web.
 NO_PUBLICAR = re.compile(r"\[?\s*acceso\s+parcial\s*\]?", re.I)
+# Medios que no se publican en la web (los provinciales quedan para los informes y
+# los suscriptores). Configurable con HECHOS_MEDIOS_EXCLUIDOS, separados por «;».
+MEDIOS_EXCLUIDOS = {_sin_acentos(m.strip()) for m in os.environ.get(
+    "HECHOS_MEDIOS_EXCLUIDOS", "El Diario de la República;El Chorrillero;La Gaceta Digital;El Corredor Noticias").split(";") if m.strip()}
 
 
 def normalizar(h: dict) -> dict | None:
@@ -117,6 +121,8 @@ def normalizar(h: dict) -> dict | None:
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", fecha):
         return None
     if NO_PUBLICAR.search(f"{h.get('titulo') or ''} {h.get('cuerpo') or ''}"):
+        return None
+    if _sin_acentos((h.get("medio") or "").strip()) in MEDIOS_EXCLUIDOS:
         return None
     medio = (h.get("medio") or "").strip()
     escala = (h.get("escala") or "").strip()
@@ -179,7 +185,7 @@ def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
         "origen": origen,
         "fuente": {
             "nombre": "Algoritmo Inteligente · Seguimiento de Medios",
-            "descripcion": "Relevamiento diario del equipo de OITraF: unidades de registro clasificadas por escala, sector, eje y actores, a partir de 24 medios nacionales, latinoamericanos, internacionales y provinciales. En la web se publica el recorte de trabajo, agro e industria; el relevamiento completo se distribuye a suscriptores.",
+            "descripcion": "Relevamiento diario del equipo de OITraF: unidades de registro clasificadas por escala, sector, eje y actores, a partir de 24 medios nacionales, latinoamericanos, internacionales y provinciales. En la web se publica el recorte de trabajo, agro e industria de los 20 medios nacionales, latinoamericanos e internacionales; el relevamiento completo se distribuye a suscriptores.",
             "medios": sorted({h["medio"] for h in hechos if h["medio"]}),
         },
         "sectores_publicados": SECTORES_PUBLICOS,

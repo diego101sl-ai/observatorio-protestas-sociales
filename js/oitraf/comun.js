@@ -301,7 +301,9 @@ const PAIS_MEDIO = { "O Globo": ["br", "Brasil"], "La Jornada": ["mx", "México"
  */
 export function paisDeHecho(h) {
   if (h.escala === "Nacional" || h.escala === "Provincial") return { cc: "ar", nombre: "Argentina" };
-  const p = paisDeTexto(`${h.titulo} · ${h.resumen || ""}`);
+  // Si la ficha trae el campo Geo del dashboard (país), manda sobre el texto.
+  const geo = h.geo ? paisDeTexto(h.geo) : null;
+  const p = geo || paisDeTexto(`${h.titulo} · ${h.cuerpo || h.resumen || ""}`);
   if (h.escala !== "Latinoamericana") return p;
   if (p && LATAM_A2.has(p.cc)) return p;
   const m = PAIS_MEDIO[h.medio];

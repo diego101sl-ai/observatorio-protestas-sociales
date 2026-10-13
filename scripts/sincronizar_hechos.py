@@ -230,27 +230,33 @@ def guardar_estado(**campos) -> None:
     ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
-def _limpiar_secreto(valor: str, nombre: str) -> str:
-    """Tolera valores pegados con la fila entera de una tabla («1.ª<TAB>DASHBOARD_URL<TAB>valor»)
-    o con el nombre del secreto adelante: se queda con el último campo."""
-    v = (valor or "").strip()
-    if "\t" in v:
-        v = v.split("\t")[-1].strip()
+def _campo_pegado(valor: str, nombre: str) -> str:
+    """Tolera secretos pegados con una tabla entera («1.ª<TAB>DASHBOARD_URL<TAB>valor», varias
+    líneas): toma la línea que menciona el nombre del secreto (o la última no vacía) y, de ella,
+    el último campo separado por tabulación o barra vertical."""
+    lineas = [l.strip() for l in (valor or "").splitlines() if l.strip()]
+    if not lineas:
+        return ""
+    linea = next((l for l in lineas if nombre in l.upper()), lineas[-1])
+    campos = [c.strip() for c in re.split(r"[\t|]", linea) if c.strip()]
+    v = campos[-1] if campos else linea
     if v.upper().startswith(nombre + "="):
         v = v[len(nombre) + 1:].strip()
-    return v
+    return v.strip("`'\" ")
 
 
 def desde_dashboard() -> int:
-    base = _limpiar_secreto(os.environ.get("DASHBOARD_URL", ""), "DASHBOARD_URL").rstrip("/")
-    m = re.search(r"(?:https?://)?[\w.-]+\.[a-z]{2,}(?::\d+)?(?:/[\w./-]*)?", base, re.I)
-    if m:
-        base = m.group(0).rstrip("/")
-    email = _limpiar_secreto(os.environ.get("DASHBOARD_EMAIL", ""), "DASHBOARD_EMAIL")
-    m = re.search(r"[\w.+-]+@[\w.-]+\.[a-z]{2,}", email, re.I)
-    if m:
-        email = m.group(0)
-    clave = _limpiar_secreto(os.environ.get("DASHBOARD_PASSWORD", ""), "DASHBOARD_PASSWORD")
+    crudo_url = os.environ.get("DASHBOARD_URL", "")
+    crudo_email = os.environ.get("DASHBOARD_EMAIL", "")
+    crudo_clave = os.environ.get("DASHBOARD_PASSWORD", "")
+    # URL: la primera dirección https:// que aparezca (o un dominio suelto); correo: el primero válido.
+    m = re.search(r"https?://[^\s|`'\"]+", crudo_url) or re.search(r"[\w-]+(?:\.[\w-]+)+\.[a-z]{2,}(?:/[\w./-]*)?", _campo_pegado(crudo_url, "DASHBOARD_URL"), re.I)
+    base = (m.group(0) if m else _campo_pegado(crudo_url, "DASHBOARD_URL")).rstrip("/")
+    m = re.search(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", crudo_email)
+    email = m.group(0) if m else _campo_pegado(crudo_email, "DASHBOARD_EMAIL")
+    clave = crudo_clave.strip() if "\n" not in crudo_clave.strip() and "\t" not in crudo_clave else _campo_pegado(crudo_clave, "DASHBOARD_PASSWORD")
+    print(f"[i] credenciales: url {'ok' if re.match(r'^(https?://)?[\\w.-]+\\.[a-z]{2,}', base, re.I) else 'rara'}, "
+          f"correo {'ok' if '@' in email else 'raro'}, contraseña {'presente' if clave else 'vacía'}")
     if not base or not email or not clave:
         print("[i] Sin credenciales del dashboard (DASHBOARD_URL, DASHBOARD_EMAIL y DASHBOARD_PASSWORD). "
               "No se modifica data/hechos.json.")

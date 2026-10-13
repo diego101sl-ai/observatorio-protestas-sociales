@@ -60,33 +60,69 @@ function parrafos(texto) {
 function urlLink(l) { return typeof l === "string" ? l : l?.url; }
 function esX(l) { return typeof l !== "string" && l?.tipo === "x"; }
 
-/** Tarjeta de una noticia con la ficha completa. */
+/** Desarrollo breve: la primera oración u oraciones hasta ~240 caracteres. */
+function breve(texto, largo = 240) {
+  const t = String(texto || "").replace(/\s+/g, " ").trim();
+  if (t.length <= largo) return t;
+  const corte = t.slice(0, largo);
+  const fin = Math.max(corte.lastIndexOf(". "), corte.lastIndexOf("; "));
+  return (fin > 90 ? corte.slice(0, fin + 1) : corte.replace(/\s+\S*$/, "") + "…").trim();
+}
+
+/**
+ * Tarjeta de una noticia: plegada muestra la ficha mínima, el título y un desarrollo
+ * breve; al tocar el título o el cuerpo se despliega todo (cuerpo entero, actores,
+ * ficha, declaraciones y enlaces). Los enlaces externos no pliegan ni despliegan.
+ */
 export function itemNoticia(h) {
   const links = (h.links || []).map((l) => ({ url: urlLink(l), x: esX(l) })).filter((l) => l.url);
   const principal = links.find((l) => !l.x) || links[0];
-  const titulo = principal ? el("a", { href: principal.url, target: "_blank", rel: "noopener" }, h.titulo) : h.titulo;
   const p = paisDeHecho(h);
+  const texto = h.cuerpo || h.resumen || "";
   const cuerpo = h.cuerpo ? parrafos(h.cuerpo) : (h.resumen ? [h.resumen] : []);
+  const resumenBreve = breve(texto);
   const region = [h.region, h.provincia].filter(Boolean).join(" · ");
   const ficha = [["Eje", h.eje && h.eje !== h.sector ? h.eje : ""], ["Género", h.genero], ["Órbita", h.orbita], ["Momento", h.momento], ["Región", region], ["Geo", h.geo], ["Tag", h.tag]]
     .filter(([, v]) => v && String(v).trim());
-  return el("li", { class: "hecho" },
+  const idDetalle = `det-${h.id || Math.random().toString(36).slice(2)}`;
+
+  const btn = el("button", { class: "hecho-abrir", type: "button", "aria-expanded": "false", "aria-controls": idDetalle }, h.titulo);
+  const pista = el("span", { class: "hecho-pista" }, "Leer más ▾");
+  const detalle = el("div", { class: "hecho-detalle", id: idDetalle, hidden: true },
+    cuerpo.length ? el("div", { class: "hecho-cuerpo" }, ...cuerpo.map((t) => el("p", {}, t))) : null,
+    h.actores?.length ? el("div", { class: "hecho-actores" }, el("span", { class: "hecho-rotulo" }, "Actores"), ...h.actores.map((a) => el("span", {}, a))) : null,
+    ficha.length ? el("div", { class: "hecho-ficha" }, ...ficha.map(([k, v]) => el("span", {}, el("b", {}, `${k}: `), String(v)))) : null,
+    h.declaraciones?.length ? el("div", { class: "hecho-decl" },
+      el("span", { class: "hecho-rotulo" }, `Declaraciones · ${h.declaraciones.length}`),
+      ...h.declaraciones.map((d) => el("blockquote", {}, `«${d.cita}»`, d.quien ? el("cite", {}, d.quien) : null))) : null,
+    links.length ? el("div", { class: "hecho-leer" },
+      ...links.map((l, i) => el("a", { href: l.url, target: "_blank", rel: "noopener" },
+        l.x ? "Publicación en X ↗" : (l === principal ? `Leer la nota en ${h.medio} ↗` : `Enlace ${i + 1} ↗`)))) : null,
+  );
+  const li = el("li", { class: "hecho hecho--plegable" },
     el("div", { class: "hecho-meta" },
       bandera(h), p ? el("span", {}, p.nombre) : null,
       el("span", { class: "escala-tag" }, h.escala),
       h.id ? el("span", { class: "hecho-ur" }, `UR ${h.id}`) : null,
       el("span", {}, h.medio), el("span", {}, fmtFechaLarga(h.fecha))),
-    el("h3", { class: "hecho-titulo" }, titulo),
-    cuerpo.length ? el("div", { class: "hecho-cuerpo" }, ...cuerpo.map((t) => el("p", {}, t))) : null,
-    h.actores?.length ? el("div", { class: "hecho-actores" }, ...h.actores.map((a) => el("span", {}, a))) : null,
-    ficha.length ? el("div", { class: "hecho-ficha" }, ...ficha.map(([k, v]) => el("span", {}, el("b", {}, `${k}: `), String(v)))) : null,
-    h.declaraciones?.length ? el("details", { class: "hecho-decl" },
-      el("summary", {}, `Declaraciones · ${h.declaraciones.length}`),
-      ...h.declaraciones.map((d) => el("blockquote", {}, `«${d.cita}»`, d.quien ? el("cite", {}, d.quien) : null))) : null,
-    links.length ? el("div", { class: "hecho-leer" },
-      ...links.map((l, i) => el("a", { href: l.url, target: "_blank", rel: "noopener" },
-        l.x ? "Publicación en X ↗" : (l === principal ? `Leer en ${h.medio} ↗` : `Enlace ${i + 1} ↗`)))) : null,
+    el("h3", { class: "hecho-titulo" }, btn),
+    resumenBreve ? el("p", { class: "hecho-breve" }, resumenBreve, " ", pista) : null,
+    detalle,
   );
+  const alternar = (abrir) => {
+    const abierto = abrir ?? detalle.hidden;
+    detalle.hidden = !abierto;
+    li.classList.toggle("is-open", abierto);
+    btn.setAttribute("aria-expanded", String(abierto));
+    pista.textContent = abierto ? "Mostrar menos ▴" : "Leer más ▾";
+    li.querySelector(".hecho-breve")?.toggleAttribute("hidden", abierto && cuerpo.length > 0);
+  };
+  btn.addEventListener("click", () => alternar());
+  li.addEventListener("click", (ev) => {
+    if (ev.target.closest("a, button") || window.getSelection()?.toString()) return;
+    alternar();
+  });
+  return li;
 }
 
 function coincide(h, q) {

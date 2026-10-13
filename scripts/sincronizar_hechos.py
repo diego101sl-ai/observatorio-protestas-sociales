@@ -255,8 +255,9 @@ def desde_dashboard() -> int:
     m = re.search(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", crudo_email)
     email = m.group(0) if m else _campo_pegado(crudo_email, "DASHBOARD_EMAIL")
     clave = crudo_clave.strip() if "\n" not in crudo_clave.strip() and "\t" not in crudo_clave else _campo_pegado(crudo_clave, "DASHBOARD_PASSWORD")
-    print(f"[i] credenciales: url {'ok' if re.match(r'^(https?://)?[\\w.-]+\\.[a-z]{2,}', base, re.I) else 'rara'}, "
-          f"correo {'ok' if '@' in email else 'raro'}, contraseña {'presente' if clave else 'vacía'}")
+    url_ok = bool(re.match(r"^(https?://)?[\w.-]+\.[a-z]{2,}", base, re.I))
+    print(f"[i] credenciales: url {'ok' if url_ok else 'rara'}, correo {'ok' if '@' in email else 'raro'}, "
+          f"contraseña {'presente' if clave else 'vacía'}")
     if not base or not email or not clave:
         print("[i] Sin credenciales del dashboard (DASHBOARD_URL, DASHBOARD_EMAIL y DASHBOARD_PASSWORD). "
               "No se modifica data/hechos.json.")

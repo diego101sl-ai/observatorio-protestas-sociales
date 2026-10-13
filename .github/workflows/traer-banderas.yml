@@ -1,0 +1,37 @@
+# Trae las banderas en SVG (proyecto flag-icons, licencia MIT) a img/banderas/,
+# en proporción 4:3, para mostrar el país de cada protesta en el mapa de protestas.
+# Se ejecuta a mano o al cambiar este archivo.
+
+name: Traer banderas
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - ".github/workflows/traer-banderas.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  banderas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descargar flag-icons
+        run: |
+          set -e
+          curl -sSL -o /tmp/flags.tar.gz https://github.com/lipis/flag-icons/archive/refs/heads/main.tar.gz
+          mkdir -p /tmp/flags img/banderas
+          tar -xzf /tmp/flags.tar.gz -C /tmp/flags --wildcards '*/flags/4x3/*.svg' '*/LICENSE'
+          cp /tmp/flags/flag-icons-main/flags/4x3/*.svg img/banderas/
+          cp /tmp/flags/flag-icons-main/LICENSE img/banderas/LICENSE-flag-icons.txt
+          ls img/banderas | wc -l
+          du -sh img/banderas
+      - name: Publicar en la rama
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add img/banderas
+          git diff --cached --quiet && echo "Sin cambios" || (git commit -m "Agregar banderas SVG (flag-icons, MIT)" && git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}")

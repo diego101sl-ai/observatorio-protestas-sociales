@@ -122,7 +122,8 @@ def normalizar(h: dict) -> dict | None:
         return None
     if NO_PUBLICAR.search(f"{h.get('titulo') or ''} {h.get('cuerpo') or ''}"):
         return None
-    if _sin_acentos((h.get("medio") or "").strip()) in MEDIOS_EXCLUIDOS:
+    medio_norm = _sin_acentos((h.get("medio") or "").strip())
+    if not medio_norm or medio_norm == "SIN IDENTIFICAR" or medio_norm in MEDIOS_EXCLUIDOS:
         return None
     medio = (h.get("medio") or "").strip()
     escala = (h.get("escala") or "").strip()

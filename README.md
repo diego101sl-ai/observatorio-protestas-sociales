@@ -10,6 +10,7 @@ Es una web 100 % estática: no necesita servidor ni base de datos. Dos robots (G
 |---|---|
 | `index.html` | Portal: placas de indicadores de **Argentina**, **América Latina** y **Mundo** (número grande, período de referencia, variación, minigráfico y fuente), gráficos comparados, **cobertura de medios** filtrable por escala y sector, resumen del observatorio de protestas y tabla de **fuentes y método**. |
 | `indicadores.html` | Explorador de **todas las series**: filtros por escala, país, tema y fuente; búsqueda; comparación por geografía; cada serie con gráfico, tabla, descarga CSV y enlace al organismo. |
+| `notas.html` | **Publicaciones**: notas en medios (Nodal, Motor Económico, Radio Gráfica) con enlace al original, filtrables por medio, año y texto, y las notas semanales del equipo. Se alimenta de `data/notas.json`. |
 | `protestas.html` | Mapa mundial de protestas (GDELT) con la misma cabecera, tipografía y pie que el portal; filtros de período y palabra clave, cobertura traducida al español, gráfico diario y vista de tabla. |
 
 Registro editorial del observatorio (aplica a cada placa): dato verificable, fuente visible, período de referencia explícito. Cuando OITraF calcula un indicador (salario real, canasta del hogar, salario mínimo en canastas) se declara como elaboración propia y se enlaza la serie oficial de la que sale.
@@ -125,6 +126,10 @@ Mapa interactivo (teselas de OpenStreetMap, sin clave de API) que monitorea los 
 ⚠️ GDELT detecta eventos automáticamente en las noticias: es excelente para tendencias y focos, pero no es un recuento verificado a mano.
 
 **ACLED (opcional)**: base académica de eventos verificados a mano. Crear cuenta en <https://acleddata.com/> y cargar los secretos `ACLED_USERNAME` y `ACLED_PASSWORD`; el robot guarda `data/acled.json` y la web muestra un selector GDELT/ACLED.
+
+## Publicaciones
+
+`data/notas.json` tiene una entrada por nota: `medio`, `fecha` (`AAAA`, `AAAA-MM` o `AAAA-MM-DD`), `titulo`, `url`, `resumen`, `temas`, `autor` y `tipo` (`nota` para las publicadas en medios, `semanal` para las del equipo). Para sumar una nota semanal basta agregar una entrada con `tipo: "semanal"`; si la nota se aloja en este sitio, poner la ruta en `archivo` (por ejemplo `notas/2026-10-20-reforma-laboral.html` o un PDF) y la lista enlaza ahí. La página la ordena por fecha y arma sola los filtros.
 
 ## Suscripción y contacto
 

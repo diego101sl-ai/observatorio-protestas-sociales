@@ -1,0 +1,398 @@
+{
+ "actualizado": "2026-10-13",
+ "autoria": "Diego Lorca, director de OITraF, salvo indicación en contrario",
+ "licencia": "Los textos pertenecen a cada medio; esta lista enlaza a la publicación original.",
+ "notas": [
+  {
+   "medio": "Nodal",
+   "fecha": "2026-08-15",
+   "titulo": "Cien años de Fidel Castro: el trabajo hizo al hombre, el capital lo convirtió en bestia",
+   "url": "https://www.nodal.am/2026/08/cien-anos-de-fidel-castro-el-trabajo-hizo-al-hombre-el-capital-lo-convirtio-en-bestia-por-diego-lorca/",
+   "resumen": "A cien años del nacimiento de Fidel Castro, el lugar del trabajo en su concepción de la vida humana.",
+   "temas": [
+    "historia",
+    "Cuba"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2026-07-30",
+   "titulo": "Kast impulsa en Chile una reforma laboral comparable al Plan Laboral de la dictadura pinochetista",
+   "url": "https://www.nodal.am/2026/07/kast-impulsa-en-chile-una-reforma-laboral-comparable-al-plan-laboral-de-la-dictadura-pinochetista-por-diego-lorca/",
+   "resumen": "El estatuto laboral del turismo que el gobierno chileno envió al Congreso, leído a la luz del Plan Laboral de la dictadura.",
+   "temas": [
+    "reforma laboral",
+    "Chile"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2026-07-20",
+   "titulo": "En Argentina, los repartidores se endeudan con las plataformas para las que trabajan",
+   "url": "https://www.nodal.am/2026/07/en-argentina-los-repartidores-se-endeudan-con-las-plataformas-para-las-que-trabajan-por-diego-lorca/",
+   "resumen": "A partir de un informe del Banco Central: préstamos de las plataformas a sus propios repartidores, métricas y propuestas de regulación.",
+   "temas": [
+    "plataformas",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2026-05-13",
+   "titulo": "China, un camino de regulación para las «nuevas formas» de empleo",
+   "url": "https://www.nodal.am/2026/05/china-un-camino-de-regulacion-para-las-nuevas-formas-de-empleo-por-diego-lorca/",
+   "resumen": "Las nuevas reglas chinas para el trabajo de plataformas, con salario mínimo garantizado y transparencia algorítmica.",
+   "temas": [
+    "plataformas",
+    "China"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2026-05-01",
+   "titulo": "Argentina: cada vez más trabajadores pasan hambre",
+   "url": "https://www.nodal.am/2026/05/argentina-cada-vez-mas-trabajadores-pasan-hambre-por-diego-lorca/",
+   "resumen": "Salario mínimo, línea de pobreza y pérdida de empleos desde fines de 2023: el deterioro de la situación laboral bajo el gobierno de Milei.",
+   "temas": [
+    "salarios",
+    "pobreza",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2026-02",
+   "titulo": "Argentina: el Senado aprobó la reforma laboral y avanza en la precarización de los derechos laborales y políticos",
+   "url": "https://www.nodal.am/2026/02/argentina-el-senado-aprobo-la-reforma-laboral-y-avanza-en-la-precarizacion-de-los-derechos-laborales-y-politicos-por-diego-lorca/",
+   "resumen": "La media sanción del Senado, con 42 votos, dentro del paquete de reformas reclamadas por el FMI.",
+   "temas": [
+    "reforma laboral",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2026-01-23",
+   "titulo": "Claudia Sheinbaum demuestra en México un modelo de crecimiento económico con distribución de la riqueza",
+   "url": "https://www.nodal.am/2026/01/claudia-sheinbaum-demuestra-en-mexico-un-modelo-de-crecimiento-economico-con-distribucion-de-la-riqueza-por-diego-lorca/",
+   "resumen": "El decreto previsional de Sheinbaum como pieza de un modelo que combina crecimiento y distribución.",
+   "temas": [
+    "México",
+    "previsión social"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Motor Económico",
+   "fecha": "2025-11",
+   "titulo": "Cada vez más trabajadores pasan hambre en el gobierno de Javier Milei",
+   "url": "https://motoreconomico.com.ar/cada-vez-mas-trabajadores-pasan-hambre-en-el-gobierno-de-javier-milei/",
+   "resumen": "Trabajadores que no llegan a cubrir la canasta básica y un modelo fiscal que se sostiene sobre esa caída.",
+   "temas": [
+    "salarios",
+    "pobreza",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Radio Gráfica",
+   "fecha": "2025-10-15",
+   "titulo": "¿Quiénes son los jóvenes de la Generación Z que están tomando las calles?",
+   "url": "https://radiografica.org.ar/2025/10/15/quienes-son-los-jovenes-de-la-generacion-z-que-estan-tomando-las-calles/",
+   "resumen": "Los primeros nativos digitales y su protagonismo en las protestas callejeras de 2025.",
+   "temas": [
+    "juventud",
+    "protestas"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-10-08",
+   "titulo": "¿Quiénes son los jóvenes de la Generación Z que están tomando las calles?",
+   "url": "https://www.nodal.am/2025/10/quienes-son-los-jovenes-de-la-generacion-z-que-estan-tomando-las-calles-por-diego-lorca/",
+   "resumen": "Las protestas juveniles en Nepal, Marruecos y Madagascar leídas desde el mercado de trabajo y la opacidad algorítmica.",
+   "temas": [
+    "juventud",
+    "protestas"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Motor Económico",
+   "fecha": "2025-10",
+   "titulo": "«No Kings»: el pueblo norteamericano movilizado contra el autoritarismo de Donald Trump",
+   "url": "https://motoreconomico.com.ar/edicionespecialmotorcumple9-no-kings-el-pueblo-norteamericano-movilizado-contra-el-autoritarismo-de-donald-trump/",
+   "resumen": "Edición especial por el noveno aniversario de Motor Económico: las protestas del 18 de octubre de 2025 en Estados Unidos.",
+   "temas": [
+    "protestas",
+    "Estados Unidos"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-09-08",
+   "titulo": "Caravana global por Palestina y protestas en todo el mundo para frenar el genocidio",
+   "url": "https://www.nodal.am/2025/09/caravana-global-por-palestina-y-protestas-en-todo-el-mundo-para-frenar-el-genocidio-por-diego-lorca/",
+   "resumen": "La flotilla que partió de Barcelona hacia Gaza y la ola de protestas internacionales.",
+   "temas": [
+    "protestas",
+    "Palestina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-08-14",
+   "titulo": "Industria 4.0 o industricidio: ¿qué futuro espera al trabajo en Argentina?",
+   "url": "https://www.nodal.am/2025/08/industria-4-0-o-industricidio-que-futuro-espera-al-trabajo-en-argentina-por-diego-lorca/",
+   "resumen": "El caso Acindar como síntoma de la desindustrialización argentina y de la disyuntiva entre modernización y cierre.",
+   "temas": [
+    "industria",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-05-03",
+   "titulo": "1º de Mayo: el pueblo trabajador sale a la calle en todo el mundo",
+   "url": "https://www.nodal.am/2025/05/1o-de-mayo-el-pueblo-trabajador-sale-a-la-calle-en-todo-el-mundo-por-diego-lorca/",
+   "resumen": "Recorrido por las movilizaciones del Día del Trabajador en varios países, de Yakarta a Ciudad de México.",
+   "temas": [
+    "protestas",
+    "1º de Mayo"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-04-18",
+   "titulo": "China y sus revolucionarias dark factories sin trabajadores",
+   "url": "https://www.nodal.am/2025/04/china-y-sus-revolucionarias-dark-factories-sin-trabajadores-por-diego-lorca/",
+   "resumen": "Fábricas sin luz ni operarios en Foxconn y BYD: la automatización china y el desplazamiento del trabajo humano.",
+   "temas": [
+    "automatización",
+    "China"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-03-19",
+   "titulo": "Más trabajo, menos riqueza: la brecha productiva que condena a la clase trabajadora",
+   "url": "https://www.nodal.am/2025/03/mas-trabajo-menos-riqueza-la-brecha-productiva-que-condena-a-la-clase-trabajadora/",
+   "resumen": "La productividad por hora de las economías avanzadas cuadruplica la de varios países latinoamericanos; por qué hace falta una estrategia productiva de largo plazo.",
+   "temas": [
+    "productividad",
+    "América Latina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-01-24",
+   "titulo": "¿Podrá el trumpismo convertirse en el partido de los trabajadores?",
+   "url": "https://www.nodal.am/2025/01/podra-el-trumpismo-convertirse-en-el-partido-de-los-trabajadores-por-diego-lorca/",
+   "resumen": "Tras la asunción de Trump, qué lugar ocupa la clase trabajadora en el proyecto republicano.",
+   "temas": [
+    "Estados Unidos"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2025-01",
+   "titulo": "Anuario 2024. El trabajo en la nueva fase del capitalismo digital: nuevas formas de explotación y resistencia para la clase trabajadora",
+   "url": "https://www.nodal.am/2025/01/anuario-2024-el-trabajo-en-la-nueva-fasedel-capitalismo-digital-nuevas-formas-de-explotacion-y-resistencia-para-la-clase-trabajadora/",
+   "resumen": "Anuario coordinado por Diego Lorca sobre plataformas, automatización y resistencias del trabajo en 2024.",
+   "temas": [
+    "anuario",
+    "capitalismo digital"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2024-11-01",
+   "titulo": "Elecciones en Estados Unidos: ¿qué le espera a la clase trabajadora?",
+   "url": "https://www.nodal.am/2024/11/elecciones-en-estados-unidos-que-le-espera-a-la-clase-trabajadora-por-diego-lorca/",
+   "resumen": "Las propuestas de Trump y Harris para los trabajadores, en la previa de la elección presidencial.",
+   "temas": [
+    "Estados Unidos",
+    "elecciones"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Radio Gráfica",
+   "fecha": "2024-10-09",
+   "titulo": "La reforma laboral, el camino de Milei hacia los juegos del hambre",
+   "url": "https://radiografica.org.ar/2024/10/09/la-reforma-laboral-el-camino-de-milei-hacia-los-juegos-del-hambre/",
+   "resumen": "Crítica a la reforma laboral del gobierno y a las políticas de ajuste que profundizan la crisis.",
+   "temas": [
+    "reforma laboral",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Radio Gráfica",
+   "fecha": "2024-07-16",
+   "titulo": "Esclavos del trabajo: el círculo vicioso de la baja productividad en Latinoamérica",
+   "url": "https://radiografica.org.ar/2024/07/16/esclavos-del-trabajo-el-circulo-vicioso-de-la-baja-productividad-en-latinoamerica/",
+   "resumen": "Baja productividad y mala calidad del empleo, dos caras del mismo problema regional.",
+   "temas": [
+    "productividad",
+    "América Latina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2024-07-13",
+   "titulo": "Esclavos del trabajo: el círculo vicioso de la baja productividad en Latinoamérica",
+   "url": "https://www.nodal.am/2024/07/esclavos-del-trabajo-el-circulo-vicioso-de-la-baja-productividad-en-latinoamerica-por-diego-lorca/",
+   "resumen": "Desempleo en alza, desigualdad y productividad estancada: cómo se refuerzan entre sí en la región.",
+   "temas": [
+    "productividad",
+    "América Latina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Radio Gráfica",
+   "fecha": "2024-04-23",
+   "titulo": "La casta avanza mientras las y los trabajadores retroceden",
+   "url": "https://radiografica.org.ar/2024/04/23/la-casta-avanza-mientras-las-y-los-trabajadores-retroceden/",
+   "resumen": "Los indicadores de los primeros meses del gobierno de Milei y su impacto sobre quienes viven de un salario.",
+   "temas": [
+    "salarios",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2024-03-22",
+   "titulo": "Argentina: nuevo secretario de Trabajo",
+   "url": "https://www.nodal.am/2024/03/argentina-nuevo-secretario-de-trabajo-por-diego-lorca/",
+   "resumen": "Perfil de Julio Cordero, abogado de Techint y delegado empleador ante la OIT, al frente de la Secretaría de Trabajo.",
+   "temas": [
+    "Argentina",
+    "política laboral"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Radio Gráfica",
+   "fecha": "2024-03-19",
+   "titulo": "¿Quién es Julio Cordero? Un lobo cuidando las ovejas",
+   "url": "https://radiografica.org.ar/2024/03/19/quien-es-julio-cordero-un-lobo-cuidando-las-ovejas/",
+   "resumen": "Perfil del flamante secretario de Trabajo y de los intereses que representa.",
+   "temas": [
+    "Argentina",
+    "política laboral"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2024-02-22",
+   "titulo": "Qué hay detrás de la reducción de la jornada laboral en República Dominicana",
+   "url": "https://www.nodal.am/2024/02/que-hay-detras-de-la-reduccion-de-la-jornada-laboral-en-republica-dominicana-por-diego-lorca/",
+   "resumen": "La discusión dominicana como parte de una tendencia global hacia jornadas más cortas impulsada por la tecnología y la productividad.",
+   "temas": [
+    "jornada laboral",
+    "América Latina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2024-02-02",
+   "titulo": "Argentina: de la tragedia a la farsa, crónica de un industricidio anunciado",
+   "url": "https://www.nodal.am/2024/02/argentina-de-la-tragedia-a-la-farsa-cronica-de-un-industricidio-anunciado-por-diego-lorca/",
+   "resumen": "El programa económico del gobierno de Milei y sus efectos sobre la industria y el empleo.",
+   "temas": [
+    "industria",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Motor Económico",
+   "fecha": "2024-02",
+   "titulo": "El gobierno de Milei sigue sumando derrotas, sin reforma laboral ni Ley Ómnibus",
+   "url": "https://motoreconomico.com.ar/el-gobierno-de-milei-sigue-sumando-derrotas-sin-reforma-laboral-ni-ley-omnibus/",
+   "resumen": "Por qué el proyecto de reforma del gobierno no responde a lo que necesitan los trabajadores tras la caída del salario real.",
+   "temas": [
+    "reforma laboral",
+    "Argentina"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Nodal",
+   "fecha": "2023-10-04",
+   "titulo": "Sobre la Inteligencia Artificial y el futuro del trabajo",
+   "url": "https://www.nodal.am/2023/10/sobre-la-inteligencia-artificial-y-el-futuro-del-trabajo-por-diego-lorca/",
+   "resumen": "A partir de un informe de IBM sobre automatización, discute si el riesgo está en la tecnología o en los intereses de quienes la controlan.",
+   "temas": [
+    "inteligencia artificial",
+    "futuro del trabajo"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  },
+  {
+   "medio": "Motor Económico",
+   "fecha": "2023",
+   "titulo": "Reforma previsional en Francia: ¿trabajar más porque se vive más?",
+   "url": "https://motoreconomico.com.ar/reforma-previsional-en-francia-trabajar-mas-porque-se-vive-mas/",
+   "resumen": "Las huelgas generales francesas de 2023 y la discusión sobre la edad jubilatoria.",
+   "temas": [
+    "previsión social",
+    "Francia"
+   ],
+   "autor": "Diego Lorca",
+   "tipo": "nota"
+  }
+ ]
+}

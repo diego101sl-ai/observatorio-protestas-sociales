@@ -431,18 +431,18 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIETAC_2012_M_43",
-   "titulo": "independientes_monotributo_social_sin_estac",
-   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
+   "id": "151.1_IPENDIEDAD_2012_M_48",
+   "titulo": "independientes_monotributo_social_estacionalidad",
+   "descripcion": "Independientes monotributo social. Con estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIETAC_2012_M_34",
-   "titulo": "independientes_autonomos_sin_estac",
-   "descripcion": "Independientes autónomos. Sin estacionalidad.",
+   "id": "151.1_AARIADODAD_2012_M_30",
+   "titulo": "asalariados_pub_estacionalidad",
+   "descripcion": "Asalariados. Sector público. Con estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -761,11 +761,11 @@
   },
   {
    "puntaje": 26,
-   "id": "364.3_TOTALTAL__5",
-   "titulo": "total",
-   "descripcion": "Total",
+   "id": "150.1_CSTA_BATAL_0_D_20",
+   "titulo": "canasta_basica_total",
+   "descripcion": "Canasta básica total desde 2016. Pesos corrientes.",
    "frecuencia": "R/P1M",
-   "fin": "2026-06-01",
+   "fin": "2026-08-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
@@ -788,6 +788,24 @@
   },
   {
    "puntaje": 24,
+   "id": "444.1_CANASTA_batotNoroeste_0_0_26_47",
+   "titulo": "noroeste",
+   "descripcion": "Canasta Básica Total. Noroeste",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "444.1_CANASTA_batotPatagonia_0_0_26_47",
+   "titulo": "patagonia",
+   "descripcion": "Canasta Básica Total. Patagonia",
+   "frecuencia": "R/P1M",
+   "fin": "2025-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
    "id": "444.1_CANASTA_batotPampeana_0_0_26_47",
    "titulo": "pampeana",
    "descripcion": "Canasta Básica Total. Pampeana",
@@ -802,24 +820,6 @@
    "descripcion": "Canasta Básica Total. Gran Buenos Aires",
    "frecuencia": "R/P1M",
    "fin": "2025-12-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": 12,
-   "id": "364.2_TOTALTAL__5",
-   "titulo": "total",
-   "descripcion": "Total",
-   "frecuencia": "R/P3M",
-   "fin": "2026-04-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": 12,
-   "id": "364.1_TOTALTAL__5",
-   "titulo": "total",
-   "descripcion": "Total",
-   "frecuencia": "R/P1Y",
-   "fin": "2025-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
@@ -898,7 +898,7 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "cba__elegida": "150.1_CSTA_BARIA_0_D_26",
+ "cba__elegida": "444.1_CANASTA_BARIAPatagonia_0_0_26_47",
  "pobreza_personas": [
   {
    "puntaje": 26,
@@ -1022,27 +1022,27 @@
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_38_89",
-   "titulo": "hogares_pobres_pct_corrientes_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Corrientes. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_43_38",
+   "titulo": "hogares_pobres_pct_santa_rosa_toay_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Santa Rosa - Toay. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_40_30",
-   "titulo": "hogares_pobres_pct_gran_mendoza_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran Mendoza. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_38_52",
+   "titulo": "hogares_pobres_pct_rio_cuarto_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Río Cuarto. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "63.2_HOGARES_PONUA_0_0_32_37",
-   "titulo": "hogares_pobres_pct_caba_continua",
-   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Ciudad de Buenos Aires. EPH continua.",
+   "id": "63.2_HOGARES_PONUA_0_0_41_76",
+   "titulo": "hogares_pobres_pct_gran_la_plata_continua",
+   "descripcion": "Hogares con ingresos debajo de línea de pobreza (%) desde 2003. Gran La Plata. EPH continua.",
    "frecuencia": "R/P6M",
    "fin": "2026-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -1115,13 +1115,13 @@
   },
   {
    "puntaje": -999,
-   "id": "11.1_CMMR_2004_A_10",
-   "titulo": "ensenianza",
-   "descripcion": "EMAE. Enseñanza",
-   "frecuencia": "R/P1Y",
-   "fin": "2025-01-01",
+   "id": "309.1_PRODUCCIONADO_0_M_40",
+   "titulo": "produccion_industrial_desestacionalizado",
+   "descripcion": "Producción industrial Desestacionalizado",
+   "frecuencia": "R/P1M",
+   "fin": "2022-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "emae__elegida": null
+ "emae__elegida": "143.3_NO_PR_2004_A_31"
 }

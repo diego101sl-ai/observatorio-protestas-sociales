@@ -239,10 +239,12 @@ def desde_dashboard() -> int:
               "No se modifica data/hechos.json.")
         guardar_estado(ok=False, motivo="sin credenciales")
         return 0
-    if not base.startswith("https://"):
-        print("[ERR] DASHBOARD_URL debe empezar con https:// (las credenciales viajan en el login).")
-        guardar_estado(ok=False, motivo="DASHBOARD_URL sin https")
+    if base.startswith("http://"):
+        print("[ERR] DASHBOARD_URL debe usar https:// (las credenciales viajan en el login).")
+        guardar_estado(ok=False, motivo="DASHBOARD_URL con http")
         return 1
+    if not base.startswith("https://"):
+        base = "https://" + base  # se admite la URL sin esquema ("mi-panel.onrender.com")
     try:
         sesion = pedir_con_reintentos(f"{base}/api/auth/login", headers={"Content-Type": "application/json"},
                                       data=json.dumps({"email": email, "password": clave}).encode())

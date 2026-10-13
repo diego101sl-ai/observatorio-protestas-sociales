@@ -1,0 +1,59 @@
+# Sincroniza la cobertura de medios desde el dashboard «Algoritmo Inteligente ·
+# Seguimiento de Medios» y publica el recorte público en data/hechos.json.
+# Corre cada 3 horas; también a mano y al cambiar el conector. Necesita los
+# secretos DASHBOARD_URL, DASHBOARD_EMAIL y DASHBOARD_PASSWORD (cuenta de solo
+# lectura, rol Lector). Sin ellos termina sin tocar los datos.
+
+name: Sincronizar cobertura de medios
+
+on:
+  schedule:
+    - cron: "41 */3 * * *"   # cada 3 horas, minuto 41 (UTC)
+  workflow_dispatch: {}
+  push:
+    paths:
+      - "scripts/sincronizar_hechos.py"
+      - ".github/workflows/sincronizar-hechos.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hechos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sincronizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Traer la cobertura del dashboard
+        env:
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+          DASHBOARD_EMAIL: ${{ secrets.DASHBOARD_EMAIL }}
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+        run: python3 scripts/sincronizar_hechos.py
+
+      - name: Publicar en la rama
+        env:
+          RAMA: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/hechos.json data/hechos_estado.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git commit -m "Sincronizar cobertura de medios (dashboard)"
+          for i in 1 2 3; do
+            git pull --rebase origin "$RAMA" && git push origin "HEAD:$RAMA" && exit 0
+            sleep $((i * 10))
+          done
+          exit 1

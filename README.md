@@ -43,15 +43,20 @@ Las series argentinas se localizan en el catálogo oficial por búsqueda de text
 
 ### 2. Cobertura de medios · `scripts/sincronizar_hechos.py`
 
-Se ejecuta en el mismo workflow. Inicia sesión en el dashboard *Algoritmo Inteligente* con una **cuenta de solo lectura** y publica en `data/hechos.json` un extracto de las últimas semanas (título, resumen breve, medio, escala, sector, eje, fecha, actores y enlaces a las notas). No publica el cuerpo completo de los hechos ni datos de quien los cargó.
+Workflow propio (`sincronizar-hechos.yml`), **cada 3 horas** y a mano desde Actions. Inicia sesión en el dashboard *Algoritmo Inteligente* (`POST /api/auth/login`) con una **cuenta de solo lectura**, descarga el listado (`GET /api/hechos`) y publica en `data/hechos.json` un extracto de las últimas semanas (título, resumen breve, medio, escala, sector, eje, fecha, actores y enlaces a las notas). No publica el cuerpo completo de los hechos ni datos de quien los cargó. Reintenta ante caídas de red o errores del servidor y deja el resultado de la última corrida en `data/hechos_estado.json` (diagnóstico interno).
 
-Secretos del repositorio (**Settings → Secrets and variables → Actions**):
+**Cómo vincularlo (una sola vez):**
+
+1. En el dashboard, con una cuenta Editor: **Usuarios → Nuevo usuario**, rol **Lector**, por ejemplo «Robot OITraF» con un correo propio y una contraseña larga. Lector solo lee: no edita, no exporta.
+2. En este repositorio, **Settings → Secrets and variables → Actions → New repository secret**:
 
 | Secreto | Valor |
 |---|---|
-| `DASHBOARD_URL` | URL del dashboard, sin barra final |
-| `DASHBOARD_EMAIL` | correo de la cuenta de solo lectura (rol Lector) |
+| `DASHBOARD_URL` | URL del dashboard con `https://` y sin barra final (p. ej. `https://seguimiento-medios.onrender.com`) |
+| `DASHBOARD_EMAIL` | correo de la cuenta Lector creada en el paso 1 |
 | `DASHBOARD_PASSWORD` | su contraseña |
+
+3. **Actions → Sincronizar cobertura de medios → Run workflow**. Si todo está bien, el robot commitea `data/hechos.json` con `"modo": "dashboard"` y la portada pasa a mostrar la fecha de la última sincronización.
 
 Sin credenciales, el paso no modifica el archivo existente y la web muestra un aviso en la sección de cobertura. Variables opcionales: `HECHOS_DIAS` (ventana, 45 por defecto), `HECHOS_MAX` (tope de hechos, 4000) y `HECHOS_SECTORES` (sectores que se publican en la web; por defecto `TRABAJADORES,AGRO,INDUSTRIA`, el resto del relevamiento queda reservado a suscriptores).
 

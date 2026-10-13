@@ -406,6 +406,13 @@ function banderaHtml(pais) {
   if (!pais) return "";
   return `<img class="bandera" src="img/banderas/${escapeHtml(pais.cc)}.svg" alt="${escapeHtml(pais.nombre)}" title="${escapeHtml(pais.nombre)}" width="18" height="14" decoding="async">`;
 }
+const MESES_LARGO = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+/** Fecha corta para el ticker: «10 octubre» (año solo si no es el actual). */
+function fechaTicker(d) {
+  if (!(d instanceof Date) || Number.isNaN(d.getTime())) return "";
+  const anio = d.getFullYear() === new Date().getFullYear() ? "" : ` ${d.getFullYear()}`;
+  return `${d.getDate()} ${MESES_LARGO[d.getMonth()]}${anio}`;
+}
 function renderTicker() {
   const bar = document.getElementById("ticker");
   const track = document.getElementById("ticker-track");
@@ -416,7 +423,7 @@ function renderTicker() {
   const half = arts
     .map(
       (a) =>
-        `<a class="ticker-item${a.pais ? "" : " ticker-item--sin-pais"}" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${banderaHtml(a.pais)}${escapeHtml(a.title)}</a>`
+        `<a class="ticker-item${a.pais ? "" : " ticker-item--sin-pais"}" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${fechaTicker(a.seenDate) ? `<time class="ticker-fecha" datetime="${a.seenDate.toISOString()}">${fechaTicker(a.seenDate)}</time>` : ""}${banderaHtml(a.pais)}${escapeHtml(a.title)}</a>`
     )
     .join("");
   track.innerHTML = half + half; // dos copias para el bucle continuo

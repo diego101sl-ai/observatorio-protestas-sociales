@@ -84,6 +84,16 @@
   vertical-align: 3px;
 }
 .ticker-item:hover { color: #ffffff; text-decoration: underline; text-underline-offset: 2px; }
+/* Fecha de la noticia al inicio de cada titular del ticker («10 octubre») */
+.ticker-fecha {
+  color: #f2b134;
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 0.55rem;
+  font-variant-numeric: tabular-nums;
+}
 /* Bandera del país donde ocurre la protesta (img/banderas, SVG 4:3) */
 .bandera {
   display: inline-block;

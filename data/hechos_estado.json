@@ -1,5 +1,7 @@
 {
- "cuando": "2026-10-13T16:23:38Z",
- "ok": false,
- "motivo": "sin credenciales"
+ "cuando": "2026-10-13T16:30:36Z",
+ "ok": true,
+ "modo": "dashboard",
+ "total_corpus": 28356,
+ "ultima_fecha": "2026-10-13"
 }

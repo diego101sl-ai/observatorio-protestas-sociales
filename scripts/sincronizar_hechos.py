@@ -150,6 +150,69 @@ def normalizar(h: dict) -> dict | None:
     }
 
 
+NOTICIAS = RAIZ / "data" / "noticias.json"
+NOTICIAS_DIAS = int(os.environ.get("NOTICIAS_DIAS", "12"))  # la web muestra 10; el margen cubre husos horarios
+
+
+def _texto(v) -> str:
+    return re.sub(r"[ \t]+", " ", str(v or "")).replace("\r\n", "\n").strip()
+
+
+def ficha(h: dict, base: dict) -> dict:
+    """Ficha completa de una unidad de registro del sector Trabajadores, con todo lo
+    que muestra la pantalla de lectura del dashboard salvo quién la cargó."""
+    links = []
+    for l in h.get("links") or []:
+        u = (l.get("url") if isinstance(l, dict) else l) or ""
+        if u.startswith("http"):
+            links.append({"url": u.strip(), "tipo": "x" if (isinstance(l, dict) and l.get("tipo") == "x") or re.search(r"(?://|\.)(?:x|twitter)\.com/", u) else "nota"})
+    for k, tipo in (("linkUrl", "nota"), ("linkX", "x")):
+        u = h.get(k) or ""
+        if isinstance(u, str) and u.startswith("http") and not any(x["url"] == u.strip() for x in links):
+            links.append({"url": u.strip(), "tipo": tipo})
+    decl = []
+    for d in h.get("declaraciones") or []:
+        if isinstance(d, dict) and (d.get("cita") or d.get("texto")):
+            decl.append({"quien": _texto(d.get("quien")), "cita": _texto(d.get("cita") or d.get("texto"))})
+    return {
+        **base,
+        "cuerpo": _texto(h.get("cuerpo")),
+        "actores": [str(a) for a in (h.get("actores") or [])],
+        "links": links,
+        "orbita": _texto(h.get("orbita")),
+        "region": _texto(h.get("region")),
+        "provincia": _texto(h.get("provincia")),
+        "geo": _texto(h.get("geo")),
+        "momento": _texto(h.get("momento")),
+        "tag": _texto(h.get("tag")),
+        "declaraciones": decl,
+    }
+
+
+def escribir_noticias(hechos_crudos: list[dict], generado: str) -> None:
+    """data/noticias.json: las UR del sector Trabajadores de los últimos NOTICIAS_DIAS
+    días con su ficha completa (cuerpo, actores, enlaces, órbita, región, declaraciones)."""
+    pares = [(h, normalizar(h)) for h in hechos_crudos]
+    pares = [(h, n) for h, n in pares if n and n["titulo"] and n["sector"] == "TRABAJADORES"]
+    if not pares:
+        return
+    hasta = max(n["fecha"] for _, n in pares)
+    desde = (dt.date.fromisoformat(hasta) - dt.timedelta(days=NOTICIAS_DIAS - 1)).isoformat()
+    noticias = [ficha(h, n) for h, n in pares if n["fecha"] >= desde]
+    noticias.sort(key=lambda x: (x["fecha"], int(x.get("id") or 0)), reverse=True)
+    salida = {
+        "generado": generado,
+        "publicado_por": "OITraF · Observatorio Internacional del Trabajo del Futuro",
+        "licencia": "Selección, clasificación y redacción de las unidades de registro bajo CC BY 4.0 (citar a OITraF con enlace). Los enlaces remiten a las notas de cada medio, cuyos textos pertenecen a sus autores.",
+        "sector": "TRABAJADORES",
+        "ventana": {"desde": desde, "hasta": hasta, "dias": NOTICIAS_DIAS},
+        "total": len(noticias),
+        "noticias": noticias,
+    }
+    NOTICIAS.write_text(json.dumps(salida, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"[✓] {NOTICIAS.relative_to(RAIZ)}: {len(noticias)} noticias del trabajo ({desde} → {hasta}), {NOTICIAS.stat().st_size // 1024} KB")
+
+
 def resumen(hechos: list[dict], desde: str, hasta: str) -> dict:
     por_dia = Counter(h["fecha"] for h in hechos)
     dias = []
@@ -198,6 +261,7 @@ def escribir(hechos_crudos: list[dict], modo: str, origen: str) -> None:
     }
     SALIDA.parent.mkdir(parents=True, exist_ok=True)
     SALIDA.write_text(json.dumps(salida, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    escribir_noticias(hechos_crudos, salida["generado"])
     print(f"[✓] {SALIDA.relative_to(RAIZ)}: {len(ventana)} hechos ({desde} → {hasta}), modo {modo}, "
           f"{SALIDA.stat().st_size // 1024} KB")
 

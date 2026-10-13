@@ -462,6 +462,16 @@ table.datos .periodo { color: var(--text-muted); font-size: 0.75rem; white-space
 .noticia-dia { list-style: none; margin: 1.1rem 0 0.2rem; padding: 0 0 0.3rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--hairline); }
 .noticia-dia:first-child { margin-top: 0; }
 .noticia-dia + .hecho { border-top: 0; }
+.hecho-cuerpo { margin: 0.35rem 0 0; font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); }
+.hecho-cuerpo p { margin: 0 0 0.45rem; }
+.hecho-cuerpo p:last-child { margin-bottom: 0; }
+.hecho-ur { font-family: var(--font-mono); color: var(--accent); }
+.hecho-ficha { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; margin-top: 0.45rem; font-size: 0.74rem; color: var(--text-muted); }
+.hecho-ficha b { font-weight: 600; color: var(--text-secondary); }
+.hecho-decl { margin: 0.5rem 0 0; }
+.hecho-decl summary { cursor: pointer; font-size: 0.78rem; color: var(--accent); }
+.hecho-decl blockquote { margin: 0.45rem 0 0; padding: 0.3rem 0 0.3rem 0.8rem; border-left: 3px solid var(--hairline); font-size: 0.86rem; line-height: 1.5; color: var(--text-secondary); }
+.hecho-decl blockquote cite { display: block; font-style: normal; font-size: 0.74rem; color: var(--text-muted); margin-top: 0.15rem; }
 .hecho-actores { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
 .hecho-actores span { border: 1px solid var(--hairline); border-radius: 999px; padding: 0.05rem 0.5rem; font-size: 0.7rem; color: var(--text-muted); }
 .noticias--portada .hecho { padding: 0.55rem 0; }

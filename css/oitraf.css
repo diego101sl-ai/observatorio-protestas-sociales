@@ -214,6 +214,13 @@ button { font: inherit; }
   padding: 0.35rem 0; border-bottom: 2px solid transparent;
 }
 .nav a:hover, .nav a[aria-current="page"] { border-bottom-color: var(--red); color: #fff; }
+/* Las tres escalas (Argentina, América Latina, Mundo) se distinguen del resto con una píldora azul */
+.nav .nav-escala {
+  background: rgba(31, 95, 191, 0.32); border: 1px solid rgba(91, 156, 240, 0.55); border-radius: 999px;
+  padding: 0.3rem 0.8rem; color: #fff; font-weight: 600;
+}
+.nav .nav-escala:hover { background: rgba(31, 95, 191, 0.5); border-color: rgba(91, 156, 240, 0.9); }
+.nav .nav-escala + a:not(.nav-escala) { margin-left: 0.5rem; }
 .theme-btn {
   display: inline-flex; align-items: center; gap: 0.4rem;
   background: transparent; color: var(--navy-ink);
@@ -577,18 +584,15 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
     font-size: clamp(0.5rem, 1.6vw, 0.6rem); letter-spacing: 0.1em; line-height: 1.45;
   }
   .masthead-inner > .theme-btn { position: absolute; top: 0.6rem; right: 0; margin: 0; }
-  .nav {
-    flex-wrap: nowrap; gap: 0.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-behavior: smooth;
-    margin: 1rem -16px 0; padding: 0 16px 0.9rem; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
-  }
-  .nav::-webkit-scrollbar { display: none; }
+  .nav { flex-wrap: wrap; gap: 0.4rem; margin: 0.9rem 0 0; padding: 0 0 0.9rem; overflow: visible; }
   .nav a {
-    flex: none; white-space: nowrap; font-size: 0.86rem; font-weight: 600;
-    padding: 0.45rem 0.9rem; border: 1px solid var(--navy-line); border-radius: 999px;
+    flex: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600;
+    padding: 0.38rem 0.72rem; border: 1px solid var(--navy-line); border-radius: 999px;
     background: rgba(255, 255, 255, 0.07); color: #fff;
   }
   .nav a:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.35); }
+  .nav .nav-escala { background: #1f5fbf; border-color: #1f5fbf; }
+  .nav .nav-escala + a:not(.nav-escala) { margin-left: 0; }
   .nav a[aria-current="page"] { background: var(--red); border-color: var(--red); color: #fff; }
 
   /* Bandas de cifras: la última placa impar ocupa todo el ancho en lugar de quedar huérfana */

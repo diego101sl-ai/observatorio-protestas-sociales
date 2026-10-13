@@ -129,7 +129,11 @@ Mapa interactivo (teselas de OpenStreetMap, sin clave de API) que monitorea los 
 
 ## Publicaciones
 
-`data/notas.json` tiene una entrada por nota: `medio`, `fecha` (`AAAA`, `AAAA-MM` o `AAAA-MM-DD`), `titulo`, `url`, `resumen`, `temas`, `autor` y `tipo` (`nota` para las publicadas en medios, `semanal` para las del equipo). Para sumar una nota semanal basta agregar una entrada con `tipo: "semanal"`; si la nota se aloja en este sitio, poner la ruta en `archivo` (por ejemplo `notas/2026-10-20-reforma-laboral.html` o un PDF) y la lista enlaza ahí. La página la ordena por fecha y arma sola los filtros.
+`data/notas.json` tiene una entrada por nota: `medio`, `fecha` (`AAAA`, `AAAA-MM` o `AAAA-MM-DD`), `titulo`, `url`, `resumen`, `temas`, `autor`, `tipo` (`nota` para las publicadas en medios, `semanal` para las del equipo), `extracto`, `palabras`, `lectura_min` y `archivo` (la página de lectura dentro del sitio).
+
+- **Notas en medios.** El sitio publica solo un extracto (los primeros párrafos, hasta 520 caracteres) con enlace a la nota original; el texto completo no se guarda en el repositorio. El workflow **Extractos de notas publicadas** (`scripts/extractos_notas.py`) consulta la API de WordPress de cada medio y completa `extracto`, `palabras` y la fecha exacta; para una nota nueva alcanza con agregar su `url` al índice y correr el workflow.
+- **Notas semanales del equipo.** Texto completo en `notas/src/<slug>.md` (encabezado JSON entre líneas `---` con `titulo`, `fecha`, `resumen`, `temas`, `autor`, `tipo: "semanal"`, y el cuerpo en Markdown sencillo).
+- `python3 scripts/generar_notas.py` genera `notas/<slug>.html` para ambas (plantilla con el diseño del sitio, tiempo de lectura, contador de lecturas y navegación entre notas) y actualiza el índice. El contador usa el servicio público api.counterapi.dev (espacio `oitraf-notas`); si no responde, no se muestra.
 
 ## Suscripción y contacto
 

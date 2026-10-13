@@ -89,6 +89,10 @@ def limpiar(ps: list[str], titulo: str) -> list[str]:
             continue
         if re.match(r"^(Compartir|Share|Etiquetas|Tags|Relacionad|Lee también|Leé también)", t, re.I):
             continue
+        t = re.sub(r"^Los conceptos vertidos en esta secci[oó]n no reflejan necesariamente la l[ií]nea editorial de NODAL\.?\s*", "", t, flags=re.I)
+        t = re.sub(r"^Consideramos importante que se conozcan porque contribuyen a tener una visi[oó]n integral[^.]*\.\s*", "", t, flags=re.I)
+        if len(t) < 60:
+            continue
         out.append(t)
     return out
 

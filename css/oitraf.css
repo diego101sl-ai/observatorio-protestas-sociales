@@ -662,3 +662,5 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
 .nota-extracto { position: relative; padding-bottom: 0.4rem; }
 .nota-extracto::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3.2rem; background: linear-gradient(180deg, transparent, var(--page)); pointer-events: none; }
 .nota-leer { margin: 0.4rem 0 1.6rem; }
+.nota-lecturas[hidden] { display: none; }
+.nota-texto .nota-leer a.btn { text-decoration: none; color: var(--red-ink); }

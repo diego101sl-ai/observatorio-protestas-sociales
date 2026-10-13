@@ -17,7 +17,8 @@
    "tipo": "nota",
    "extracto": "Fidel Castro Ruz nació el 13 de agosto de 1926 en Birán, entonces provincia de Oriente, hijo de un terrateniente cañero. Estudió derecho y junto a otros jóvenes revolucionarios llevó adelante el asalto al cuartel Moncada en julio de 1953, pasó por la cárcel y el exilio, desembarcó con el Granma en diciembre de 1956 y entró en La Habana el 1º de enero de 1959. Gobernó Cuba casi medio siglo y paso a la eternidad el 25 de noviembre de 2016.",
    "palabras": 1110,
-   "lectura_min": 6
+   "lectura_min": 6,
+   "archivo": "notas/cien-anos-de-fidel-castro-el-trabajo-hizo-al-hombre-el-capital-lo-convirtio-en-bestia.html"
   },
   {
    "medio": "Nodal",
@@ -33,7 +34,8 @@
    "tipo": "nota",
    "extracto": "El trece de julio el gobierno de José Antonio Kast ingresó al Congreso de Chile, con suma urgencia, el proyecto que crea el Estatuto Laboral para el Turismo. No toca el texto de la Ley 21.561, que reduce la jornada semanal de cuarenta y cinco a cuarenta horas hasta 2028, pero cambia la unidad con la que se calcula el promedio, de cuatro semanas a dieciséis en el régimen general y hasta cincuenta y dos en el turismo.",
    "palabras": 817,
-   "lectura_min": 4
+   "lectura_min": 4,
+   "archivo": "notas/kast-impulsa-en-chile-una-reforma-laboral-comparable-al-plan-laboral-de-la-dictadura-pinoc.html"
   },
   {
    "medio": "Nodal",
@@ -49,7 +51,8 @@
    "tipo": "nota",
    "extracto": "El Banco Central de la República Argentina (BCRA) dedicó un apartado de su Informe “Proveedores no financieros de crédito», a un fenómeno sin marco regulatorio. Los trabajadores de las aplicaciones de delivery toman préstamos de las mismas empresas para las que reparten. La cantidad de deudores de la economía de plataformas aumentó 122% durante 2025, tras crecer 177% entre 2023 y 2024. Hacia fines de 2025 cada trabajador monotributista debía en promedio novecientos mil pesos.",
    "palabras": 889,
-   "lectura_min": 4
+   "lectura_min": 4,
+   "archivo": "notas/en-argentina-los-repartidores-se-endeudan-con-las-plataformas-para-las-que-trabajan.html"
   },
   {
    "medio": "Nodal",
@@ -65,7 +68,8 @@
    "tipo": "nota",
    "extracto": "El Tribunal Popular Intermedio de Hangzhou, capital de la provincia de Zhejiang en el este de China, confirmó este 28 de abril que una empresa tecnológica no puede despedir a un trabajador alegando que la inteligencia artificial (IA) absorbió sus funciones. La sentencia se difundió como caso típico antes del Día Internacional del Trabajo y fija doctrina sobre el reparto de los costos de la automatización.",
    "palabras": 1199,
-   "lectura_min": 6
+   "lectura_min": 6,
+   "archivo": "notas/china-un-camino-de-regulacion-para-las-nuevas-formas-de-empleo.html"
   },
   {
    "medio": "Nodal",
@@ -82,7 +86,8 @@
    "tipo": "nota",
    "extracto": "Este primero de mayo encuentra a la clase trabajadora de Argentina en uno de los momentos más difíciles de su historia en términos económicos y políticos. A más de dos años de asumir el gobierno de La Libertad Avanza, la situación de la clase trabajadora se deteriora de forma sostenida. Desde diciembre de 2023 se perdieron más de 290.000 puestos de trabajo formales, según la Superintendencia de Riesgos del Trabajo (SRT) y cerraron alrededor de 24.000 empresas.",
    "palabras": 713,
-   "lectura_min": 4
+   "lectura_min": 4,
+   "archivo": "notas/argentina-cada-vez-mas-trabajadores-pasan-hambre.html"
   },
   {
    "medio": "Nodal",
@@ -96,9 +101,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "El Senado aprobó la reforma laboral y avanza en la precarización de los derechos laborales y políticos El 12 de febrero, la Cámara de Senadores de la Nación aprobó la reforma laboral impulsada por el gobierno de Javier Milei, dando un paso importante en la precarización del régimen de relaciones laborales en Argentina. La iniciativa, presentada bajo el nombre de “Ley de Modernización Laboral”, introduce cambios estructurales que afectan los derechos laborales y políticos de la clase trabajadora.",
+   "extracto": "El 12 de febrero, la Cámara de Senadores de la Nación aprobó la reforma laboral impulsada por el gobierno de Javier Milei, dando un paso importante en la precarización del régimen de relaciones laborales en Argentina. La iniciativa, presentada bajo el nombre de “Ley de Modernización Laboral”, introduce cambios estructurales que afectan los derechos laborales y políticos de la clase trabajadora.",
    "palabras": 1399,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/argentina-el-senado-aprobo-la-reforma-laboral-y-avanza-en-la-precarizacion-de-los-derechos.html"
   },
   {
    "medio": "Nodal",
@@ -112,9 +118,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "Claudia Sheinbaum demuestra en México un modelo de crecimiento económico con distribución de la riqueza Esta semana, un decreto firmado por la presidenta de México Claudia Sheinbaum modificó las reglas de jubilación en México lo que le permitirá a miles de trabajadores del Estado jubilarse varios años antes de lo previsto, sin que eso implique una reducción en el monto de su pensión y siempre que tengan los años de servicios requeridos.",
+   "extracto": "Esta semana, un decreto firmado por la presidenta de México Claudia Sheinbaum modificó las reglas de jubilación en México lo que le permitirá a miles de trabajadores del Estado jubilarse varios años antes de lo previsto, sin que eso implique una reducción en el monto de su pensión y siempre que tengan los años de servicios requeridos.",
    "palabras": 1484,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/claudia-sheinbaum-demuestra-en-mexico-un-modelo-de-crecimiento-economico-con-distribucion-.html"
   },
   {
    "medio": "Motor Económico",
@@ -129,9 +136,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "(Por *Diego Lorca) A casi dos años del gobierno de la Libertad Avanza en Argentina, la situación de la clase trabajadora se ha deteriorado de forma sostenida. Los datos muestran una caída del empleo formal, el cierre de empresas y un crecimiento acelerado de la informalidad laboral. Pero quizás lo más alarmante es que 1 de cada 4 trabajadores no asalariados pasan hambre e incluso está situación afecta a los trabajadores asalariados que en un 15% también están en situación de inseguridad alimentaria.",
+   "extracto": "A casi dos años del gobierno de la Libertad Avanza en Argentina, la situación de la clase trabajadora se ha deteriorado de forma sostenida. Los datos muestran una caída del empleo formal, el cierre de empresas y un crecimiento acelerado de la informalidad laboral. Pero quizás lo más alarmante es que 1 de cada 4 trabajadores no asalariados pasan hambre e incluso está situación afecta a los trabajadores asalariados que en un 15% también están en situación de inseguridad alimentaria.",
    "palabras": 981,
-   "lectura_min": 5
+   "lectura_min": 5,
+   "archivo": "notas/cada-vez-mas-trabajadores-pasan-hambre-en-el-gobierno-de-javier-milei.html"
   },
   {
    "medio": "Motor Económico",
@@ -147,7 +155,8 @@
    "tipo": "nota",
    "extracto": "El sábado 18 de octubre de 2025 se llevaron a cabo más de 2.600 manifestaciones en todo el país bajo la consigna “No Kings (Sin reyes)”, una movilización de alcance nacional en la que miles de personas se congregaron en ciudades como Times Square (Nueva York), Boston Commons, Grant Park (Chicago) y en Washington D.C., además de numerosos pueblos pequeños. Estas protestas también tuvieron eco internacional con acciones de solidaridad en ciudades de Europa como Berlín, Madrid, Lisboa, París, entre otras.",
    "palabras": 1633,
-   "lectura_min": 8
+   "lectura_min": 8,
+   "archivo": "notas/no-kings-el-pueblo-norteamericano-movilizado-contra-el-autoritarismo-de-donald-trump.html"
   },
   {
    "medio": "Radio Gráfica",
@@ -163,7 +172,8 @@
    "tipo": "nota",
    "extracto": "La Generación Z —nacida entre 1990 y 2010— se ha convertido en la protagonista de un cambio de época. Con edades que hoy oscilan entre los 13 y los 30 años, son los primeros verdaderos nativos digitales, una generación que nunca conoció un mundo sin internet, redes sociales ni smartphones. Esa condición marca no solo su forma de comunicarse, sino también su manera de concebir el trabajo y de protagonizar protestas que, en distintos puntos del planeta, cuestionan tanto a gobiernos como a corporaciones.",
    "palabras": 1227,
-   "lectura_min": 6
+   "lectura_min": 6,
+   "archivo": "notas/quienes-son-los-jovenes-de-la-generacion-z-que-estan-tomando-las-calles-radiografica.html"
   },
   {
    "medio": "Nodal",
@@ -179,7 +189,8 @@
    "tipo": "nota",
    "extracto": "La Generación Z —nacida entre 1990 y 2010— se ha convertido en la protagonista de un cambio de época. Con edades que hoy oscilan entre los 13 y los 30 años, son los primeros verdaderos nativos digitales, una generación que nunca conoció un mundo sin internet, redes sociales ni smartphones. Esa condición marca no solo su forma de comunicarse, sino también su manera de concebir el trabajo y de protagonizar protestas que, en distintos puntos del planeta, cuestionan tanto a gobiernos como a corporaciones.",
    "palabras": 1229,
-   "lectura_min": 6
+   "lectura_min": 6,
+   "archivo": "notas/quienes-son-los-jovenes-de-la-generacion-z-que-estan-tomando-las-calles.html"
   },
   {
    "medio": "Nodal",
@@ -195,7 +206,8 @@
    "tipo": "nota",
    "extracto": "El 31 de agosto partió desde Barcelona, España, una caravana marítima rumbo a Gaza encabezada por Greta Thunberg, la actriz Susan Sarandon, junto a activistas y actores de 44 países. La flotilla, cargada de ayuda humanitaria, busca desafiar el bloqueo israelí que ya supera las dos décadas y se convirtió en la misión civil más grande de este tipo.",
    "palabras": 1399,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/caravana-global-por-palestina-y-protestas-en-todo-el-mundo-para-frenar-el-genocidio.html"
   },
   {
    "medio": "Nodal",
@@ -211,7 +223,8 @@
    "tipo": "nota",
    "extracto": "La realidad laboral argentina atraviesa una profunda crisis producto del modelo económico de valorización financiera impulsado por el gobierno de Javier Milei. Este modelo, basado en el ajuste fiscal, la apertura de importaciones y la liberalización del mercado, reproduce un patrón histórico de acumulación que destruye el empleo formal y desmantela la industria manufacturera tradicional, propia del fordismo y de la industrialización sustitutiva de importaciones que marcó gran parte del siglo XX.",
    "palabras": 1699,
-   "lectura_min": 8
+   "lectura_min": 8,
+   "archivo": "notas/industria-4-0-o-industricidio-que-futuro-espera-al-trabajo-en-argentina.html"
   },
   {
    "medio": "Nodal",
@@ -227,7 +240,8 @@
    "tipo": "nota",
    "extracto": "El 1º de mayo, conocido mundialmente como el Día Internacional del Trabajador y la Trabajadora, conmemora la lucha de las y los trabajadores por sus derechos laborales, políticos y sociales. Su origen se remonta a 1886 en Chicago, donde una huelga por la jornada laboral de ocho horas culminó en la trágica revuelta de Haymarket. En 2025, las calles de diversas ciudades se llenaron de manifestantes que, a través de distintas consignas, expresaron sus demandas y preocupaciones frente a un escenario global de creciente…",
    "palabras": 2477,
-   "lectura_min": 12
+   "lectura_min": 12,
+   "archivo": "notas/1o-de-mayo-el-pueblo-trabajador-sale-a-la-calle-en-todo-el-mundo.html"
   },
   {
    "medio": "Nodal",
@@ -243,7 +257,8 @@
    "tipo": "nota",
    "extracto": "En esta nueva fase de desarrollo del sistema capitalista se están produciendo profundos cambios en los modos y formas de producir y trabajar, donde la virtualidad se consolida como un nuevo territorio donde se produce el valor, el poder y el sentido común. Como dice Lucas Aguilera, 2023 en su libro Nueva Fase “el capital está conduciendo su fuerza productiva hacia un nuevo tiempo y espacio de aparente libertad pero de suma esclavitud”.",
    "palabras": 1009,
-   "lectura_min": 5
+   "lectura_min": 5,
+   "archivo": "notas/china-y-sus-revolucionarias-dark-factories-sin-trabajadores.html"
   },
   {
    "medio": "Nodal",
@@ -259,7 +274,8 @@
    "tipo": "nota",
    "extracto": "La productividad laboral en América Latina sigue siendo una de las grandes asignaturas pendientes en el desarrollo económico y social de la región. A pesar de contar con una de las fuerzas laborales más grandes del mundo, diversos factores estructurales han impedido que se alcancen los niveles de eficiencia productiva observados en las economías desarrolladas.",
    "palabras": 1247,
-   "lectura_min": 6
+   "lectura_min": 6,
+   "archivo": "notas/mas-trabajo-menos-riqueza-la-brecha-productiva-que-condena-a-la-clase-trabajadora.html"
   },
   {
    "medio": "Nodal",
@@ -274,7 +290,8 @@
    "tipo": "nota",
    "extracto": "Este lunes 20 de enero Donald Trump asumió como el 47º Presidente de los Estados Unidos y firmó más de 100 órdenes ejecutivas con el objetivo de “poner al país primero”. Entre las medidas adoptadas encontramos modificaciones en políticas de trabajo, medioambientales, sociales y de justicia. Entre las medidas que afectan particularmente a las y los trabajadores podemos mencionar: la orden que pone fin al teletrabajo y «obliga a los empleados federales a volver a trabajar en la oficina a tiempo completo con efecto…",
    "palabras": 1870,
-   "lectura_min": 9
+   "lectura_min": 9,
+   "archivo": "notas/podra-el-trumpismo-convertirse-en-el-partido-de-los-trabajadores.html"
   },
   {
    "medio": "Nodal",
@@ -290,7 +307,8 @@
    "tipo": "nota",
    "extracto": "La construcción de este Anuario sobre el Mundo del Trabajo en 2024, surge con el objetivo de investigar y analizar- en las escalas nacional, latinoamericano e internacional- hechos económicos, políticos y sociales que permitan profundizar la comprensión sobre la revolución tecnológica y social que estamos viviendo, y que como no podría ser de otra forma, transforma profundamente los modos de trabajar, en particular, y de reproducir la vida en general.",
    "palabras": 1049,
-   "lectura_min": 5
+   "lectura_min": 5,
+   "archivo": "notas/anuario-2024-el-trabajo-en-la-nueva-fasedel-capitalismo-digital-nuevas-formas-de-explotaci.html"
   },
   {
    "medio": "Nodal",
@@ -306,7 +324,8 @@
    "tipo": "nota",
    "extracto": "Este martes 5 de noviembre, el pueblo de los Estados Unidos irá a las urnas para elegir a su próximo presidente, y junto con eso, un proyecto económico y político que tendrá el desafío de gobernar la primera economía del planeta en una realidad internacional cada vez más crítica y con una situación laboral que tendencialmente se vuelve más hostil para los que viven de su salario. Lo que nos interesa analizar particularmente aquí es la situación en la que se encuentran las y los trabajadores estadounidenses, cómo se…",
    "palabras": 1980,
-   "lectura_min": 10
+   "lectura_min": 10,
+   "archivo": "notas/elecciones-en-estados-unidos-que-le-espera-a-la-clase-trabajadora.html"
   },
   {
    "medio": "Radio Gráfica",
@@ -322,7 +341,8 @@
    "tipo": "nota",
    "extracto": "Desde que Javier Milei asumió la presidencia de Argentina, el país ha entrado en una crisis económica cada vez más profunda como consecuencia de las políticas de ajuste implementadas por su equipo económico. Luis Caputo y Federico Sturzenegger, quienes ya tuvieron un rol clave en el fracaso del gobierno de Mauricio Macri, ahora están al frente de un plan que promueve una reforma laboral agresiva y un desmantelamiento del Estado con consecuencias devastadoras para la clase trabajadora.",
    "palabras": 1983,
-   "lectura_min": 10
+   "lectura_min": 10,
+   "archivo": "notas/la-reforma-laboral-el-camino-de-milei-hacia-los-juegos-del-hambre.html"
   },
   {
    "medio": "Radio Gráfica",
@@ -338,7 +358,8 @@
    "tipo": "nota",
    "extracto": "La productividad laboral y la calidad del empleo en Latinoamérica se encuentra en niveles alarmantemente bajos, una problemática que impacta directamente en el desarrollo económico y social de la región. A pesar de contar con una fuerza laboral numerosa, diversos factores han contribuido a que la productividad se mantenga rezagada, afectando la calidad de vida de las y los trabajadores. En su informe de Perspectivas Sociales y del Empleo en el Mundo: Tendencias 2024, la OIT destaca que la pobreza extrema y pobreza…",
    "palabras": 1389,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/esclavos-del-trabajo-el-circulo-vicioso-de-la-baja-productividad-en-latinoamerica-radiografica.html"
   },
   {
    "medio": "Nodal",
@@ -352,9 +373,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "Los conceptos vertidos en esta sección no reflejan necesariamente la línea editorial de NODAL. Consideramos importante que se conozcan porque contribuyen a tener una visión integral de la región. La productividad laboral y la calidad del empleo en Latinoamérica se encuentra en niveles alarmantemente bajos, una problemática que impacta directamente en el desarrollo económico y social de la región.",
+   "extracto": "La productividad laboral y la calidad del empleo en Latinoamérica se encuentra en niveles alarmantemente bajos, una problemática que impacta directamente en el desarrollo económico y social de la región.",
    "palabras": 1418,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/esclavos-del-trabajo-el-circulo-vicioso-de-la-baja-productividad-en-latinoamerica.html"
   },
   {
    "medio": "Radio Gráfica",
@@ -370,7 +392,8 @@
    "tipo": "nota",
    "extracto": "Se conocieron varios informes con datos macroeconómicos que pronostican un escenario negativo para las y los argentinos que viven de su salario. El INDEC publicó su informe técnico mensual y el Fondo Monetario Internacional presentó su informe llamado Perspectivas Económicas Globales (WEO). Además, el JP Morgan envió a principios de mes una misión de directivos para reunirse con funcionarios de Gobierno, consultores, empresas y también entidades financieras; el pronóstico también es negativo para este 2024.",
    "palabras": 1027,
-   "lectura_min": 5
+   "lectura_min": 5,
+   "archivo": "notas/la-casta-avanza-mientras-las-y-los-trabajadores-retroceden.html"
   },
   {
    "medio": "Nodal",
@@ -384,9 +407,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "Los conceptos vertidos en esta sección no reflejan necesariamente la línea editorial de NODAL. Consideramos importante que se conozcan porque contribuyen a tener una visión integral de la región. La casta empresarial de los industriales argentinos tuvo una semana clave de avances en el escenario político nacional.",
+   "extracto": "La casta empresarial de los industriales argentinos tuvo una semana clave de avances en el escenario político nacional.",
    "palabras": 1667,
-   "lectura_min": 8
+   "lectura_min": 8,
+   "archivo": "notas/argentina-nuevo-secretario-de-trabajo.html"
   },
   {
    "medio": "Radio Gráfica",
@@ -402,7 +426,8 @@
    "tipo": "nota",
    "extracto": "La casta empresarial de los industriales argentinos tuvo una semana clave de avances en el escenario político nacional. Por un lado, la Unión Industrial Argentina (UIA) se presentó formalmente ante la Corte Suprema para solicitar la puesta en vigencia del capítulo de trabajo del mega DNU 70/23, y por otro lado, ubicó un hombre propio en un puesto clave para la relación con los sindicatos como es la secretaría de trabajo, a saber, Julio Cordero.",
    "palabras": 1547,
-   "lectura_min": 8
+   "lectura_min": 8,
+   "archivo": "notas/quien-es-julio-cordero-un-lobo-cuidando-las-ovejas.html"
   },
   {
    "medio": "Nodal",
@@ -416,9 +441,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "Los conceptos vertidos en esta sección no reflejan necesariamente la línea editorial de NODAL. Consideramos importante que se conozcan porque contribuyen a tener una visión integral de la región. Producto del desarrollo tecnológico y del aumento de la productividad del trabajo, observamos una tendencia global a la reducción de la jornada laboral.",
+   "extracto": "Producto del desarrollo tecnológico y del aumento de la productividad del trabajo, observamos una tendencia global a la reducción de la jornada laboral.",
    "palabras": 1750,
-   "lectura_min": 9
+   "lectura_min": 9,
+   "archivo": "notas/que-hay-detras-de-la-reduccion-de-la-jornada-laboral-en-republica-dominicana.html"
   },
   {
    "medio": "Motor Económico",
@@ -434,7 +460,8 @@
    "tipo": "nota",
    "extracto": "A menos de dos meses de asumir el gobierno suma una nueva derrota, ya que este martes en diputados la Ley Ómnibus volvió a comisión y se da marcha atrás con la aprobación que tenía en general, en síntesis, todo vuelve a foja cero. La semana pasada, la cámara de diputados aprobó en general la Ley “Bases y Puntos de Partida para la Libertad de los Argentinos” y este martes comenzó la discusión artículo por artículo, llegando incluso a aprobarse las facultades delegadas al presidente; un punto de los más polémicos ya…",
    "palabras": 1358,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/el-gobierno-de-milei-sigue-sumando-derrotas-sin-reforma-laboral-ni-ley-omnibus.html"
   },
   {
    "medio": "Nodal",
@@ -448,9 +475,10 @@
    ],
    "autor": "Diego Lorca",
    "tipo": "nota",
-   "extracto": "De la tragedia a la farsa: crónica de un industricidio anunciado En un contexto de profunda crisis económica, política y social, en la Europa de 1848 que desató revoluciones obreras en todo el continente, el genio de Tréveris, acuñó la famosa frase: «La historia ocurre dos veces: la primera vez como una gran tragedia y la segunda como una miserable farsa».",
+   "extracto": "En un contexto de profunda crisis económica, política y social, en la Europa de 1848 que desató revoluciones obreras en todo el continente, el genio de Tréveris, acuñó la famosa frase: «La historia ocurre dos veces: la primera vez como una gran tragedia y la segunda como una miserable farsa».",
    "palabras": 2390,
-   "lectura_min": 12
+   "lectura_min": 12,
+   "archivo": "notas/argentina-de-la-tragedia-a-la-farsa-cronica-de-un-industricidio-anunciado.html"
   },
   {
    "medio": "Motor Económico",
@@ -466,7 +494,8 @@
    "tipo": "nota",
    "extracto": "En 2023 el mundo fue testigo de más de una docena de jornadas de Huelga General en Francia en un clima de extrema represión que llevó más de 3000 detenciones por parte del gobierno globalista del ex banquero de los Rothschild, Emmanuel Macron. Tal como lo anticipamos en nuestra nota del 20 de febrero titula «La madre de todas las reformas VS la madre de todas las batallas» el Gobierno de Francia avanzó por Decreto con la Reforma Previsional generando un amplio descontento popular y un clima generalizado de…",
    "palabras": 1429,
-   "lectura_min": 7
+   "lectura_min": 7,
+   "archivo": "notas/reforma-previsional-en-francia-trabajar-mas-porque-se-vive-mas.html"
   },
   {
    "medio": "Nodal",
@@ -482,7 +511,8 @@
    "tipo": "nota",
    "extracto": "En los últimos años el mundo del trabajo está cambiando a una velocidad pocas veces vista en la historia de la humanidad y reflexionar críticamente sobre el rumbo de estas transformaciones es una tarea urgente. Recientemente, un informe del International Business Machines Corporation – IBM, llamado “El futuro del trabajo está aquí: desarrolle resiliencia y adaptabilidad con automatización e inteligencia artificial” volvió a poner en agenda el debate sobre la Inteligencia Artificial (IA) y los procesos de trabajo.",
    "palabras": 1765,
-   "lectura_min": 9
+   "lectura_min": 9,
+   "archivo": "notas/sobre-la-inteligencia-artificial-y-el-futuro-del-trabajo.html"
   }
  ]
 }

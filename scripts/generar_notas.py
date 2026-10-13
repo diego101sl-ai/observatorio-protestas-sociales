@@ -246,7 +246,9 @@ def main():
         generadas.append((slug, meta, cuerpo, palabras, entrada))
     # 2) Notas publicadas en medios: solo el extracto guardado en el índice, con enlace al original
     usados = {s for s, *_ in generadas}
-    for entrada in datos["notas"]:
+    # de la más antigua a la más nueva, así la publicación original conserva el nombre base
+    # y la republicación en otro medio recibe el sufijo del medio
+    for entrada in sorted(datos["notas"], key=lambda n: n["fecha"]):
         if not entrada.get("extracto") or not entrada.get("url"):
             continue
         slug = slug_de_url(entrada["url"], entrada["medio"], usados)
@@ -266,7 +268,23 @@ def main():
             f.write(pagina(meta, cuerpo, palabras, slug, anterior, siguiente, masthead, footer))
     datos["actualizado"] = date.today().isoformat()
     json.dump(datos, open(ruta_datos, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    actualizar_sitemap(orden)
     print(f"{len(generadas)} páginas generadas; {len(datos['notas'])} notas en el índice")
+
+
+def actualizar_sitemap(notas: list) -> None:
+    """Reemplaza las entradas notas/*.html del sitemap por las vigentes."""
+    ruta = os.path.join(RAIZ, "sitemap.xml")
+    s = open(ruta, encoding="utf-8").read()
+    s = re.sub(r"  <url>\s*<loc>[^<]*/notas/[^<]*</loc>.*?</url>\n", "", s, flags=re.S)
+    partes = []
+    for n in notas:
+        f = n["fecha"]
+        lastmod = f if re.fullmatch(r"\d{4}-\d{2}-\d{2}", f) else (f + "-15" if re.fullmatch(r"\d{4}-\d{2}", f) else f[:4] + "-01-01")
+        partes.append(f"  <url>\n    <loc>{SITIO}{n['archivo']}</loc>\n    <lastmod>{lastmod}</lastmod>\n    <changefreq>yearly</changefreq>\n    <priority>0.6</priority>\n  </url>\n")
+    entradas = "".join(partes)
+    s = s.replace("</urlset>", entradas + "</urlset>")
+    open(ruta, "w", encoding="utf-8").write(s)
 
 
 if __name__ == "__main__":

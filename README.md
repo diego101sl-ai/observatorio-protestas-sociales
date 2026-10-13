@@ -43,7 +43,7 @@ Las series argentinas se localizan en el catálogo oficial por búsqueda de text
 
 ### 2. Cobertura de medios · `scripts/sincronizar_hechos.py`
 
-Workflow propio (`sincronizar-hechos.yml`), **cada 3 horas** y a mano desde Actions. Inicia sesión en el dashboard *Algoritmo Inteligente* (`POST /api/auth/login`) con una **cuenta de solo lectura**, descarga el listado (`GET /api/hechos`) y publica en `data/hechos.json` un extracto de las últimas semanas (título, resumen breve, medio, escala, sector, eje, fecha, actores y enlaces a las notas). No publica el cuerpo completo de los hechos ni datos de quien los cargó, y descarta los hechos marcados «[Acceso parcial]». Reintenta ante caídas de red o errores del servidor y deja el resultado de la última corrida en `data/hechos_estado.json` (diagnóstico interno).
+Workflow propio (`sincronizar-hechos.yml`), **cada 3 horas** y a mano desde Actions. Inicia sesión en el dashboard *Algoritmo Inteligente* (`POST /api/auth/login`) con una **cuenta de solo lectura**, descarga el listado (`GET /api/hechos`) y publica en `data/hechos.json` un extracto de las últimas semanas (título, resumen breve, medio, escala, sector, eje, fecha, actores y enlaces a las notas). No publica el cuerpo completo de los hechos ni datos de quien los cargó, y descarta los hechos marcados «[Acceso parcial]» y los de los medios provinciales (`HECHOS_MEDIOS_EXCLUIDOS`, por defecto El Diario de la República, El Chorrillero, La Gaceta Digital y El Corredor Noticias). Reintenta ante caídas de red o errores del servidor y deja el resultado de la última corrida en `data/hechos_estado.json` (diagnóstico interno).
 
 **Cómo vincularlo (una sola vez):**
 

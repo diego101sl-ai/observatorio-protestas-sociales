@@ -444,7 +444,7 @@ function renderFuentes() {
   filas.push([
     el("span", {}, el("a", { href: "#cobertura" }, "Algoritmo Inteligente · Seguimiento de Medios"), el("br"), el("span", { class: "periodo" }, "Equipo de OITraF")),
     el("span", { class: "badge" }, "Relevamiento propio"),
-    "Unidades de registro de 24 medios (5 nacionales, 4 latinoamericanos, 11 internacionales y 4 provinciales), clasificadas por escala, sector, eje y actores. En la web se publica el recorte de trabajo, agro e industria; el relevamiento completo se distribuye a suscriptores.",
+    "Unidades de registro de 24 medios (5 nacionales, 4 latinoamericanos, 11 internacionales y 4 provinciales), clasificadas por escala, sector, eje y actores. En la web se publica el recorte de trabajo, agro e industria de los 20 medios nacionales, latinoamericanos e internacionales; el relevamiento completo se distribuye a suscriptores.",
     el("span", { class: `estado ${state.hechos ? "estado--ok" : ""}` }, state.hechos ? (state.hechos.modo === "semilla" ? "muestra" : `${state.hechos.total} UR`) : "pendiente"),
   ]);
   filas.push([

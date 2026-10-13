@@ -107,9 +107,16 @@ def links_de(h: dict) -> list[str]:
     return salida
 
 
+# Hechos que el equipo marca como de acceso parcial (nota detrás de un muro de pago
+# o leída a medias) no se publican en la web.
+NO_PUBLICAR = re.compile(r"\[?\s*acceso\s+parcial\s*\]?", re.I)
+
+
 def normalizar(h: dict) -> dict | None:
     fecha = str(h.get("fecha") or "")[:10]
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", fecha):
+        return None
+    if NO_PUBLICAR.search(f"{h.get('titulo') or ''} {h.get('cuerpo') or ''}"):
         return None
     medio = (h.get("medio") or "").strip()
     escala = (h.get("escala") or "").strip()

@@ -1,8 +1,8 @@
 /**
  * Página «Publicaciones»: notas en medios y notas semanales del equipo.
  * Lee data/notas.json (una entrada por nota: medio, fecha, título, url, resumen,
- * temas, autor, tipo «nota» o «semanal», y opcionalmente «archivo» para una
- * nota alojada en este sitio). Filtros por medio, año y texto.
+ * extracto, temas, autor, tipo «nota» o «semanal», `archivo` con la página de
+ * lectura dentro del sitio y `lectura_min`). Filtros por medio, año y texto.
  */
 import { initTema, fetchJson, el, vaciar, fmtFechaLarga } from "./comun.js";
 
@@ -31,13 +31,18 @@ function chipRow(cont, valores, activo, alElegir) {
 }
 
 function itemNota(n) {
-  const href = n.archivo || n.url;
+  const interna = n.archivo || null;
+  const href = interna || n.url;
   const meta = [n.medio, fmtFecha(n.fecha), n.autor && n.autor !== "Diego Lorca" ? n.autor : null].filter(Boolean);
+  const pie = [];
+  if (n.lectura_min) pie.push(el("span", {}, `${n.lectura_min} min de lectura`));
+  if (interna && n.url) pie.push(el("a", { href: n.url, target: "_blank", rel: "noopener" }, `Original en ${n.medio} ↗`));
   return el("li", { class: "hecho" },
     el("div", { class: "hecho-meta" }, ...meta.map((m, i) => el("span", {}, (i ? " · " : "") + m)), n.tipo === "semanal" ? el("span", { class: "escala-tag" }, " nota semanal") : null),
-    el("h3", { class: "hecho-titulo" }, href ? el("a", { href, target: n.archivo ? "_self" : "_blank", rel: "noopener" }, n.titulo) : n.titulo),
+    el("h3", { class: "hecho-titulo" }, href ? el("a", { href, target: interna ? "_self" : "_blank", rel: "noopener" }, n.titulo) : n.titulo),
     n.resumen ? el("p", { class: "hecho-resumen" }, n.resumen) : null,
     n.temas?.length ? el("div", { class: "hecho-links" }, ...n.temas.map((t) => el("span", { class: "sector-chip" }, t))) : null,
+    pie.length ? el("div", { class: "hecho-leer" }, ...pie) : null,
   );
 }
 
@@ -66,7 +71,7 @@ function render() {
   const lista = todas
     .filter((n) => state.medio === "Todos" || n.medio === state.medio)
     .filter((n) => state.anio === "Todos" || n.fecha.startsWith(state.anio))
-    .filter((n) => !q || `${n.titulo} ${n.resumen || ""} ${(n.temas || []).join(" ")} ${n.medio}`.toLowerCase().includes(q));
+    .filter((n) => !q || `${n.titulo} ${n.resumen || ""} ${n.extracto || ""} ${(n.temas || []).join(" ")} ${n.medio}`.toLowerCase().includes(q));
 
   const ul = $("lista-notas");
   vaciar(ul);

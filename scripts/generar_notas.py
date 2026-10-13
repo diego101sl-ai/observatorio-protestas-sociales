@@ -77,6 +77,18 @@ def markdown_a_html(md: str) -> tuple[str, int]:
     return "\n".join(salida), palabras
 
 
+SUFIJO_MEDIO = {"Radio Gráfica": "-radiografica", "Motor Económico": "-motoreconomico"}
+
+
+def slug_de_url(url: str, medio: str, usados: set) -> str:
+    seg = url.rstrip("/").split("/")[-1]
+    seg = re.sub(r"-por-diego-lorca$", "", seg)
+    seg = re.sub(r"^edicionespecialmotorcumple9-", "", seg)[:90]
+    if seg in usados:
+        seg += SUFIJO_MEDIO.get(medio, "-" + re.sub(r"[^a-z]", "", medio.lower()))
+    return seg
+
+
 def leer_md(ruta: str) -> tuple[dict, str]:
     txt = open(ruta, encoding="utf-8").read()
     m = re.match(r"---\n(.*?)\n---\n(.*)$", txt, re.S)
@@ -124,7 +136,13 @@ def pagina(meta: dict, cuerpo_html: str, palabras: int, slug: str, anterior, sig
         s = (f'<a class="nota-nav-item nota-nav-item--der" href="{siguiente["archivo"].split("/")[-1]}"><span class="kicker">Siguiente</span>'
              f'<span>{html.escape(siguiente["titulo"])}</span></a>') if siguiente else "<span></span>"
         nav = f'<nav class="nota-nav" aria-label="Otras notas">{a}{s}</nav>'
-    if url:
+    es_extracto = bool(meta.get("extracto"))
+    if es_extracto:
+        original = (f'Extracto. La nota completa está publicada en <a href="{html.escape(url)}" target="_blank" rel="noopener">{html.escape(medio)}</a> '
+                    f'({fecha_larga(fecha)}); los derechos del texto pertenecen a su autor y al medio.')
+        cuerpo_html = (f'<div class="nota-extracto">{cuerpo_html}</div>'
+                       f'<p class="nota-leer"><a class="btn btn-red" href="{html.escape(url)}" target="_blank" rel="noopener">Leer la nota completa en {html.escape(medio)} ↗</a></p>')
+    elif url:
         original = (f'Publicada originalmente en <a href="{html.escape(url)}" target="_blank" rel="noopener">{html.escape(medio)}</a> '
                     f'el {fecha_larga(fecha)}.')
     else:
@@ -210,6 +228,7 @@ def main():
     por_url = {n.get("url"): n for n in datos["notas"] if n.get("url")}
     por_archivo = {n.get("archivo"): n for n in datos["notas"] if n.get("archivo")}
     generadas = []
+    # 1) Notas propias del equipo: texto completo en notas/src/<slug>.md
     for ruta in sorted(glob.glob(os.path.join(SRC, "*.md"))):
         slug = os.path.splitext(os.path.basename(ruta))[0]
         meta, md = leer_md(ruta)
@@ -217,13 +236,25 @@ def main():
         entrada = por_url.get(meta.get("url")) or por_archivo.get(f"notas/{slug}.html")
         if not entrada:
             entrada = {k: meta.get(k) for k in ("medio", "fecha", "titulo", "url", "resumen", "temas", "autor", "tipo")}
-            entrada["tipo"] = entrada.get("tipo") or "nota"
+            entrada["tipo"] = entrada.get("tipo") or "semanal"
             datos["notas"].append(entrada)
         if meta.get("fecha") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", meta["fecha"]):
             entrada["fecha"] = meta["fecha"]
         if meta.get("titulo"):
             entrada["titulo"] = meta["titulo"]
         entrada.update({"archivo": f"notas/{slug}.html", "palabras": palabras, "lectura_min": max(1, round(palabras / 200))})
+        generadas.append((slug, meta, cuerpo, palabras, entrada))
+    # 2) Notas publicadas en medios: solo el extracto guardado en el índice, con enlace al original
+    usados = {s for s, *_ in generadas}
+    for entrada in datos["notas"]:
+        if not entrada.get("extracto") or not entrada.get("url"):
+            continue
+        slug = slug_de_url(entrada["url"], entrada["medio"], usados)
+        usados.add(slug)
+        cuerpo = "".join(f"<p>{inline(p)}</p>" for p in re.split(r"\n\s*\n", entrada["extracto"].strip()) if p.strip())
+        palabras = int(entrada.get("palabras") or 0)
+        entrada.update({"archivo": f"notas/{slug}.html", "lectura_min": max(1, round(palabras / 200)) if palabras else entrada.get("lectura_min", 1)})
+        meta = dict(entrada)
         generadas.append((slug, meta, cuerpo, palabras, entrada))
     datos["notas"].sort(key=lambda n: n["fecha"], reverse=True)
     orden = [n for n in datos["notas"] if n.get("archivo")]

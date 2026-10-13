@@ -659,3 +659,6 @@ fieldset.field .check + .check { margin-top: 0.35rem; }
 .nota-nav-item .kicker { margin: 0; }
 @media (max-width: 560px) { .nota-nav { grid-template-columns: 1fr; } .nota-nav-item--der { text-align: left; align-items: flex-start; } .nota-texto { font-size: 1.02rem; } }
 .hecho-leer { font-size: 0.8rem; margin-top: 0.35rem; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; color: var(--text-muted); }
+.nota-extracto { position: relative; padding-bottom: 0.4rem; }
+.nota-extracto::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3.2rem; background: linear-gradient(180deg, transparent, var(--page)); pointer-events: none; }
+.nota-leer { margin: 0.4rem 0 1.6rem; }

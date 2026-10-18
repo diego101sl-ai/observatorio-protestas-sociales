@@ -373,7 +373,7 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "eph_informalidad__elegida": "52.2_ASDJ_0_0_37",
+ "eph_informalidad__elegida": null,
  "sipa_registrados": [
   {
    "puntaje": -999,
@@ -431,18 +431,18 @@
   },
   {
    "puntaje": -999,
-   "id": "151.1_IPENDIEDAD_2012_M_48",
-   "titulo": "independientes_monotributo_social_estacionalidad",
-   "descripcion": "Independientes monotributo social. Con estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_43",
+   "titulo": "independientes_monotributo_social_sin_estac",
+   "descripcion": "Independientes con monotributo social. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   },
   {
    "puntaje": -999,
-   "id": "151.1_AARIADODAD_2012_M_30",
-   "titulo": "asalariados_pub_estacionalidad",
-   "descripcion": "Asalariados. Sector público. Con estacionalidad.",
+   "id": "151.1_IPENDIETAC_2012_M_34",
+   "titulo": "independientes_autonomos_sin_estac",
+   "descripcion": "Independientes autónomos. Sin estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -479,6 +479,24 @@
   },
   {
    "puntaje": 24,
+   "id": "151.1_AARIADOTAC_2012_M_26",
+   "titulo": "asalariados_priv_sin_estac",
+   "descripcion": "Asalariados. Sector privado. Sin estacionalidad.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
+   "id": "153.1_RNERACIANA_2009_M_20",
+   "titulo": "asalariados_priv_remuneracion_mediana",
+   "descripcion": "Asalariados. Sector privado. Remuneracion mediana.",
+   "frecuencia": "R/P1M",
+   "fin": "2026-06-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": 24,
    "id": "151.1_AARIADODAD_2012_M_31",
    "titulo": "asalariados_priv_estacionalidad",
    "descripcion": "Asalariados. Sector privado. Con estacionalidad.",
@@ -500,24 +518,6 @@
    "id": "152.1_IRMEDIAEST_2009_M_29",
    "titulo": "intermediacion_financiera_est",
    "descripcion": "Asalariados. Sector privado. Intermediación financiera. Con estacionalidad.",
-   "frecuencia": "R/P1M",
-   "fin": "2026-06-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": 24,
-   "id": "152.1_CTRUCCIEST_2009_M_16",
-   "titulo": "construccion_est",
-   "descripcion": "Asalariados. Sector privado. Construcción. Con estacionalidad.",
-   "frecuencia": "R/P1M",
-   "fin": "2026-06-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": 24,
-   "id": "152.1_PA_ESTEST_2009_M_9",
-   "titulo": "pesca_est",
-   "descripcion": "Asalariados. Sector privado. Pesca. Con estacionalidad.",
    "frecuencia": "R/P1M",
    "fin": "2026-06-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
@@ -598,7 +598,7 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "ripte__elegida": null,
+ "ripte__elegida": "158.1_REPTE_0_0_5",
  "smvm": [
   {
    "puntaje": 24,
@@ -638,6 +638,15 @@
   },
   {
    "puntaje": -999,
+   "id": "AGRO_0350",
+   "titulo": "focos_tamanio_minimo",
+   "descripcion": "Tamaño mínimo del foco de incendio",
+   "frecuencia": "R/P1M",
+   "fin": "2017-12-01",
+   "publicador": "Área de Incendios Forestales - Dirección Nacional de Desarrollo Foresto Industrial"
+  },
+  {
+   "puntaje": -999,
    "id": "302.3_SERV_TELEFTES_0_S_40",
    "titulo": "serv_telef_movil_datos_accesos_bamtbytes",
    "descripcion": "Servicio de telefonía móvil. Datos y accesos en bambytes",
@@ -661,15 +670,6 @@
    "descripcion": "Servicio de telefonía móvil. Datos y accesos en bambytes",
    "frecuencia": "R/P1Y",
    "fin": "2025-01-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": -999,
-   "id": "355.1_NOMINAL_AL_A__9",
-   "titulo": "nominal_a",
-   "descripcion": "Salario nominal",
-   "frecuencia": "R/P1Y",
-   "fin": "1989-01-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
@@ -845,15 +845,6 @@
   },
   {
    "puntaje": 24,
-   "id": "444.1_CANASTA_BARIA_0_0_26_47",
-   "titulo": "canasta_basica_alimentaria",
-   "descripcion": "Canasta Básica Alimentaria",
-   "frecuencia": "R/P1M",
-   "fin": "2025-02-01",
-   "publicador": "Subsecretaría de Programación Macroeconómica"
-  },
-  {
-   "puntaje": 24,
    "id": "444.1_CANASTA_BARIAPampeana_0_0_26_47",
    "titulo": "pampeana",
    "descripcion": "Canasta Básica Alimentaria. Pampeana",
@@ -896,9 +887,18 @@
    "frecuencia": "R/P1M",
    "fin": "2026-08-01",
    "publicador": "Subsecretaría de Programación Macroeconómica"
+  },
+  {
+   "puntaje": -999,
+   "id": "59.4_CSTA_BARIA_0_0_26",
+   "titulo": "canasta_basica_alimentaria",
+   "descripcion": "Canasta básica alimentaria en pesos corrientes desde 2000 hasta 2000",
+   "frecuencia": "R/P1M",
+   "fin": "2006-12-01",
+   "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "cba__elegida": "444.1_CANASTA_BARIAPatagonia_0_0_26_47",
+ "cba__elegida": "150.1_CSTA_BARIA_0_D_26",
  "pobreza_personas": [
   {
    "puntaje": 26,
@@ -973,7 +973,7 @@
    "publicador": "Subsecretaría de Programación Macroeconómica"
   }
  ],
- "pobreza_personas__elegida": "64.2_POBLACION_NUA_0_0_34_74",
+ "pobreza_personas__elegida": null,
  "indigencia_personas": [
   {
    "puntaje": -999,

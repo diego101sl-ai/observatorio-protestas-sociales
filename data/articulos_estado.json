@@ -1,27 +1,27 @@
 {
- "cuando": "2026-11-04T01:28:39Z",
+ "cuando": "2026-11-04T18:03:55Z",
  "consultas": [
   {
    "consulta": "theme:PROTEST",
-   "crudos": 248,
-   "nuevos": 248,
+   "crudos": 250,
+   "nuevos": 250,
    "error": null
   },
   {
    "consulta": "theme:STRIKE",
-   "crudos": 0,
-   "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "crudos": 72,
+   "nuevos": 25,
+   "error": null
   },
   {
    "consulta": "theme:PROTEST sourcelang:spanish",
-   "crudos": 0,
-   "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "crudos": 44,
+   "nuevos": 10,
+   "error": null
   },
   {
    "consulta": "theme:PROTEST sourcelang:portuguese",
-   "crudos": 5,
+   "crudos": 9,
    "nuevos": 0,
    "error": null
   },
@@ -38,8 +38,8 @@
    "error": "HTTPError: HTTP Error 429: Too Many Requests"
   }
  ],
- "crudos_nuevos": 248,
- "previos_conservados": 5,
- "publicados": 44,
- "errores": 3
+ "crudos_nuevos": 285,
+ "previos_conservados": 10,
+ "publicados": 54,
+ "errores": 1
 }

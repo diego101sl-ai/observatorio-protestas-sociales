@@ -1,5 +1,5 @@
 {
- "cuando": "2026-11-13T17:52:42Z",
+ "cuando": "2026-11-13T23:41:23Z",
  "consultas": [
   {
    "consulta": "theme:PROTEST",
@@ -9,37 +9,37 @@
   },
   {
    "consulta": "theme:STRIKE",
+   "crudos": 250,
+   "nuevos": 177,
+   "error": null
+  },
+  {
+   "consulta": "theme:PROTEST sourcelang:spanish",
+   "crudos": 250,
+   "nuevos": 193,
+   "error": null
+  },
+  {
+   "consulta": "theme:PROTEST sourcelang:portuguese",
    "crudos": 0,
    "nuevos": 0,
    "error": "HTTPError: HTTP Error 429: Too Many Requests"
   },
   {
-   "consulta": "theme:PROTEST sourcelang:spanish",
-   "crudos": 250,
-   "nuevos": 209,
-   "error": null
-  },
-  {
-   "consulta": "theme:PROTEST sourcelang:portuguese",
-   "crudos": 157,
-   "nuevos": 154,
-   "error": null
-  },
-  {
    "consulta": "(protesta OR protestas OR manifestacion OR manifestantes OR huelga OR cacerolazo OR \"paro nacional\")",
    "crudos": 0,
    "nuevos": 0,
-   "error": null
+   "error": "HTTPError: HTTP Error 429: Too Many Requests"
   },
   {
    "consulta": "(protest OR protesters OR demonstrators OR demonstration OR \"general strike\" OR riots)",
-   "crudos": 250,
-   "nuevos": 138,
-   "error": null
+   "crudos": 0,
+   "nuevos": 0,
+   "error": "HTTPError: HTTP Error 429: Too Many Requests"
   }
  ],
- "crudos_nuevos": 751,
- "previos_conservados": 114,
+ "crudos_nuevos": 620,
+ "previos_conservados": 125,
  "publicados": 250,
- "errores": 1
+ "errores": 3
 }

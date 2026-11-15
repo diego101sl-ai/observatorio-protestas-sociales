@@ -1,11 +1,11 @@
 {
- "cuando": "2026-11-15T11:13:48Z",
+ "cuando": "2026-11-15T17:50:40Z",
  "consultas": [
   {
    "consulta": "theme:PROTEST",
-   "crudos": 0,
-   "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "crudos": 250,
+   "nuevos": 250,
+   "error": null
   },
   {
    "consulta": "theme:STRIKE",
@@ -15,14 +15,14 @@
   },
   {
    "consulta": "theme:PROTEST sourcelang:spanish",
-   "crudos": 0,
-   "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "crudos": 250,
+   "nuevos": 222,
+   "error": null
   },
   {
    "consulta": "theme:PROTEST sourcelang:portuguese",
-   "crudos": 104,
-   "nuevos": 104,
+   "crudos": 90,
+   "nuevos": 85,
    "error": null
   },
   {
@@ -33,13 +33,13 @@
   },
   {
    "consulta": "(protest OR protesters OR demonstrators OR demonstration OR \"general strike\" OR riots)",
-   "crudos": 0,
-   "nuevos": 0,
-   "error": "HTTPError: HTTP Error 429: Too Many Requests"
+   "crudos": 250,
+   "nuevos": 119,
+   "error": null
   }
  ],
- "crudos_nuevos": 104,
- "previos_conservados": 244,
+ "crudos_nuevos": 676,
+ "previos_conservados": 123,
  "publicados": 250,
- "errores": 4
+ "errores": 1
 }

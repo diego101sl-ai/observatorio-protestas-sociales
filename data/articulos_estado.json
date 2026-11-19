@@ -1,5 +1,5 @@
 {
- "cuando": "2026-11-19T03:40:09Z",
+ "cuando": "2026-11-19T13:30:50Z",
  "consultas": [
   {
    "consulta": "theme:PROTEST",
@@ -9,8 +9,8 @@
   },
   {
    "consulta": "theme:STRIKE",
-   "crudos": 250,
-   "nuevos": 250,
+   "crudos": 194,
+   "nuevos": 194,
    "error": null
   },
   {
@@ -21,8 +21,8 @@
   },
   {
    "consulta": "theme:PROTEST sourcelang:portuguese",
-   "crudos": 24,
-   "nuevos": 18,
+   "crudos": 17,
+   "nuevos": 11,
    "error": null
   },
   {
@@ -38,8 +38,8 @@
    "error": null
   }
  ],
- "crudos_nuevos": 499,
- "previos_conservados": 96,
- "publicados": 194,
+ "crudos_nuevos": 436,
+ "previos_conservados": 50,
+ "publicados": 131,
  "errores": 2
 }
